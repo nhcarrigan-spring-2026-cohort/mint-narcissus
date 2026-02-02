@@ -26,18 +26,41 @@ We use a simple, industry-standard workflow:
 
 ### Main Branches
 
+### Protected Branches
+
 - `main` → stable, production-ready code
 - `dev` → active development branch
 
+⚠️ Do not commit directly to `main` or `dev`.
+
 ### Feature Branches
 
-Do NOT push anything directly to `main` or `dev`. Create branches from `dev` using the format:
+Create a new branch from `dev` for every task:
 
 - `feature/<short-description>`
 - `fix/<short-description>`
 - `docs/<short-description>`
 
 Examples - feature/login-ui, fix/api-error, docs/update-readme
+
+---
+
+## Quick Git Workflow
+
+If you are new to Git, follow these steps exactly:
+
+```bash
+git checkout dev # checkout dev branch
+git pull origin dev # pull latest changes
+git checkout -b feature/your-task-name # create feature branch
+# make your changes
+git add . # stage changes
+git commit -m "feat: short description" # commit changes
+git push origin feature/your-task-name # push changes
+```
+
+Then open a PR to `dev` → Base branch: `dev`, Compare branch: `<your feature branch>`.
+If unsure, please ask before pushing.
 
 ---
 
@@ -64,8 +87,10 @@ All contributions must be made via Pull Requests.
 
 - Keep PRs **small and focused**
 - Link the related issue (e.g. `Closes #12`)
-- Add screenshots or recordings for UI changes
+- Add screenshots or gif for UI changes
 - Write clear descriptions
+
+At least one approval is required before merge.
 
 ### PR Checklist
 
@@ -74,7 +99,37 @@ All contributions must be made via Pull Requests.
 - [ ] Follows project structure
 - [ ] Linked to an issue
 
-PRs require at least **one approval** before merging.
+---
+
+## Avoiding Merge Conflicts
+
+To reduce merge conflicts:
+
+- Always start from the latest dev
+- Create one branch per task
+- Keep PRs small
+- Avoid editing the same files as others without coordination
+
+Before opening a PR, sync with dev:
+
+```bash
+git checkout dev # checkout dev branch
+git pull origin dev # pull latest changes
+git checkout your-branch # checkout your branch
+git merge dev # merge dev into your branch
+```
+
+If a conflict occurs:
+
+- Resolve it locally and test
+- Ask for help in Discord if unsure
+- Do not force-push without discussion
+
+## Branch Cleanup
+
+- Feature and fix branches should be short-lived
+- Delete the branch after the PR is merged or closed
+- Do not delete `main` or `dev`
 
 ---
 
@@ -126,7 +181,6 @@ When receiving reviews:
 ## 📌 Final Note
 
 This project is a shared learning experience.
-
 Your goal is not just to ship features, but to:
 
 - Learn professional workflows
