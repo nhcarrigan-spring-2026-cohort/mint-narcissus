@@ -1,7 +1,14 @@
 /* Importing tailwind to css (I hope you guys wanted to do the css here.*/
 @import "tailwindcss";
 
+@theme {
+  --font-playfair: 'Playfair Display Variable',serif;
+  --font-inter:'Inter Variable',sans-serif;
+}
+
 #root {
+  font-family: 'Playfair Display Variable',serif;
+  font-family: 'Inter Variable',sans-serif;
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
