@@ -6,7 +6,161 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
+
+  /* Colors */
+  --bg-primary: #D2D8EA;
+  --bg-secondary: #FFFFFF;
+  --primary: #1E398A;
+  --secondary: #5E72B0;
+  --tertiary: #00071A;
+
+  --text-primary: #1E398A;
+  --text-secondary: #071A53;
+  --text-tertiary: #FFFFFF;
+
+  --border: #000000;
+
 }
+
+/* Interactive States - the feel */
+
+/* Define default focus ring for accessibility */
+:focus-visible {
+  outline: 3px solid --border;
+  box-shadow: 0 0 0 4px --primary;
+  outline-offset: 1px;
+}
+
+/* Standard transitions for all interactive elements */
+a, button, select, input {
+  transition:
+  background-color 0.25s ease-in-out,
+  border-color 0.25s ease-in-out,
+  color 0.2s ease-in-out,
+  box-shadow 0.3s cubic-bezier(0.4,0,0.2,1),
+  transform 0.2s ease;
+}
+
+/* Navigation - Patterns */
+
+/* used in Headers, Footers, Sidebars */
+
+.nav-link {
+  cursor: pointer;
+  position: relative; /* Necessary for the underline effect */
+  padding: 0.5rem 1rem;
+  font-weight: 800;
+  color: var(--primary); /* Charcoal Wool */
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  /* Use the smooth transitions we defined earlier */
+  transition: color 0.3s ease;
+
+
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: rgb(30, 58, 138); /* Power Blue */
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-link:hover {
+  color: rgb(30, 58, 138); /* Power Blue */
+
+}
+
+.nav-link:hover::after {
+  width: 100%;
+  left: 0;
+}
+.nav-link:active {
+  transform: translateY(0);
+}
+
+
+
+/* Buttons */
+
+/* CTA Highly visible */
+.btn-primary {
+  background-color: var(--primary);
+  color: #ffffff;
+  
+  /* Layout & Typography */
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.025em; /* Subtle "boutique" spacing */
+  text-transform: none;   /* Keep it conversational, not shouting */
+  
+  /* Shape & Border */
+  border: none;
+  border-radius: 6px;     /* Professional, slightly softened corners */
+  
+  /* Interaction */
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Apply the smooth transitions we built earlier */
+  transition: 
+    background-color 0.3s ease, 
+    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
+    box-shadow 0.3s ease;
+  
+  /* Professional Shadow */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.btn-primary:hover {
+  /* Slightly lighter blue to show interaction */
+  background-color: rgb(37, 99, 235);
+  /* The "Confidence Lift" */
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Normal Interactivitiy */
+.btn{
+
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Lower Visibility */
+.btn-secondary {
+
+}
+
+.btn-secondary {
+  transform: translateY(-1px);
+}
+
+/* Cancel or go back */
+.btn-ghost {
+
+}
+
+.btn-ghost:hover {
+  transform: translateY(-1px);
+}
+
 
 .logo {
   height: 6em;
