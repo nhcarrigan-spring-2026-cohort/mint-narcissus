@@ -37,11 +37,17 @@ We use a simple, industry-standard workflow:
 
 Create a new branch from `dev` for every task:
 
-- `feature/<short-description>`
+- `feature/<short-description>` or ``feat/<short-description>`
 - `fix/<short-description>`
 - `docs/<short-description>`
 
-Examples - feature/login-ui, fix/api-error, docs/update-readme
+Examples - feature/login-ui, feat/api-endpoint, fix/api-error, docs/update-readme
+
+### Keeping `dev` and `main` in Sync
+
+- `dev` should always contain all changes from `main`
+- If changes are merged directly into `main`, they must be merged back into `dev`
+- Feature work always branches from `dev`, never from `main`
 
 ---
 
@@ -89,6 +95,7 @@ All contributions must be made via Pull Requests.
 - Link the related issue (e.g. `Closes #12`)
 - Add screenshots or gif for UI changes
 - Write clear descriptions
+- Final approval authority for merges into `main` rests with the Project Leads.
 
 At least one approval is required before merge.
 
@@ -98,6 +105,31 @@ At least one approval is required before merge.
 - [ ] No unnecessary files included
 - [ ] Follows project structure
 - [ ] Linked to an issue
+
+---
+
+## Review & Merge Responsibilities
+
+To keep reviews consistent while remaining beginner-friendly, we follow lightweight review ownership.
+These roles guide reviews, not block collaboration, and rotate between sprints.
+
+### Merge Authority
+
+Final approval for merges into `main` and `dev` rests with the Project Leads
+At least one review is required from assignees before any merge from feature branches.
+
+### Review Ownership (Guideline)
+
+| Area           | Primary Review Focus                                                                                                                                   |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Backend & APIs | Node.js / Express, MongoDB, services, API contracts, error handling and validation                                                                     |
+| Frontend & UI  | Reusable React components, UI consistency, accessibility and responsiveness, API integration, clean state management                                   |
+| Overall        | End-to-end flows, high-level review, frontend–backend integration, detecting breaking or risky changes, flagging architectural or integration concerns |
+
+### Role Rotation
+
+- Review responsibilities are not permanent
+- Roles may rotate between sprints to support learning and shared ownership
 
 ---
 
