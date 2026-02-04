@@ -26,18 +26,47 @@ We use a simple, industry-standard workflow:
 
 ### Main Branches
 
+### Protected Branches
+
 - `main` → stable, production-ready code
 - `dev` → active development branch
 
+⚠️ Do not commit directly to `main` or `dev`.
+
 ### Feature Branches
 
-Do NOT push anything directly to `main` or `dev`. Create branches from `dev` using the format:
+Create a new branch from `dev` for every task:
 
-- `feature/<short-description>`
+- `feature/<short-description>` or ``feat/<short-description>`
 - `fix/<short-description>`
 - `docs/<short-description>`
 
-Examples - feature/login-ui, fix/api-error, docs/update-readme
+Examples - feature/login-ui, feat/api-endpoint, fix/api-error, docs/update-readme
+
+### Keeping `dev` and `main` in Sync
+
+- `dev` should always contain all changes from `main`
+- If changes are merged directly into `main`, they must be merged back into `dev`
+- Feature work always branches from `dev`, never from `main`
+
+---
+
+## Quick Git Workflow
+
+If you are new to Git, follow these steps exactly:
+
+```bash
+git checkout dev # checkout dev branch
+git pull origin dev # pull latest changes
+git checkout -b feature/your-task-name # create feature branch
+# make your changes
+git add . # stage changes
+git commit -m "feat: short description" # commit changes
+git push origin feature/your-task-name # push changes
+```
+
+Then open a PR to `dev` → Base branch: `dev`, Compare branch: `<your feature branch>`.
+If unsure, please ask before pushing.
 
 ---
 
@@ -64,8 +93,11 @@ All contributions must be made via Pull Requests.
 
 - Keep PRs **small and focused**
 - Link the related issue (e.g. `Closes #12`)
-- Add screenshots or recordings for UI changes
+- Add screenshots or gif for UI changes
 - Write clear descriptions
+- Final approval authority for merges into `main` rests with the Project Leads.
+
+At least one approval is required before merge.
 
 ### PR Checklist
 
@@ -74,7 +106,62 @@ All contributions must be made via Pull Requests.
 - [ ] Follows project structure
 - [ ] Linked to an issue
 
-PRs require at least **one approval** before merging.
+---
+
+## Review & Merge Responsibilities
+
+To keep reviews consistent while remaining beginner-friendly, we follow lightweight review ownership.
+These roles guide reviews, not block collaboration, and rotate between sprints.
+
+### Merge Authority
+
+Final approval for merges into `main` and `dev` rests with the Project Leads
+At least one review is required from assignees before any merge from feature branches.
+
+### Review Ownership (Guideline)
+
+| Area           | Primary Review Focus                                                                                                                                   |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Backend & APIs | Node.js / Express, MongoDB, services, API contracts, error handling and validation                                                                     |
+| Frontend & UI  | Reusable React components, UI consistency, accessibility and responsiveness, API integration, clean state management                                   |
+| Overall        | End-to-end flows, high-level review, frontend–backend integration, detecting breaking or risky changes, flagging architectural or integration concerns |
+
+### Role Rotation
+
+- Review responsibilities are not permanent
+- Roles may rotate between sprints to support learning and shared ownership
+
+---
+
+## Avoiding Merge Conflicts
+
+To reduce merge conflicts:
+
+- Always start from the latest dev
+- Create one branch per task
+- Keep PRs small
+- Avoid editing the same files as others without coordination
+
+Before opening a PR, sync with dev:
+
+```bash
+git checkout dev # checkout dev branch
+git pull origin dev # pull latest changes
+git checkout your-branch # checkout your branch
+git merge dev # merge dev into your branch
+```
+
+If a conflict occurs:
+
+- Resolve it locally and test
+- Ask for help in Discord if unsure
+- Do not force-push without discussion
+
+## Branch Cleanup
+
+- Feature and fix branches should be short-lived
+- Delete the branch after the PR is merged or closed
+- Do not delete `main` or `dev`
 
 ---
 
@@ -126,7 +213,6 @@ When receiving reviews:
 ## 📌 Final Note
 
 This project is a shared learning experience.
-
 Your goal is not just to ship features, but to:
 
 - Learn professional workflows
