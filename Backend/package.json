@@ -1,0 +1,28 @@
+{
+  "name": "interview-outfit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo: gateway, auth, items, requests services + shared",
+  "workspaces": [
+    "services/*",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "concurrently -n gw,auth,items,req \"npm run dev:gateway\" \"npm run dev:auth\" \"npm run dev:items\" \"npm run dev:requests\"",
+    "start": "concurrently -n gw,auth,items,req \"npm run start:gateway\" \"npm run start:auth\" \"npm run start:items\" \"npm run start:requests\"",
+    "dev:gateway": "npm run dev -w gateway",
+    "dev:auth": "npm run dev -w auth-service",
+    "dev:items": "npm run dev -w items-service",
+    "dev:requests": "npm run dev -w requests-service",
+    "start:gateway": "npm start -w gateway",
+    "start:auth": "npm start -w auth-service",
+    "start:items": "npm start -w items-service",
+    "start:requests": "npm start -w requests-service"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
