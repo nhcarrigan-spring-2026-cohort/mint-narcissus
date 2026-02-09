@@ -1,15 +1,33 @@
+import { Link, Route, Routes } from "react-router-dom";
+
+
+
+
 export default function Navbar({ navItems }) {
   return (
-    <nav>
-      <div>
+    <>
+      <nav>
         <ul>
           {navItems.map((link, index) => (
             <li key={index}>
-              <a href={link.path}>{link.label}</a>
+              <Link to={link.path}>{link.label}</Link>
             </li>
           ))}
         </ul>
-      </div>
-    </nav>
+      </nav>
+      
+        <Routes>
+
+          {navItems.map((link, index) => (
+
+            <Route
+              key={index}
+              path={link.path}
+              element={<PageComponent />}
+            />
+          ))}
+        </Routes>
+
+    </>
   );
 }

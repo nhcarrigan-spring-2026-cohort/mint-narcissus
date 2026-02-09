@@ -1,7 +1,11 @@
+import { BrowserRouter } from "react-router-dom";
+
 export default function Container({ children }) {
   return (
-    <div>
-      <main>{children}</main>
-    </div>
+    <BrowserRouter>
+      <div>
+        <main>{children}</main>
+      </div>
+    </BrowserRouter>
   );
 }
