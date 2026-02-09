@@ -1,25 +1,28 @@
 {
-  "name": "backend",
+  "name": "interview-outfit",
   "version": "1.0.0",
-  "main": "src/index.js",
-  "type": "module",
+  "private": true,
+  "description": "Monorepo: gateway, auth, items, requests services + shared",
+  "workspaces": [
+    "services/*",
+    "shared"
+  ],
   "scripts": {
-    "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.6",
-    "dotenv": "^17.2.3",
-    "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.1.5"
+    "dev": "concurrently -n gw,auth,items,req \"npm run dev:gateway\" \"npm run dev:auth\" \"npm run dev:items\" \"npm run dev:requests\"",
+    "start": "concurrently -n gw,auth,items,req \"npm run start:gateway\" \"npm run start:auth\" \"npm run start:items\" \"npm run start:requests\"",
+    "dev:gateway": "npm run dev -w gateway",
+    "dev:auth": "npm run dev -w auth-service",
+    "dev:items": "npm run dev -w items-service",
+    "dev:requests": "npm run dev -w requests-service",
+    "start:gateway": "npm start -w gateway",
+    "start:auth": "npm start -w auth-service",
+    "start:items": "npm start -w items-service",
+    "start:requests": "npm start -w requests-service"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "concurrently": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
