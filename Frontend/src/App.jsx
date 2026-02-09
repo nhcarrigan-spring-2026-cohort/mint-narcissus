@@ -1,31 +1,22 @@
+import "./App.css";
+import Container from "./components/Container";
 
-import './App.css'
+/* Page Components */
+import Browse from "./pages/Browse";
+import Saved from "./pages/Saved";
+import Messages from "./pages/Messages";
 
-import Navbar from './components/Navbar'
-import Container from './components/Container'
 
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-
-import Home from './pages/Home';
-import About from './pages/About';
+/* Array passed to Container.jsx to initiate Links */
+const navItems = [
+  { label: "Browse", path: "/browse", element: <Browse /> },
+  { label: "Saved", path: "/saved", element: <Saved /> },
+  { label: "Messages", path: "/messages", element: <Messages /> },
+];
 
 function App() {
-
-
-  return (
-    <Container>
-        <Navbar
-          className="sticky"
-          navItems={[
-            { label: "Home", path: "/" },
-            { label: "About", path: "/about" },
-          ]}
-        />
-
-        
-
-    </Container>
-  );
+  /* Maybe add a footer section aswell later */
+  return <Container navItems={navItems}></Container>;
 }
 
-export default App
+export default App;

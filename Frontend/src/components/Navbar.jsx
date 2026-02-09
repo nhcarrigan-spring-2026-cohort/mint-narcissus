@@ -1,13 +1,15 @@
-import { Link, Route, Routes } from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import Logo from "./Logo";
+import Profile from "./Profile";
 
 
 
 export default function Navbar({ navItems }) {
   return (
-    <>
+    <div className="flex flex-row items-center mb-6">
+    <Logo />
       <nav>
-        <ul>
+        <ul className="flex flex-row gap-5 mx-5">
           {navItems.map((link, index) => (
             <li key={index}>
               <Link to={link.path}>{link.label}</Link>
@@ -15,19 +17,9 @@ export default function Navbar({ navItems }) {
           ))}
         </ul>
       </nav>
-      
-        <Routes>
+      <Profile />
 
-          {navItems.map((link, index) => (
 
-            <Route
-              key={index}
-              path={link.path}
-              element={<PageComponent />}
-            />
-          ))}
-        </Routes>
-
-    </>
+    </div>
   );
 }
