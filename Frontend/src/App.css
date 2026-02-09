@@ -1,7 +1,7 @@
 /* Importing tailwind to css (I hope you guys wanted to do the css here.*/
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 /* ---break---*/
 @custom-variant dark (&:is(.dark *));
 
