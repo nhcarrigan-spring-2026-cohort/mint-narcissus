@@ -8,10 +8,10 @@ export default function Navbar({ navItems }) {
 
   return (
     <div>
-      <div className="flex flex-row items-center justify-between mb-6 md:p-0">
+      <div className="flex items-center justify-between mb-6 md:p-0">
         <Logo />
         <nav className="hidden md:flex">
-          <ul className="flex flex-row gap-5 mx-5">
+          <ul className="flex gap-5 mx-5">
             {navItems.map((link, index) => (
               <li key={index}>
                 <Link to={link.path}>{link.label}</Link>
@@ -36,7 +36,7 @@ export default function Navbar({ navItems }) {
       </div>
       {isOpen && (
         <nav className="md:hidden ">
-          <ul className="flex flex-col py-4 px-6 gap-4">
+          <ul className=" flex-col py-4 px-6 gap-4">
             {navItems.map((link, index) => (
               <li key={index}>
                 <Link
