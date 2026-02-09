@@ -1,10 +1,11 @@
 import "./App.css";
-import Container from "./components/Container";
+import Container from "./components/AppLayout";
 
 /* Page Components */
 import Browse from "./pages/Browse";
 import Saved from "./pages/Saved";
 import Messages from "./pages/Messages";
+import AppLayout from "./components/AppLayout";
 
 
 /* Array passed to Container.jsx to initiate Links */
@@ -16,7 +17,7 @@ const navItems = [
 
 function App() {
   /* Maybe add a footer section aswell later */
-  return <Container navItems={navItems}></Container>;
+  return <AppLayout  navItems={navItems}></AppLayout>;
 }
 
 export default App;
