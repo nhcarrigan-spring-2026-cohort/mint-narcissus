@@ -2,6 +2,7 @@ import { Routes, Route, Link, BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import ComponentPreview from './pages/ComponentPreview';
+
 function App() {
   return (
     <div className='flex min-h-svh flex-col items-center justify-center'>
