@@ -7,7 +7,7 @@ import {BrowserRouter as Router, Routes, Route, Link, BrowserRouter} from 'react
 import Home from './pages/Home';
 import About from './pages/About';
 
-import Card from './components/Card';
+import OutfitGallery from './components/OutfitGallery';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -28,7 +28,7 @@ function App() {
           element={<About />}
         />
       </Routes>
-      <Card />
+      <OutfitGallery />
       <div className="flex flex-row">
         {" "}
         {/* Tested Tailwind works in app  */}
