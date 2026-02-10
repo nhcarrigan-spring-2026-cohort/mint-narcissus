@@ -2,7 +2,6 @@
   "name": "auth-service",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",

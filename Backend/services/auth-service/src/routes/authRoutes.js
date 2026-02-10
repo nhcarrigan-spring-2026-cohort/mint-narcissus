@@ -1,7 +1,7 @@
-import express from "express";
-import User from "../models/User.js";
-import { generateToken } from "../utils/jwt.js";
-import { auth } from "../middleware/auth.js";
+const express = require("express");
+const User = require("../models/User");
+const { generateToken } = require("../utils/jwt");
+const { auth } = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -140,4 +140,4 @@ router.get("/me", auth, async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

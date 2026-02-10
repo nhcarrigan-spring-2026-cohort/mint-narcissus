@@ -1,16 +1,11 @@
-import express from "express";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
-import connectDB from "./config/database.js";
-import authRoutes from "./routes/authRoutes.js";
-import healthRoutes from "./routes/health.js";
-
-// Get the directory name in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const dotenv = require("dotenv");
+const path = require("path");
+const connectDB = require("./config/database");
+const authRoutes = require("./routes/authRoutes");
+const healthRoutes = require("./routes/health");
 
 // Load .env from Backend root (3 levels up: src -> auth-service -> services -> Backend)
 dotenv.config({ path: path.resolve(__dirname, "../../../.env") });

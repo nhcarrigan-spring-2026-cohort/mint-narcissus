@@ -1,6 +1,6 @@
-import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 
-export const generateToken = (userId) => {
+const generateToken = (userId) => {
   return jwt.sign(
     { userId },
     process.env.JWT_SECRET || "jwt_secret",
@@ -10,7 +10,7 @@ export const generateToken = (userId) => {
   );
 };
 
-export const verifyToken = (token) => {
+const verifyToken = (token) => {
   try {
     return jwt.verify(
       token,
@@ -20,3 +20,5 @@ export const verifyToken = (token) => {
     throw new Error("Invalid or expired token");
   }
 };
+
+module.exports = { generateToken, verifyToken };

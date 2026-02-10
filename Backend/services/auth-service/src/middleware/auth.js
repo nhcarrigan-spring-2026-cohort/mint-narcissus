@@ -1,7 +1,7 @@
-import { verifyToken } from "../utils/jwt.js";
-import User from "../models/User.js";
+const { verifyToken } = require("../utils/jwt");
+const User = require("../models/User");
 
-export const auth = async (req, res, next) => {
+const auth = async (req, res, next) => {
   try {
     const token = req.cookies.token;
 
@@ -35,7 +35,7 @@ export const auth = async (req, res, next) => {
 // =======================================================
 
 // Admin authentication middleware
-export const adminAuth = async (req, res, next) => {
+const adminAuth = async (req, res, next) => {
   try {
     // First check if user is authenticated
     await auth(req, res, () => {});
@@ -53,3 +53,5 @@ export const adminAuth = async (req, res, next) => {
     return res.status(403).json({ message: "Access denied." });
   }
 };
+
+module.exports = { auth, adminAuth };
