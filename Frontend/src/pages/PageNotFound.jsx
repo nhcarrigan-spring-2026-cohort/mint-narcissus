@@ -1,4 +1,4 @@
-export default function Page404() {
+export default function PageNotFound() {
   return (
     <div>
       <h1>I dont think there is a page called that.</h1>

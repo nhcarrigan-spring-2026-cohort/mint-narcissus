@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-import Page404 from "../pages/Page404";
-import { TooltipProvider } from "./ui/tooltip";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import PageNotFound from "../pages/PageNotFound";
+import { TooltipProvider } from "../components/ui/tooltip";
 
 export default function AppLayout({ navItems }) {
   return (
@@ -18,7 +18,7 @@ export default function AppLayout({ navItems }) {
               {navItems.map((link, index) => (
                 <Route key={index} path={link.path} element={link.element} />
               ))}
-              <Route path='*' element={<Page404 />} />
+              <Route path='*' element={<PageNotFound />} />
             </Routes>
           </main>
 

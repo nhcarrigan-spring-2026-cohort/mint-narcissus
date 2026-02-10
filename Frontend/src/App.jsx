@@ -1,11 +1,11 @@
 import './App.css';
-import Container from './components/AppLayout';
+import Container from './layouts/AppLayout';
 
 /* Page Components */
 import Browse from './pages/Browse';
 import Saved from './pages/Saved';
 import Messages from './pages/Messages';
-import AppLayout from './components/AppLayout';
+import AppLayout from './layouts/AppLayout';
 
 /* Array passed to Container.jsx to initiate Links */
 const navItems = [
