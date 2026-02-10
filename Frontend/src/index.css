@@ -83,6 +83,9 @@
   --fig-primary:#1A2B48;
 }
 
+
+
+
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);

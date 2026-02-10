@@ -8,10 +8,14 @@ import Messages from './pages/Messages';
 import AppLayout from './layouts/AppLayout';
 
 /* Array passed to Container.jsx to initiate Links */
+import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
+import { IoHeartOutline } from 'react-icons/io5';
+import { FiMessageCircle } from 'react-icons/fi';
+
 const navItems = [
-  { label: 'Browse', path: '/browse', element: <Browse /> },
-  { label: 'Saved', path: '/saved', element: <Saved /> },
-  { label: 'Messages', path: '/messages', element: <Messages /> },
+  { label: 'Browse', path: '/browse', element: <Browse /> , icon: <HiOutlineMagnifyingGlass />},
+  { label: 'Saved', path: '/saved', element: <Saved /> , icon: <IoHeartOutline />},
+  { label: 'Messages', path: '/messages', element: <Messages />, icon: <FiMessageCircle /> },
 ];
 
 function App() {
