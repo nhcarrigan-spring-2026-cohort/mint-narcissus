@@ -6,6 +6,9 @@ import './App.css'
 import {BrowserRouter as Router, Routes, Route, Link, BrowserRouter} from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
+
+import Card from './components/Card';
+
 function App() {
   const [count, setCount] = useState(0)
 
@@ -25,6 +28,7 @@ function App() {
           element={<About />}
         />
       </Routes>
+      <Card />
       <div className="flex flex-row">
         {" "}
         {/* Tested Tailwind works in app  */}
