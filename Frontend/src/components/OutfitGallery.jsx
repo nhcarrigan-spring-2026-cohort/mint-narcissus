@@ -20,7 +20,14 @@ export default function OutfitGallery() {
         status={"Available"}
         tags={["Formal", "Corporate", "Finance"]}
         fitInfo={"5'9-6'0, Average build"}
-        quote={"Coolest ever"}
+        quote={
+          "Wore this for my first investment banking interview at Goldman            Sachs. Walk in with confidence."
+        }
+        owner={{
+          name: "Sarah Johnson",
+          avatar:
+            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&amp;h=150&amp;fit=crop",
+        }}
       />
     </div>
   );

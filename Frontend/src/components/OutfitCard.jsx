@@ -85,7 +85,7 @@ export default function OutfitCard({
           {/* Details */}
           <div className="space-y-1.5 text-sm text-muted-foreground">
             {fitInfo && (
-              <div className="flex items-start gap-2">
+              <div className="flex items-start justify-center gap-2">
                 <IoShirtOutline className="size-4 mt-0.5 shrink-0" />
                 <span>{fitInfo}</span>
               </div>
@@ -94,8 +94,10 @@ export default function OutfitCard({
 
           {/* Quotes */}
           {quote && (
-            <div>
-              <p>{quote}</p>
+            <div className="bg-[#FDF9F3] border border-[#C5A059]/20 rounded-lg p-3">
+              <p className="text-xs text-[#1A2B48] italic leading-relaxed line-clamp-2">
+                "{quote}"
+              </p>
             </div>
           )}
         </div>
@@ -104,13 +106,24 @@ export default function OutfitCard({
       <CardFooter className="p-4 pt-0 flex-col gap-3">
         {/* Owner Info */}
         {owner && (
-          <div>
-            <Avatar className="size-7"><AvatarImage src={owner.avatar} alt={owner.name} /></Avatar>
+          <div className="flex items-center justify-between pt-2 border-t">
+            <Avatar className="flex items-center space-x-2">
+              <span className="relative flex size-10 shrink-0 overflow-hidden rounded-full h-7 w-7">
+                <AvatarImage
+                  className="aspect-square size-full"
+                  src={owner.avatar}
+                  alt={`Picture of person named ${owner.name}`}
+                />
+              </span>
+            </Avatar>
             <span className="text-sm text-muted-foreground">{owner.name}</span>
           </div>
         )}
 
-        <Button onClick={onViewDetails} className='w-full font-medium'>
+        <Button
+          onClick={onViewDetails}
+          className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[&gt;svg]:px-3 w-full"
+        >
           View Details
         </Button>
       </CardFooter>
