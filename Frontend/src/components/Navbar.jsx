@@ -15,12 +15,14 @@ export default function Navbar({ navItems }) {
           <nav className='hidden md:flex space-x-1'>
             <ul className='flex gap-5 mx-5'>
               {navItems.map((link, index) => (
-                <li
-                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[&gt;svg]:px-3"
-                  key={index}
-                >
-                  {link.icon}
-                  <Link to={link.path}>{link.label}</Link>
+                <li key={index}>
+                  <Link
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[&gt;svg]:px-3"
+                    to={link.path}
+                  >
+                    {link.icon}
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -39,7 +41,7 @@ export default function Navbar({ navItems }) {
         </div>
 
         {isOpen && (
-          <nav className='md:hidden '>
+          <nav className='md:hidden flex'>
             <ul className=' flex-col py-4 px-6 gap-4'>
               {navItems.map((link, index) => (
                 <li key={index}>
