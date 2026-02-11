@@ -1,19 +1,19 @@
-// Dependencies
+# Dependencies
 node_modules
 
-// Build output
+# Build output
 dist
 build
 coverage
 
-// Minified files
+# Minified files
 *.min.js
 .min.css
 
-// Lock files
+# Lock files
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
-// Environment and Config files
+# Environment and Config files
 .env
