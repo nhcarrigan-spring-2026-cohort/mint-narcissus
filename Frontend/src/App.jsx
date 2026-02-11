@@ -28,6 +28,12 @@ function App() {
     return <ProfileSetup />;
   }
 
+import ComponentPreview from './pages/ComponentPreview';
+
+
+
+
+function App() {
   return (
     <Routes>
       {/* BORROWER */}
