@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ProductCard from "./OutfitCard";
+import OutfitCard from "./OutfitCard";
 
 export default function OutfitGallery() {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -10,7 +10,7 @@ export default function OutfitGallery() {
 
   return (
     <div>
-      <ProductCard
+      <OutfitCard
         title="Classic Navy Suit"
         imgSrc={
           "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&amp;h=800&amp;fit=crop"

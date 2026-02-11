@@ -3,10 +3,10 @@ import Home from './pages/Home';
 import About from './pages/About';
 
 import OutfitGallery from './components/OutfitGallery';
-
-function App() {
-  const [count, setCount] = useState(0)
 import ComponentPreview from './pages/ComponentPreview';
+
+
+
 
 function App() {
   return (
