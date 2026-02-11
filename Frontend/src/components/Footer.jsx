@@ -1,5 +1,3 @@
-
-
 export default function Footer() {
-    return(<footer>The footer: "Comming soon"</footer>);
+  return <footer>The footer: Coming soon</footer>;
 }

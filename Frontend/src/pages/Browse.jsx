@@ -1,5 +1,5 @@
-import Filter from "../components/Filter";
-import Outfits from "../components/Outfits";
+import Filter from '../components/Filter';
+import Outfits from '../components/Outfits';
 
 export default function Browse() {
   return (

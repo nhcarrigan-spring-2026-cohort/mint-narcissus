@@ -1,14 +1,14 @@
-import { Button } from '@/components/ui/button';
-
 export default function Logo() {
   return (
-    <div className='flex items-center space-x-2'>
-      <button variant="outline" className='flex items-center space-x-2'>
-        <div className='h-8 w-8 bg-(--fig-primary) rounded-lg flex items-center justify-center'>
-          <span className='text-[#FDFBF7] font-bold text-sm'>IO</span>
+    <div>
+      <button variant='outline' className='flex items-center gap-2'>
+        <div className='h-8 w-8 text-white font-bold text-sm bg-black rounded-full flex justify-center items-center'>
+          IO
         </div>
-        <span className='font-semibold text-lg hidden sm:block text-(--fig-primary)'>Interview Outfits</span>
-      </button>      
+        <span className='font-semibold text-xl tracking-tighter hidden sm:block text-black'>
+          Interview Outfits
+        </span>
+      </button>
     </div>
   );
 }
