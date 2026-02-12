@@ -3,54 +3,49 @@ const User = require("../models/User");
 const { generateToken } = require("../utils/jwt");
 const { auth } = require("../middleware/auth");
 
+// ===========================================================================
+
 const router = express.Router();
+
+// ===========================================================================
+
+const COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax",
+  maxAge: 24 * 60 * 60 * 1000, // 1 day
+};
+
+// ===========================================================================
 
 router.post("/register", async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { name, email, password } = req.body;
 
-    if (!username || !email || !password) {
+    if (!name || !email || !password) {
       return res
         .status(400)
-        .json({ message: "Please provide all required fields" });
+        .json({ message: "Please provide name, email, and password" });
     }
 
-    const existingUser = await User.findOne({
-      $or: [{ email }, { username }],
-    });
-
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      if (existingUser.email === email) {
-        return res.status(400).json({ message: "Email already registered" });
-      }
-      if (existingUser.username === username) {
-        return res.status(400).json({ message: "Username already taken" });
-      }
+      return res.status(400).json({ message: "Email already registered" });
     }
 
-    const user = await User.create({
-      username,
-      email,
-      password,
-    });
-
+    const user = await User.create({ name, email, password });
     const token = generateToken(user._id);
 
-    // Set httpOnly cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-    });
+    res.cookie("token", token, COOKIE_OPTIONS);
 
     res.status(201).json({
       message: "User registered successfully",
       user: {
         id: user._id,
-        username: user.username,
+        name: user.name,
         email: user.email,
         role: user.role,
+        activeRole: user.activeRole,
       },
     });
   } catch (error) {
@@ -58,6 +53,8 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ message: "Server error during registration" });
   }
 });
+
+// ===========================================================================
 
 router.post("/login", async (req, res) => {
   try {
@@ -75,7 +72,12 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const isMatch = await user.comparePassword(password);
+    let isMatch;
+    try {
+      isMatch = await user.comparePassword(password);
+    } catch (err) {
+      return res.status(401).json({ message: err.message });
+    }
 
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
@@ -83,20 +85,16 @@ router.post("/login", async (req, res) => {
 
     const token = generateToken(user._id);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-    });
+    res.cookie("token", token, COOKIE_OPTIONS);
 
     res.json({
       message: "Login successful",
       user: {
         id: user._id,
-        username: user.username,
+        name: user.name,
         email: user.email,
         role: user.role,
+        activeRole: user.activeRole,
       },
     });
   } catch (error) {
@@ -105,7 +103,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// ===================================================================================
+// ===========================================================================
 
 router.post("/logout", (req, res) => {
   try {
@@ -122,15 +120,24 @@ router.post("/logout", (req, res) => {
   }
 });
 
+// ===========================================================================
+
 router.get("/me", auth, async (req, res) => {
   try {
-    // User is already in req from auth middleware
     res.json({
       user: {
         id: req.user._id,
-        username: req.user.username,
+        name: req.user.name,
         email: req.user.email,
         role: req.user.role,
+        activeRole: req.user.activeRole,
+        profilePhoto: req.user.profilePhoto,
+        bio: req.user.bio,
+        isProfileComplete: req.user.isProfileComplete,
+        isRestricted: req.user.isRestricted,
+        badges: req.user.badges,
+        averageRating: req.user.averageRating,
+        totalRatings: req.user.totalRatings,
         createdAt: req.user.createdAt,
       },
     });
@@ -139,5 +146,7 @@ router.get("/me", auth, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+// ===========================================================================
 
 module.exports = router;
