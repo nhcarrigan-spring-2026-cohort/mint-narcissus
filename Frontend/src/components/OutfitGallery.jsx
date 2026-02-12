@@ -15,7 +15,14 @@ export default function OutfitGallery() {
         'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=800&fit=crop',
       status: 'Available',
       tags: ['Formal', 'Corporate', 'Finance'],
+      category: "Formal",
+      fabric: "Wool blend",
+
       fitInfo: "5'9-6'0, Average build",
+      topSize: "M /40",
+      bottomSize: "32",
+      description:
+        'Professional navy blue suit perfect for corporate interviews. Tailored fit with matching pants.',
       quote:
         'Wore this for my first investment banking interview at Goldman Sachs. Walk in with confidence.',
       owner: {
@@ -27,12 +34,14 @@ export default function OutfitGallery() {
   ];
 
   const handleFavorite = (outfitId) => {
-    setFavorites((prev) => ({...prev,[outfitId]:!prev[outfitId],}));
+    setFavorites((prev) => ({ ...prev, [outfitId]: !prev[outfitId] }));
   };
 
   const handleCardClick = (outfit) => setSelectedOutfit(outfit);
 
-  const handleCloseModal = () =>setSelectedOutfit(null);
+  const handleCloseModal = () => setSelectedOutfit(null);
+
+
   return (
     <>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6'>
@@ -45,13 +54,19 @@ export default function OutfitGallery() {
             <OutfitCard
               title={outfit.title}
               imgSrc={outfit.imgSrc}
-              isFavorite={favorites[outfit.id] || false}
-              onFavoriteClick={() => handleFavorite(outfit.id)}
               status={outfit.status}
               tags={outfit.tags}
+              category={outfit.category}
+              fabric={outfit.fabric}
               fitInfo={outfit.fitInfo}
+              topSize={outfit.topSize}
+              bottomSize={outfit.bottomSize}
+              description={outfit.description}
               quote={outfit.quote}
               owner={outfit.owner}
+              
+              isFavorite={favorites[outfit.id] || false}
+              onFavoriteClick={() => handleFavorite(outfit.id)}
             />
           </div>
         ))}

@@ -1,5 +1,5 @@
 import Filter from '../components/Filter';
-import Outfits from '../components/Outfits';
+import OutfitGallery from '@/components/OutfitGallery';
 
 export default function Saved() {
   return (
@@ -12,7 +12,7 @@ export default function Saved() {
         <Filter />
       </div>
       <div>
-        <Outfits />
+        <OutfitGallery />
       </div>
     </section>
   );

@@ -3,7 +3,9 @@ import { HiX } from 'react-icons/hi';
 
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-export default function OutfitDetailModal({ outfit, isOpen, onClose }) {
+import { HiHeart, HiOutlineHeart } from 'react-icons/hi2';
+import { IoShirtOutline } from 'react-icons/io5';
+export default function OutfitDetailModal({ outfit, isOpen, onClose, isFavorite, onFavoriteClick, requestToBorrow }) {
   if (!isOpen || !outfit) return null;
 
   return (
@@ -53,9 +55,69 @@ export default function OutfitDetailModal({ outfit, isOpen, onClose }) {
           </p>
         </div>
         {/* Description */}
+        <div>
+          <h3>Description</h3>
+          <p>{outfit.description}</p>
+        </div>
         {/* Outfit Details Catagory, Fabric, Suitable, Top size, Bottom size*/}
+        <div className='grid-cols-2'>
+          <div className='flex-col'>
+            <h3>Outfit Details</h3>
+            <div>
+              <h5>Category</h5>
+              <p>{outfit.category}</p>
+            </div>
+            <div>
+              <h5>Fabric</h5>
+              <p>{outfit.fabric}</p>
+            </div>
+            <div>
+              <h5>Suitable For</h5>
+              <div className='border border-4'>
+                {outfit.tags.map((tag, key) => (
+                  <Badge
+                    key={key}
+                    variant='outline'
+                    className=' border border-4 size-10 text-black capitalize text-sm'
+                  >
+                    {outfit.tag}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className='flex-col'>
+            <div>
+              <h5>Top Size</h5>
+              <p>{outfit.topSize}</p>
+            </div>
+            <div>
+              <h5>Bottom Size</h5>
+              <p>{outfit.bottomSize}</p>
+            </div>
+          </div>
+        </div>
         {/* Save Button */}
         {/* Request to borrow Button*/}
+        <div className='flex'>
+          <Button
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[&gt;svg]:px-3 w-full"
+            onClick={onFavoriteClick}
+          >
+            {isFavorite ? (
+              <HiHeart className='size-5 text-red-500' />
+            ) : (
+              <HiOutlineHeart className='size-5' />
+            )}{' '}
+            Save
+          </Button>
+          <Button
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[&gt;svg]:px-3 w-full"
+            onClick={requestToBorrow}
+          >
+            <IoShirtOutline className='size-5' /> Request to Borrow
+          </Button>
+        </div>
         {/* */}
         {/* */}
       </div>

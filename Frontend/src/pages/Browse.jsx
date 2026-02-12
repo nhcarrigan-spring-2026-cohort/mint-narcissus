@@ -1,5 +1,5 @@
 import Filter from '../components/Filter';
-import Outfits from '../components/Outfits';
+import OutfitGallery from '@/components/OutfitGallery';
 
 export default function Browse() {
   return (
@@ -8,7 +8,7 @@ export default function Browse() {
         <Filter />
       </div>
       <div>
-        <Outfits />
+        <OutfitGallery />
       </div>
     </section>
   );
