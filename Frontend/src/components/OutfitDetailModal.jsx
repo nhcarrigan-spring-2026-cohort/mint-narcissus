@@ -5,121 +5,140 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { HiHeart, HiOutlineHeart } from 'react-icons/hi2';
 import { IoShirtOutline } from 'react-icons/io5';
-export default function OutfitDetailModal({ outfit, isOpen, onClose, isFavorite, onFavoriteClick, requestToBorrow }) {
+export default function OutfitDetailModal({
+  outfit,
+  isOpen,
+  onClose,
+  isFavorite,
+  onFavoriteClick,
+  requestToBorrow,
+}) {
   if (!isOpen || !outfit) return null;
 
   return (
-    <div className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50'>
-      <div className='bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto'>
-        <div className='sticky top-0 bg-white border-b flex justify-end p-4 z-10 gap-4'>
-          <Badge variant='default'>{outfit.status}</Badge>
-          <Button
-            variant='ghost'
-            size='icon'
-            onClick={onClose}
-            className='rounded-full'
-          >
-            <HiX className='size-6' />
-          </Button>
+    <div className='bg-background fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg max-w-3xl max-h-[90vh] overflow-y-auto'>
+      {/* Dialog Header */}
+      <div className=' flex-col gap-2 text-center sm:text-left'>
+        <div className='flex items-start justify-between'>
+          <div className='flex-1'>
+            <h2 className='font-semibold text-2xl'>{outfit.title}</h2>
+            <p className='text-muted-foreground text-sm mt-1'>
+              Listed by {outfit.owner.name}
+            </p>
+          </div>
+          <div className='flex items-center gap-4'>
+            <Badge variant='default'>{outfit.status}</Badge>
+            <Button
+              variant='ghost'
+              size='icon'
+              onClick={onClose}
+              className='rounded-full'
+            >
+              <HiX className='size-6' />
+            </Button>
+          </div>
         </div>
-        <div className='p-2'>
-          {/* Outfit title */}
-          <h3 className='text-2xl'>{outfit.title}</h3>
+      </div>
 
-          {/* Listed by --- owner*/}
-          <p className='text-muted-foreground'>
-            Listed by: {outfit.owner.name}
-          </p>
+      <div className='space-y-6'>
+        {/* Outfit Image */}
+        <div className='relative rounded-lg overflow-hidden'>
+          <img
+            className='w-full h-96 object-cover'
+            src={outfit.imgSrc}
+            alt={outfit.title}
+          />
         </div>
-        {/* outfit.imgSrc */}
-        <img className='' src={outfit.imgSrc} alt={outfit.title} />
-        {/* Owner avatar Lender*/}
-        <div className='flex items-center space-x-3 p-4'>
-          <Avatar className='flex items-center '>
-            <span className=''>
-              <AvatarImage
-                className='aspect-square size-full'
-                src={outfit.owner.avatar}
-                alt={outfit.owner.name}
-              />
-            </span>
+        {/* Owner Details */}
+        <div className='flex items-center space-x-4 p-4 bg-muted rounded-lg'>
+          <Avatar className='relative flex size-10 shrink-0 overflow-hidden rounded-full h-12 w-12'>
+            <AvatarImage
+              className='aspect-square size-full'
+              src={outfit.owner.avatar}
+              alt={outfit.owner.name}
+            />
           </Avatar>
-          <span className='text-sm text-muted-foreground'>
-            {outfit.owner.name}
-          </span>
+          <div className='flex-1'>
+            <p className='font-semibold'>{outfit.owner.name}</p>
+            <p className='text-sm text-muted-foreground'>Lender</p>
+          </div>
         </div>
-        {/* Confidence note: Quote*/}
-        <div className='border'>
-          <p className='text-xs text-[#1A2B48] italic leading-relaxed line-clamp-2'>
-            Confidence Note: {outfit.quote}
+        {/* Confidence Note */}
+        <div className='p-4 bg-blue-50 border border-blue-200 rounded-lg'>
+          <p className='text-sm font-semibold text-blue-900 mb-1'>
+            💙 Confidence Note
           </p>
+          <p className='text-sm text-blue-700 italic'>"{outfit.quote}"</p>
         </div>
-        {/* Description */}
+        {/* Details */}
         <div>
-          <h3>Description</h3>
-          <p>{outfit.description}</p>
+          <h3 className='font-semibold mb-2'>Description</h3>
+          <p className='text-muted-foreground'>{outfit.description}</p>
         </div>
-        {/* Outfit Details Catagory, Fabric, Suitable, Top size, Bottom size*/}
-        <div className='grid-cols-2'>
-          <div className='flex-col'>
-            <h3>Outfit Details</h3>
-            <div>
-              <h5>Category</h5>
-              <p>{outfit.category}</p>
-            </div>
-            <div>
-              <h5>Fabric</h5>
-              <p>{outfit.fabric}</p>
-            </div>
-            <div>
-              <h5>Suitable For</h5>
-              <div className='border border-4'>
-                {outfit.tags.map((tag, key) => (
-                  <Badge
-                    key={key}
-                    variant='outline'
-                    className=' border border-4 size-10 text-black capitalize text-sm'
-                  >
-                    {outfit.tag}
-                  </Badge>
-                ))}
+        <hr />
+        <div className='grid grid-cols-2 gap-6'>
+          <div>
+            <h3 className='font-semibold mb-3'>Outfit Details</h3>
+            <dl className='space-y-2 text-sm'>
+              <div>
+                <dt className='text-muted-foreground'>Category</dt>
+                <dd className='font-medium'>{outfit.category}</dd>
               </div>
-            </div>
+              <div>
+                <dt className='text-muted-foreground'>Fabric</dt>
+                <dd className='font-medium'>{outfit.fabric}</dd>
+              </div>
+              <div>
+                <dt className='text-muted-foreground'>Suitable For</dt>
+                <dd className='font-medium'>
+                  {outfit.tags.map((tag, key) => (
+                    <Badge
+                      key={key}
+                      variant='outline'
+                      className=' text-black capitalize text-sm'
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
+                </dd>
+              </div>
+            </dl>
           </div>
-          <div className='flex-col'>
-            <div>
-              <h5>Top Size</h5>
-              <p>{outfit.topSize}</p>
-            </div>
-            <div>
-              <h5>Bottom Size</h5>
-              <p>{outfit.bottomSize}</p>
-            </div>
+          <div>
+            <h3 className='font-semibold mb-3'>Size Information</h3>
+            <dl className='space-y-2 text-sm'>
+              <div>
+                <dt className='text-muted-foreground'>Top Size</dt>
+                <dd className='font-medium'>{outfit.topSize}</dd>
+              </div>
+              <div>
+                <dt className='text-muted-foreground'>Bottom Size</dt>
+                <dd className='font-medium'>{outfit.bottomSize}</dd>
+              </div>
+            </dl>
           </div>
         </div>
-        {/* Save Button */}
-        {/* Request to borrow Button*/}
-        <div className='flex'>
-          <Button
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[&gt;svg]:px-3 w-full"
-            onClick={onFavoriteClick}
-          >
-            {isFavorite ? (
-              <HiHeart className='size-5 text-red-500' />
-            ) : (
-              <HiOutlineHeart className='size-5' />
-            )}{' '}
-            Save
-          </Button>
-          <Button
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[&gt;svg]:px-3 w-full"
-            onClick={requestToBorrow}
-          >
-            <IoShirtOutline className='size-5' /> Request to Borrow
-          </Button>
+        <div className='flex gap-2 pt-4'>
+          <div className='flex px-3 gap-3'>
+            <Button
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background text-foreground hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[&gt;svg]:px-3 flex-1"
+              onClick={onFavoriteClick}
+            >
+              {isFavorite ? (
+                <HiHeart className='size-5 text-red-500' />
+              ) : (
+                <HiOutlineHeart className='size-5' />
+              )}{' '}
+              Save
+            </Button>
+            <Button
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[&gt;svg]:px-3 flex-1"
+              onClick={requestToBorrow}
+            >
+              <IoShirtOutline className='size-5' /> Request to Borrow
+            </Button>
+          </div>
         </div>
-        {/* */}
-        {/* */}
       </div>
     </div>
   );
