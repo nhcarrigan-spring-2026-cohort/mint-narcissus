@@ -108,9 +108,15 @@ Frontend/
 - Follow existing component organization under `src/components`.
 - To add an icon, import in `mint-narcissus/Frontend/src/utils/icons.js` and
   then export it from there.
+- Add mock data for uis in `mint-narcissus/Frontend/src/utils/mockData.js`
 - Before opening a PR, run:
 
 ```bash
 npm run lint
 npm run format
 ```
+
+- Some more useful VS Code Extensions for Frontend: `Tailwind CSS Intellisense`,
+  `ESLint`, `Prettier - Code formatter`, `npm Intellisense`,
+  ,`ES7+ React/Redux/React-Native snippets` , `Code Spell Checker`,
+  `Color Highlight`,
