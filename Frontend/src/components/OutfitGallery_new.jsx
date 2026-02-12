@@ -4,7 +4,6 @@ import OutfitDetailModal from './OutfitDetailModal';
 
 export default function OutfitGallery() {
   const [selectedOutfit, setSelectedOutfit] = useState(null);
-
   const [favorites, setFavorites] = useState({});
 
   const sampleOutfits = [
@@ -27,26 +26,37 @@ export default function OutfitGallery() {
   ];
 
   const handleFavorite = (outfitId) => {
-    setFavorites((prev) => ({...prev,[outfitId]:!prev[outfitId],}));
+    setFavorites((prev) => ({
+      ...prev,
+      [outfitId]: !prev[outfitId],
+    }));
   };
 
-  const handleCardClick = (outfit) => setSelectedOutfit(outfit);
+  const handleCardClick = (outfit) => {
+    setSelectedOutfit(outfit);
+  };
 
-  const handleCloseModal = () =>setSelectedOutfit(null);
+  const handleCloseModal = () => {
+    setSelectedOutfit(null);
+  };
+
   return (
     <>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6'>
         {sampleOutfits.map((outfit) => (
           <div
-            className='cursor-pointer'
             key={outfit.id}
             onClick={() => handleCardClick(outfit)}
+            className='cursor-pointer'
           >
             <OutfitCard
               title={outfit.title}
               imgSrc={outfit.imgSrc}
               isFavorite={favorites[outfit.id] || false}
-              onFavoriteClick={() => handleFavorite(outfit.id)}
+              onFavoriteClick={(e) => {
+                e.stopPropagation();
+                handleFavorite(outfit.id);
+              }}
               status={outfit.status}
               tags={outfit.tags}
               fitInfo={outfit.fitInfo}
@@ -62,7 +72,7 @@ export default function OutfitGallery() {
         isOpen={!!selectedOutfit}
         onClose={handleCloseModal}
         isFavorite={
-          selectedOutfit ? favorites[selectedOutfit.id] || false : false
+          selectedOutfit ? favorites [selectedOutfit.id] || false : false
         }
         onFavoriteClick={() => {
           if (selectedOutfit) {
