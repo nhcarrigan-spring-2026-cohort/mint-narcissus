@@ -1,13 +1,5 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import { Badge } from '../ui/badge';
-import {
-  FiBriefcase,
-  FiChevronDown,
-  FiLogOut,
-  FiSettings,
-  FiUser,
-} from '@/utils/icons';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,21 +10,29 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import {
+  FiBriefcase,
+  FiChevronDown,
+  FiLogOut,
+  FiSettings,
+  FiUser,
+} from '@/utils/icons';
 
-import { Link } from 'react-router-dom';
+const RoleSwitch = ({ user, onLogout, onSwitch }) => {
+  if (!user) return null;
+  const { activeRole, name, email } = user;
 
-const RoleSwitch = ({ activeRole, onLogout, onSwitch }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className='flex items-center justify-center gap-2 hover:bg-app-hover px-4 py-2 rounded-lg cursor-pointer focus:outline-2 focus:outline-offset-2  focus:outline-app-secondary'>
           <Avatar>
-            <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
+            {/* <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' /> */}
             <AvatarFallback className='font-medium bg-app-primary text-white'>
-              RV
+              {name?.charAt(0).toUpperCase() || 'U'}
             </AvatarFallback>
           </Avatar>
-          <span className='text-sm font-medium'>Rahul</span>
+          <span className='text-sm font-medium'>{name || 'User'}</span>
           <Badge variant='outline' className='capitalize'>
             {activeRole}
           </Badge>
@@ -41,10 +41,10 @@ const RoleSwitch = ({ activeRole, onLogout, onSwitch }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-52'>
         <DropdownMenuLabel className='text-sm leading-4'>
-          Rahul Verma
+          {name || 'User'}
         </DropdownMenuLabel>
         <DropdownMenuLabel className='text-xs font-normal text-muted-foreground leading-1'>
-          rahul.verma@example.com
+          {email}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -86,8 +86,8 @@ const RoleSwitch = ({ activeRole, onLogout, onSwitch }) => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem
-          variant='destructive'
           onClick={() => onLogout()}
+          variant='destructive'
           className='flex items-center gap-4'
         >
           <FiLogOut />

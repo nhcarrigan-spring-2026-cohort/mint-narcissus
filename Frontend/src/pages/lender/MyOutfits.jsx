@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MyOutfits = () => {
-  return <section className='grow'>MyOutfits</section>;
+  return <section>MyOutfits</section>;
 };
 
 export default MyOutfits;

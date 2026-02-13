@@ -6,11 +6,10 @@ export const MOCK_OUTFITS = [
       'Professional navy blue suit perfect for corporate interviews. Tailored fit with matching pants.',
     // imageURL: '', // use an empty div or unsplash image link
     category: 'Formal',
-    interviewType: ['Tech', 'Corporate'],
-    fit: "5'9–6'0, Average Build",
+    interviewTypes: ['Tech', 'Corporate'],
     status: 'available',
-    fabricType: 'wool blend',
-    sizeInformation: {
+    fabric: 'wool blend',
+    size: {
       top: 'Regular',
       bottom: 'Regular',
       shoes: 'Regular',
@@ -18,6 +17,7 @@ export const MOCK_OUTFITS = [
     confidenceNote:
       'Wore this for my first investment banking interview at Goldman Sachs. Walk in with confidence.',
     lender: `Sarah Johnson`,
+    lenderImage: 'https://i.pravatar.cc/150',
   },
   {
     id: 2,
@@ -26,11 +26,11 @@ export const MOCK_OUTFITS = [
       'Professional navy blue suit perfect for corporate interviews. Tailored fit with matching pants.',
     // imageURL: '', // use an empty div or unsplash image link
     category: 'Business Casual',
-    interviewType: ['Tech', 'Creative'],
+    interviewTypes: ['Tech', 'Creative'],
     fit: "5'9–6'0, Average Build",
     status: 'available',
-    fabricType: 'cotton',
-    sizeInformation: {
+    fabric: 'cotton',
+    size: {
       top: 'Regular',
       bottom: 'Regular',
       shoes: 'Regular',
@@ -41,3 +41,39 @@ export const MOCK_OUTFITS = [
     lenderImage: 'https://i.pravatar.cc/150',
   },
 ];
+
+export const MOCK_USERS = {
+  registerEmailUser: {
+    id: '1',
+    name: 'John Doe',
+    email: 'demo@email.com',
+    activeRole: null,
+    profileCompleted: false,
+    isVerified: false,
+  },
+  registerLinkedInUser: {
+    id: '2',
+    name: 'LinkedIn User',
+    email: 'linkedin@mail.com',
+    activeRole: null,
+    profileCompleted: false,
+    isVerified: true,
+    linkedinUrl: 'https://linkedin.com/in/demo',
+  },
+  loginEmailUser: {
+    id: '3',
+    name: 'Sarah Johnson',
+    email: 'demo@email.com',
+    activeRole: 'borrower',
+    profileCompleted: true,
+    isVerified: false,
+  },
+  loginLinkedInUser: {
+    id: '4',
+    name: 'LinkedIn User',
+    email: 'linkedin@mail.com',
+    activeRole: 'lender',
+    profileCompleted: true,
+    isVerified: true,
+  },
+};

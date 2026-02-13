@@ -3,7 +3,7 @@ import OutfitsContainer from '@/components/outfits/OutfitsContainer';
 
 export default function Saved() {
   return (
-    <section className='grow'>
+    <section>
       <div className='flex flex-col gap-3 mb-7'>
         <h1>Saved Outfits</h1>
         <h2>Your collection of interview-ready outfits</h2>

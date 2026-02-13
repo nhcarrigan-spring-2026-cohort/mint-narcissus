@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Requests = () => {
-  return <section className='grow'>Requests</section>;
+  return <section>Requests</section>;
 };
 
 export default Requests;

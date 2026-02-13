@@ -20,7 +20,9 @@ import {
   FiX,
 } from '@/utils/icons';
 
-const NavDrawer = ({ navItems, activeRole, onSwitch, onLogout }) => {
+const NavDrawer = ({ navItems, user, onLogout, onSwitch }) => {
+  if (!user) return null;
+  const { activeRole, name, email } = user;
   return (
     <Drawer direction='right'>
       <DrawerTrigger>
@@ -29,12 +31,12 @@ const NavDrawer = ({ navItems, activeRole, onSwitch, onLogout }) => {
       <DrawerContent className='data-[vaul-drawer-direction=bottom]:max-h-[50vh] data-[vaul-drawer-direction=top]:max-h-[50vh]'>
         <DrawerHeader>
           <DrawerTitle className='flex justify-between items-center'>
-            Rahul Verma
+            {name}
             <DrawerClose className='shrink' asChild>
               <FiX />
             </DrawerClose>
           </DrawerTitle>
-          <DrawerDescription>rahul.verma@example.com</DrawerDescription>
+          <DrawerDescription>{email}</DrawerDescription>
         </DrawerHeader>
         <div className='no-scrollbar overflow-y-auto px-4'>
           <p className='text-sm text-muted-foreground my-2'>Mode</p>

@@ -1,5 +1,8 @@
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { switchRole, logout } from '@/store/authSlice';
 import RoleSwitch from '../shared/RoleSwitch';
+import NavDrawer from '../shared/NavDrawer';
 import Logo from './Logo';
 import {
   FiHeart,
@@ -9,10 +12,6 @@ import {
   FiSearch,
   FiUser,
 } from '@/utils/icons';
-import { useDispatch, useSelector } from 'react-redux';
-import { switchRole } from '@/store/roleSlice';
-import { logout } from '@/store/authSlice';
-import NavDrawer from '../shared/NavDrawer';
 
 const borrowerNavItems = [
   {
@@ -52,7 +51,8 @@ const lenderNavItems = [
 
 export default function Navbar() {
   const dispatch = useDispatch();
-  const { activeRole } = useSelector((state) => state.role);
+  const { user } = useSelector((state) => state.auth);
+  const { activeRole } = user;
   const navItems =
     activeRole === 'borrower' ? borrowerNavItems : lenderNavItems;
 
@@ -60,11 +60,12 @@ export default function Navbar() {
     dispatch(switchRole(role));
   };
   const handleLogout = () => {
-    logout();
+    dispatch(logout());
   };
 
   return (
     <nav className='bg-app-fg flex items-center justify-between border-b w-full max-h-20 px-3 py-2 md:px-10 md:py-4 shadow'>
+      {/* LEFT */}
       <div className='flex gap-4'>
         <Logo />
         {navItems.map(({ label, icon, path }) => (
@@ -72,22 +73,24 @@ export default function Navbar() {
             key={path}
             to={path}
             className={({ isActive }) =>
-              `hidden lg:flex justify-center items-center lg:gap-2 gap-1 lg:px-4 md:py-2 px-2 py-1 rounded-sm ${isActive ? 'bg-app-primary text-white' : 'hover:bg-app-hover'}`
+              `hidden lg:flex justify-center items-center lg:gap-3 gap-1 lg:px-4 md:py-2 px-2 py-1 rounded-sm ${isActive ? 'bg-app-primary text-white' : 'hover:bg-app-hover'}`
             }
           >
-            <span className='text-sm'>{icon}</span>
-            <span className='text-sm font-semibold'>{label}</span>
+            <span className='text-lg'>{icon}</span>
+            <span className='text-sm font-medium leading-tight'>{label}</span>
           </NavLink>
         ))}
       </div>
+      {/* MOBILE */}
       <div className='lg:hidden'>
         <NavDrawer
           navItems={navItems}
-          activeRole={activeRole}
+          user={user}
           onLogout={handleLogout}
           onSwitch={handleSwitch}
         />
       </div>
+      {/* RIGHT */}
       <div className='hidden lg:flex items-center gap-4'>
         {activeRole === 'lender' && (
           <NavLink
@@ -99,7 +102,7 @@ export default function Navbar() {
           </NavLink>
         )}
         <RoleSwitch
-          activeRole={activeRole}
+          user={user}
           onLogout={handleLogout}
           onSwitch={handleSwitch}
         />

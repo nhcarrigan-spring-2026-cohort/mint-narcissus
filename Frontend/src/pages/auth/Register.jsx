@@ -6,15 +6,15 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { MOCK_USERS } from '@/utils/mockData';
 
-const Login = () => {
+const Register = () => {
   const dispatch = useDispatch();
 
-  const handleEmailLogin = () => {
-    dispatch(login(MOCK_USERS?.loginEmailUser));
+  const handleEmailRegister = () => {
+    dispatch(login(MOCK_USERS?.registerEmailUser));
   };
 
-  const handleLinkedInLogin = () => {
-    dispatch(login(MOCK_USERS?.loginLinkedInUser));
+  const handleLinkedInRegister = () => {
+    dispatch(login(MOCK_USERS.registerLinkedInUser));
   };
 
   return (
@@ -24,17 +24,17 @@ const Login = () => {
           <img src='/favicon.ico' className='size-8' />
         </div>
         <h2 className='font-serif text-lg sm:text-2xl text-app-primary text-center font-semibold leading-2 sm:leading-4'>
-          Welcome Back!
+          Welcome to Career Closet
         </h2>
         <p className='text-center text-xs sm:text-sm text-muted-foreground leading-px'>
-          Login to borrow or lend interview outfits
+          Register to borrow or lend interview outfits
         </p>
         <Button
           variant='outline'
-          onClick={handleLinkedInLogin}
-          className='w-full font-medium'
+          onClick={handleLinkedInRegister}
+          className='w-full'
         >
-          Login with LinkedIn
+          Sign up with LinkedIn
         </Button>
         <div className='flex items-center'>
           <Separator className='flex-1' />
@@ -43,14 +43,14 @@ const Login = () => {
           </span>
           <Separator className='flex-1' />
         </div>
-        <Button onClick={handleEmailLogin} className='w-full font-medium'>
-          Login (Email Demo)
+        <Button onClick={handleEmailRegister} className='w-full'>
+          Sign up (Demo Email)
         </Button>
         <p className='text-center text-xs sm:text-sm text-muted-foreground'>
           {' '}
-          Don't have an account?{' '}
-          <Link to='/register' className='text-blue-600 hover:text-blue-700'>
-            Sign Up
+          Already have an account?{' '}
+          <Link to='/login' className='text-blue-600 hover:text-blue-700'>
+            Log in
           </Link>
         </p>
       </Card>
@@ -58,4 +58,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

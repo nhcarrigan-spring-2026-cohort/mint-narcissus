@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ListOutfit = () => {
-  return <section className='grow'>ListOutfit</section>;
+  return <section>ListOutfit</section>;
 };
 
 export default ListOutfit;
