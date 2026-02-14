@@ -21,7 +21,7 @@ export default function Login() {
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="password">Password</label>
-                    <input id="password" type="password" placeholder="AB345£$">Enter your password</input>
+                    <input id="password" type="password" placeholder="AB345£$" />
                 </div>
                 <Button type="submit" className="w-full gap-2 bg-[#1A2B48] text-white hover:bg-[#16253f]"><Mail className="h-4 w-4" />Login</Button>
             </form><div className="pt-2 text-center text-sm text-muted-foreground space-y-1">
