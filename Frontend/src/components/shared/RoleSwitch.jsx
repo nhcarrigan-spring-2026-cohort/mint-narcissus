@@ -54,7 +54,7 @@ const RoleSwitch = ({ user, onLogout, onSwitch }) => {
           <DropdownMenuItem
             disabled={activeRole === 'borrower'}
             onClick={() => onSwitch('borrower')}
-            className='flex items-center gap-4'
+            className='flex items-center gap-4 cursor-pointer'
           >
             <FiUser />
             Borrower
@@ -67,7 +67,7 @@ const RoleSwitch = ({ user, onLogout, onSwitch }) => {
           <DropdownMenuItem
             disabled={activeRole === 'lender'}
             onClick={() => onSwitch('lender')}
-            className='flex items-center gap-4'
+            className='flex items-center gap-4 cursor-pointer'
           >
             <FiBriefcase />
             Lender

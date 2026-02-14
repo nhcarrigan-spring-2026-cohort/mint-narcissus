@@ -18,7 +18,7 @@ const Register = () => {
   };
 
   return (
-    <section className='flex w-full h-screen items-center justify-center'>
+    <section className='bg-app-bg flex w-full h-screen items-center justify-center'>
       <Card className='w-80 sm:w-96 px-8 flex flex-col'>
         <div className='w-full flex justify-center items-center'>
           <img src='/favicon.ico' className='size-8' />

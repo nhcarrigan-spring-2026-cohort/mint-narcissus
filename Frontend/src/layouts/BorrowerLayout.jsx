@@ -6,7 +6,7 @@ const BorrowerLayout = () => {
   return (
     <div className='min-h-screen w-full flex flex-col'>
       <Navbar />
-      <div className='flex-1'>
+      <div className='flex-1 flex'>
         <Outlet />
       </div>
       <Footer />

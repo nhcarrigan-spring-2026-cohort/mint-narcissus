@@ -50,6 +50,12 @@ export const MOCK_USERS = {
     activeRole: null,
     profileCompleted: false,
     isVerified: false,
+    sizeProfile: {
+      height: null,
+      topSize: null,
+      bottomSize: null,
+      fitPreference: null,
+    },
   },
   registerLinkedInUser: {
     id: '2',
@@ -59,6 +65,12 @@ export const MOCK_USERS = {
     profileCompleted: false,
     isVerified: true,
     linkedinUrl: 'https://linkedin.com/in/demo',
+    sizeProfile: {
+      height: null,
+      topSize: null,
+      bottomSize: null,
+      fitPreference: null,
+    },
   },
   loginEmailUser: {
     id: '3',
@@ -67,6 +79,12 @@ export const MOCK_USERS = {
     activeRole: 'borrower',
     profileCompleted: true,
     isVerified: false,
+    sizeProfile: {
+      heightCategory: 'Tall',
+      topSize: 'S',
+      bottomSize: '34',
+      fitPreference: 'Slim',
+    },
   },
   loginLinkedInUser: {
     id: '4',
@@ -75,5 +93,11 @@ export const MOCK_USERS = {
     activeRole: 'lender',
     profileCompleted: true,
     isVerified: true,
+    sizeProfile: {
+      heightCategory: 'Regular',
+      topSize: 'M',
+      bottomSize: '32',
+      fitPreference: 'Slim',
+    },
   },
 };

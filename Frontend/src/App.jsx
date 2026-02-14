@@ -8,8 +8,7 @@ import LenderLayout from './layouts/LenderLayout';
 import { Login, ProfileSetup, Register } from './pages/auth';
 import { Browse, Saved } from './pages/borrower';
 import { ListOutfit, MyOutfits, Requests } from './pages/lender';
-import { Messages, PageNotFound } from './pages/shared';
-import { Settings } from 'lucide-react';
+import { Messages, PageNotFound, Settings } from './pages/shared';
 
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.auth);

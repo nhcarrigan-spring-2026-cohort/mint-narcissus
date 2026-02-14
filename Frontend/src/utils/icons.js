@@ -13,8 +13,6 @@ import {
   FiX,
 } from 'react-icons/fi';
 
-import { MdCopyright } from 'react-icons/md';
-
 export {
   FiBriefcase,
   FiChevronDown,
@@ -28,5 +26,4 @@ export {
   FiSettings,
   FiUser,
   FiX,
-  MdCopyright,
 };

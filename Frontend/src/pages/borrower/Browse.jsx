@@ -3,7 +3,7 @@ import OutfitsContainer from '@/components/outfits/OutfitsContainer';
 
 export default function Browse() {
   return (
-    <section>
+    <section className='grow'>
       <div>
         <Filter />
       </div>
