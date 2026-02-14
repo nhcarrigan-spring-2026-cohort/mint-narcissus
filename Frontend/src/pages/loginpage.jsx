@@ -32,7 +32,7 @@ export default function Login() {
                     </a>
                 </p>
                 <p>
-                    Admin demo login?{' '}
+                    Admin login?{' '}
                     <a className="font-semibold text-[#1A2B48] hover:underline" href="/admin">
                         Login as Admin
                     </a>
