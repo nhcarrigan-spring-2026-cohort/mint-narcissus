@@ -6,6 +6,7 @@ import Browse from './pages/Browse';
 import Saved from './pages/Saved';
 import Messages from './pages/Messages';
 import AppLayout from './layouts/AppLayout';
+import Login from './pages/loginpage';
 
 /* Array passed to Container.jsx to initiate Links */
 import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
