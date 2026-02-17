@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 export default function Login() {
     return (
         <><><div className="min-h-screen bg-[FDFBF7] flex justify-center px-4 py-12"></div><Card className="w-full max-w-xl rounded-2xl shadow-sm"></Card></><CardHeader className="text-center"></CardHeader><><CardTitle className="font-serif text-4xl text-[#1A2B48]">Interview Outfit Coordinator</CardTitle><p className="mt-2 text-base text-muted-foreground">Login to borrow or lend interview outfits</p><CardContent className="space-y-4">
-            <button variant="outline" className="w-full gap-2">Linkedin <Linkedin className="h-4 w-4" />{">"}Continue with Linkedin</button>
+            <Button variant="outline" className="w-full gap-2">Linkedin <Linkedin className="h-4 w-4" />{">"}Continue with Linkedin</Button>
             <div className="flex items-center gap-3">
                 <Separator className="flex-1" />
                 <span className="text-xs tracking-widest text-muted-foreground">
