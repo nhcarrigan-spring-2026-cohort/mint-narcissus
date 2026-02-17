@@ -1,0 +1,17 @@
+import { Outlet } from 'react-router-dom';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+
+const BorrowerLayout = () => {
+  return (
+    <div className='min-h-screen w-full flex flex-col'>
+      <Navbar />
+      <div className='flex-1 flex'>
+        <Outlet />
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+export default BorrowerLayout;
