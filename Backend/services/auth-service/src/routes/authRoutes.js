@@ -1,7 +1,8 @@
 const express = require("express");
 const User = require("../models/User");
 const { generateToken } = require("../utils/jwt");
-const { auth } = require("../middleware/auth");
+const { auth } = require("../middleware/auth.js");
+const passport = require("../config/passport.js");
 
 // ===========================================================================
 
@@ -148,5 +149,28 @@ router.get("/me", auth, async (req, res) => {
 });
 
 // ===========================================================================
+
+// GET /api/auth/linkedin - Initiate LinkedIn OAuth flow
+router.get("/linkedin", passport.authenticate("linkedin"));
+
+// ===========================================================================
+
+// GET /api/auth/linkedin/callback
+router.get(
+  "/linkedin/callback",
+  (req, res, next) => {
+    const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
+    passport.authenticate("linkedin", {
+      session: false,
+      failureRedirect: `${clientUrl}/login?error=linkedin_failed`,
+    })(req, res, next);
+  },
+  (req, res) => {
+    const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
+    const token = generateToken(req.user._id);
+    res.cookie("token", token, COOKIE_OPTIONS);
+    res.redirect(`${clientUrl}/dashboard`);
+  },
+);
 
 module.exports = router;
