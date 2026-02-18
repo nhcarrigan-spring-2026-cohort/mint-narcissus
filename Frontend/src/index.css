@@ -1,6 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
 @import 'tailwindcss';
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -43,6 +44,16 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  /* App Styling */
+  --color-app-primary: oklch(0.29 0.058 260.53);
+  --color-app-secondary: oklch(0.7245 0.0998 82.35);
+  --color-app-bg: oklch(0.9885 0.0057 84.57);
+  --color-app-saved: oklch(0.6062 0.2298 9.63);
+  --color-app-neutral: oklch(0.3211 0 0);
+  --color-app-fg: oklch(1 0 0);
+  --color-app-hover: oklch(0.9699 0.0013 106.42);
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Source Serif 4', serif;
 }
 
 :root {
@@ -119,6 +130,10 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-app-bg text-foreground font-sans;
+  }
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
   }
 }
