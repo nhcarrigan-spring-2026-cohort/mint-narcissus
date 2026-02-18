@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import OutfitCard from './OutfitCard';
 import OutfitDetailModal from './OutfitDetailModal';
-import {MockOutfits} from './MockOutfits';
+import { MockOutfits } from '@/utils/mockData';
 
 
 export default function OutfitsContainer() {

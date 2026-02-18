@@ -1,4 +1,3 @@
-
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,14 +11,7 @@ import {
   SelectItem,
 } from '../ui/select';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+
 import {
   Field,
   FieldContent,
@@ -31,12 +23,7 @@ import {
   FieldSet,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroupTextarea,
-} from '@/components/ui/input-group';
+
 import { Checkbox, Form } from 'radix-ui';
 import { Toaster } from '../ui/sonner';
 
@@ -224,13 +211,12 @@ export function OutfitAddForm() {
             </Field>
           )}
         />
-        {/* Checkboxes still not working */}
         <Controller
           name='type'
-          control={form.control}
-          defaultValue={['Tech']}
+          control={form.interviewTypeEnum}
+          defaultValue={['']}
           render={({ field, fieldState }) => {
-            <FieldSet data-invalid={fieldState.invalid}>
+        <FieldSet data-invalid={fieldState.invalid}>
               <FieldLegend variant='label'>Interview Types</FieldLegend>
               <FieldDescription>
                 Select all categories this outfit is appropriate for.
@@ -238,6 +224,8 @@ export function OutfitAddForm() {
 
               <FieldGroup className='grid grid-cols-2 gap-4'>
                 {InterviewTypeEnum.options.map((option) => (
+        
+            
                   <Field
                     key={option}
                     orientation='horizontal'
@@ -268,11 +256,11 @@ export function OutfitAddForm() {
                 <p className='text-sm text-red-500 mt-2'>
                   {fieldState.error.message}
                 </p>
-              )}
-            </FieldSet>;
-          }}
+              
+            
+          )}
         />
-
+</FieldSet>;}
         <FieldSet>
           <FieldLegend>Size Details</FieldLegend>
           {/* The Label Field */}
@@ -430,17 +418,7 @@ export function OutfitAddForm() {
             </div>
           </FieldGroup>
         </FieldSet>
-        <Controller
-          name='fabric'
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor='outfit-fabric'>Title:</FieldLabel>
-              <Input {...field} />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
+
         <div>
           <Field orientation='horizontal'>
             <Button
