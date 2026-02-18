@@ -1,34 +1,17 @@
-/**
- * first
 
-title (String, required)
-description (String, optional)
-images (Array of URL strings)
-category (enum: FORMAL, SEMI_FORMAL, BUSINESS_CASUAL)
-interviewTypes (Array of enum: TECH, CORPORATE, FINANCE, SALES, CONSULTING, OTHER)
-size object: label (String), notes (String, optional)
-fit object (optional): chest, waist, hips, inseam, shoulder, length (Numbers in cm), fitNotes (String)
-fabric (String, optional)
-confidenceNote (String, optional)
-status (enum: AVAILABLE, BORROWED, UNAVAILABLE, default AVAILABLE)
-visibility (enum: PUBLIC, HIDDEN, default PUBLIC)
-Timestamps (createdAt, updatedAt)
-Add indexes on: ownerId, status, category, size.label, interviewTypes
-Optionally add a text index on title, description, confidenceNote
-Document measurement units (cm) in code comments
- * 
- * 
- */
+'use client';
 
-"use client"
-
-import * as React from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Controller, useForm } from "react-hook-form"
-import { toast } from "sonner"
-import * as z from "zod"
-
-import { Button } from "@/components/ui/button"
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, useForm } from 'react-hook-form';
+import * as z from 'zod';
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+  SelectItem,
+} from '../ui/select';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -36,142 +19,443 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from '@/components/ui/card';
 import {
   Field,
+  FieldContent,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+  FieldLegend,
+  FieldSet,
+} from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
   InputGroupTextarea,
-} from "@/components/ui/input-group"
+} from '@/components/ui/input-group';
+import { Checkbox, Form } from 'radix-ui';
+import { Toaster } from '../ui/sonner';
 
-const formSchema = z.object({
-  title: z
-    .string()
-    .min(5, "Outfit title must be at least 5 characters.")
-    .max(40, "Outfit title must be at most 40 characters."),
-  description: z
-    .string()
-    .min(20, "Description must be at least 20 characters.")
-    .max(100, "Description must be at most 100 characters."),
-})
+import { Textarea } from '../ui/textarea';
+// Enum Definitions
+const CategoryEnum = z.enum(['FORMAL', 'SEMI_FORMAL', 'BUSINESS_CASUAL']);
+const InterviewTypeEnum = z.enum([
+  'TECH',
+  'CORPORATE',
+  'FINANCE',
+  'SALES',
+  'CONSULTING',
+  'OTHER',
+]);
+const StatusEnum = z.enum(['AVAILABLE', 'BORROWED', 'UNAVAILABLE']);
+const VisibilityEnum = z.enum(['PUBLIC', 'HIDDEN']);
 
+const itemFormSchema = z.object({
+  title: z.string().min(1, 'Title is required'),
+  description: z.string().optional(),
+
+  // Array of URL strings
+  images: z.array(z.string().url('Must be a valid URL')).default([]),
+
+  category: CategoryEnum,
+
+  interviewTypeEnum: z
+    .array(InterviewTypeEnum)
+    .min(1, 'Select at least one type'),
+
+  // Size Object
+  size: z.object({
+    label: z.string().min(1, 'Size label is required'),
+    notes: z.string().optional(),
+  }),
+
+  // Fit Object (Optional) - All measurements in cm
+  fit: z
+    .object({
+      chest: z.number().optional(),
+      waist: z.number().optional(),
+      hips: z.number().optional(),
+      inseam: z.number().optional(),
+      shoulder: z.number().optional(),
+      length: z.number().optional(),
+      fitNotes: z.string().optional(),
+    })
+    .optional(),
+
+  fabric: z.string().optional(),
+  confidenceNote: z.string().optional(),
+
+  status: StatusEnum.default('AVAILABLE'),
+  visibility: VisibilityEnum.default('PUBLIC'),
+});
+
+function onSubmit(data) {
+  Toaster('You submitted the following values:', {
+    description: (
+      <pre className='bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4'>
+        <code>{JSON.stringify(data, null, 2)}</code>
+      </pre>
+    ),
+    position: 'bottom-right',
+    classNames: {
+      content: 'flex flex-col gap-2',
+    },
+    style: {
+      '--border-radius': 'calc(var(--radius)  + 4px)',
+    },
+  });
+}
 export function OutfitAddForm() {
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(itemFormSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      title: '',
+      description: '',
       images: [],
-      category: "",
-      interviewTypes: [],
-      
-
+      category: 'FORMAL',
+      interviewTypeEnum: ['Tech','Corporate'],
+      size: { label: '', notes: '' },
+      fit: {
+        chest: '',
+        waist: '',
+        hips: '',
+        inseam: '',
+        shoulder: '',
+        length: '',
+        fitNotes: '',
+      },
+      fabric: '',
+      confidenceNote: '',
+      status: 'AVAILABLE',
+      visibility: 'PUBLIC',
     },
-  })
+  });
 
   function onSubmit(data) {
-    toast('You submitted the following values:', {
-      description: (
-        <pre className='bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4'>
-          <code>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-      position: 'bottom-right',
-      classNames: {
-        content: 'flex flex-col gap-2',
-      },
-      style: {
-        '--border-radius': 'calc(var(--radius) + 4px)',
-      },
-    });
+    console.log(data);
   }
 
+
   return (
-    <Card className="w-full sm:max-w-md">
-      <CardHeader>
-        <CardTitle>Bug Report</CardTitle>
-        <CardDescription>
-          Help us improve by reporting bugs you encounter.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
-          <FieldGroup>
+    <div>
+      <h1>Add Your Outfit</h1>
+      <p>You are helping others to help themselves.</p>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Controller
+          name='title'
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor='outfit-title'>Title:</FieldLabel>
+              <Input
+                {...field}
+                id='outfit-title'
+                aria-invalid={fieldState.invalid}
+                placeholder='Red dress'
+                value={field.value ?? ''}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+        <Controller
+          name='description'
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor='outfit-description'>Description:</FieldLabel>
+              <Textarea
+                {...field}
+                id='outfit-description'
+                aria-invalid={fieldState.invalid}
+                placeholder='Describe fully'
+                value={field.value ?? ''}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+        <Controller
+          name='images'
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor='outfit-images'>Upload Pictures:</FieldLabel>
+              <Input
+                {...field}
+                id='outfit-images'
+                aria-invalid={fieldState.invalid}
+                type='file'
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+        <Controller
+          name='category'
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldContent>
+                <FieldLabel htmlFor='outfit-category'>
+                  Choose a category for this outfit:
+                </FieldLabel>
+              </FieldContent>
+              <Select {...field} onValueChange={field.onChange}>
+                <SelectTrigger
+                  id='outfit-category'
+                  aria-invalid={fieldState.invalid}
+                >
+                  <SelectValue placeholder='Select' />
+                </SelectTrigger>
+                <SelectContent position='item-aligned'>
+                  <SelectItem value='FORMAL'>Formal</SelectItem>
+                  <SelectItem value='SEMI_FORMAL'>Semi-Formal</SelectItem>
+                  <SelectItem value='BUSINESS_CASUAL'>
+                    Business-Casual
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+        {/* Checkboxes still not working */}
+        <Controller
+          name='type'
+          control={form.control}
+          defaultValue={['Tech']}
+          render={({ field, fieldState }) => {
+            <FieldSet data-invalid={fieldState.invalid}>
+              <FieldLegend variant='label'>Interview Types</FieldLegend>
+              <FieldDescription>
+                Select all categories this outfit is appropriate for.
+              </FieldDescription>
+
+              <FieldGroup className='grid grid-cols-2 gap-4'>
+                {InterviewTypeEnum.options.map((option) => (
+                  <Field
+                    key={option}
+                    orientation='horizontal'
+                    className='flex items-center gap-2'
+                  >
+                    <Checkbox
+                      id={`interview-type-${option}`}
+                      checked={field.value?.includes(option)}
+                      onCheckedChange={(checked) =>
+                        field.onChange(
+                          checked
+                            ? [...(field.value || []), 'Tech']
+                            : field.value.filter((val) => val !== 'Tech'),
+                        )
+                      }
+                    />
+                    <FieldLabel
+                      htmlFor={`interview-type-${option}`}
+                      className='capitalize font-normal'
+                    >
+                      {option.toLowerCase()}
+                    </FieldLabel>
+                  </Field>
+                ))}
+              </FieldGroup>
+
+              {fieldState.error && (
+                <p className='text-sm text-red-500 mt-2'>
+                  {fieldState.error.message}
+                </p>
+              )}
+            </FieldSet>;
+          }}
+        />
+
+        <FieldSet>
+          <FieldLegend>Size Details</FieldLegend>
+          {/* The Label Field */}
+          <Controller
+            name='size.label'
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Label</FieldLabel>
+                <Input
+                  {...field}
+                  placeholder='e.g. Large'
+                  data-invalid={fieldState.invalid}
+                />
+                {fieldState.error && (
+                  <p className='text-red-500'>{fieldState.error.message}</p>
+                )}
+              </Field>
+            )}
+          />
+
+          {/* The Notes Field */}
+          <Controller
+            name='size.notes'
+            control={form.control}
+            render={({ field }) => (
+              <Field>
+                <FieldLabel>Notes (Optional)</FieldLabel>
+                <Textarea {...field} placeholder='Special tailoring notes...' />
+              </Field>
+            )}
+          />
+        </FieldSet>
+
+        <FieldSet>
+          <FieldLegend variant='label'>Fit & Measurements</FieldLegend>
+          <FieldDescription>
+            Enter the specific measurements for this item in inches or
+            centimeters.
+          </FieldDescription>
+
+          {/* Grid container for measurement inputs */}
+          <FieldGroup className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-4'>
+            {/* Chest Measurement */}
             <Controller
-              name="title"
+              name='fit.chest'
               control={form.control}
               render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-title">
-                    Bug Title
-                  </FieldLabel>
+                <Field>
+                  <FieldLabel>Chest</FieldLabel>
                   <Input
                     {...field}
-                    id="form-rhf-demo-title"
-                    aria-invalid={fieldState.invalid}
-                    placeholder="Login button not working on mobile"
-                    autoComplete="off"
+                    placeholder='e.g. 40\'
+                    data-invalid={fieldState.invalid}
                   />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
                 </Field>
               )}
             />
+
+            {/* Waist Measurement */}
             <Controller
-              name="description"
+              name='fit.waist'
               control={form.control}
               render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-description">
-                    Description
-                  </FieldLabel>
-                  <InputGroup>
-                    <InputGroupTextarea
-                      {...field}
-                      id="form-rhf-demo-description"
-                      placeholder="I'm having an issue with the login button on mobile."
-                      rows={6}
-                      className="min-h-24 resize-none"
-                      aria-invalid={fieldState.invalid}
-                    />
-                    <InputGroupAddon align="block-end">
-                      <InputGroupText className="tabular-nums">
-                        {field.value.length}/100 characters
-                      </InputGroupText>
-                    </InputGroupAddon>
-                  </InputGroup>
-                  <FieldDescription>
-                    Include steps to reproduce, expected behavior, and what
-                    actually happened.
-                  </FieldDescription>
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
+                <Field>
+                  <FieldLabel>Waist</FieldLabel>
+                  <Input
+                    {...field}
+                    placeholder='e.g. 32\'
+                    data-invalid={fieldState.invalid}
+                  />
                 </Field>
               )}
             />
+
+            {/* Hips Measurement */}
+            <Controller
+              name='fit.hips'
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Hips</FieldLabel>
+                  <Input
+                    {...field}
+                    placeholder='e.g. 38\'
+                    data-invalid={fieldState.invalid}
+                  />
+                </Field>
+              )}
+            />
+
+            {/* Inseam Measurement */}
+            <Controller
+              name='fit.inseam'
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Inseam</FieldLabel>
+                  <Input
+                    {...field}
+                    placeholder='e.g. 30\'
+                    data-invalid={fieldState.invalid}
+                  />
+                </Field>
+              )}
+            />
+
+            {/* Shoulder Measurement */}
+            <Controller
+              name='fit.shoulder'
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Shoulder</FieldLabel>
+                  <Input
+                    {...field}
+                    placeholder='e.g. 18\'
+                    data-invalid={fieldState.invalid}
+                  />
+                </Field>
+              )}
+            />
+
+            {/* Length Measurement */}
+            <Controller
+              name='fit.length'
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Length</FieldLabel>
+                  <Input
+                    {...field}
+                    placeholder='e.g. 28\'
+                    data-invalid={fieldState.invalid}
+                  />
+                </Field>
+              )}
+            />
+
+            {/* Fit Notes - Spans full width */}
+            <div className='md:col-span-2'>
+              <Controller
+                name='fit.fitNotes'
+                control={form.control}
+                render={({ field }) => (
+                  <Field>
+                    <FieldLabel>Fit Notes</FieldLabel>
+                    <Textarea
+                      {...field}
+                      placeholder='e.g. Runs small in the shoulders, tailored fit...'
+                    />
+                  </Field>
+                )}
+              />
+            </div>
           </FieldGroup>
-        </form>
-      </CardContent>
-      <CardFooter>
-        <Field orientation="horizontal">
-          <Button type="button" variant="outline" onClick={() => form.reset()}>
-            Reset
-          </Button>
-          <Button type="submit" form="form-rhf-demo">
-            Submit
-          </Button>
-        </Field>
-      </CardFooter>
-    </Card>
-  )
+        </FieldSet>
+        <Controller
+          name='fabric'
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor='outfit-fabric'>Title:</FieldLabel>
+              <Input {...field} />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+        <div>
+          <Field orientation='horizontal'>
+            <Button
+              type='button'
+              variant='outline'
+              onClick={() => form.reset()}
+            >
+              Reset
+            </Button>
+            <Button type='submit' form='form-rhf-demo'>
+              Submit
+            </Button>
+          </Field>
+        </div>
+      </form>
+    </div>
+  );
 }
