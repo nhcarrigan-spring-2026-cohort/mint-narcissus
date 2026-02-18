@@ -127,11 +127,12 @@ export function OutfitAddForm() {
   }
 
 
-  return (
-    <div>
-      <h1>Add Your Outfit</h1>
+  return (<div className=' m-6'>
+    <h1>Add Your Outfit</h1>
       <p>You are helping others to help themselves.</p>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+    <div className='flex-col mt-4'>
+      
+      <form className="flex flex-col space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
         <Controller
           name='title'
           control={form.control}
@@ -213,10 +214,10 @@ export function OutfitAddForm() {
         />
         <Controller
           name='type'
-          control={form.interviewTypeEnum}
+          control={form.control}
           defaultValue={['']}
           render={({ field, fieldState }) => {
-        <FieldSet data-invalid={fieldState.invalid}>
+            <FieldSet data-invalid={fieldState.invalid}>
               <FieldLegend variant='label'>Interview Types</FieldLegend>
               <FieldDescription>
                 Select all categories this outfit is appropriate for.
@@ -255,15 +256,13 @@ export function OutfitAddForm() {
               {fieldState.error && (
                 <p className='text-sm text-red-500 mt-2'>
                   {fieldState.error.message}
-                </p>
+                </p>)}
               
-            
-          )}
+              
+          </FieldSet>
+        }}
         />
-</FieldSet>;}
-        <FieldSet>
-          <FieldLegend>Size Details</FieldLegend>
-          {/* The Label Field */}
+<FieldSet>
           <Controller
             name='size.label'
             control={form.control}
@@ -434,6 +433,7 @@ export function OutfitAddForm() {
           </Field>
         </div>
       </form>
+    </div>
     </div>
   );
 }
