@@ -1,5 +1,6 @@
-import Filter from '@/components/borrower/Filter';
+import {Filter} from '@/components/outfits/Filter';
 import OutfitsContainer from '@/components/outfits/OutfitsContainer';
+
 
 export default function Browse() {
   return (
@@ -8,7 +9,7 @@ export default function Browse() {
         <Filter />
       </div>
       <div>
-        <OutfitsContainer />
+        <OutfitsContainer  />
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-import Filter from '@/components/borrower/Filter';
+import {Filter} from '@/components/outfits/Filter';
 import OutfitsContainer from '@/components/outfits/OutfitsContainer';
 
 export default function Saved() {
