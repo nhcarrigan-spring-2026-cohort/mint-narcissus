@@ -13,6 +13,7 @@
     "dev:gateway": "npm run dev -w gateway",
     "dev:auth": "npm run dev -w auth-service",
     "dev:items": "npm run dev -w items-service",
+    "dev:messaging": "npm run dev -w messaging-service",
     "dev:requests": "npm run dev -w requests-service",
     "start:gateway": "npm start -w gateway",
     "start:auth": "npm start -w auth-service",
