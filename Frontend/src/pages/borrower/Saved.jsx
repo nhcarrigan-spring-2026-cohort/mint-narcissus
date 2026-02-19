@@ -1,4 +1,4 @@
-import {Filter} from '@/components/outfits/Filter';
+
 import OutfitsContainer from '@/components/outfits/OutfitsContainer';
 
 export default function Saved() {
@@ -8,7 +8,6 @@ export default function Saved() {
         <h1>Saved Outfits</h1>
         <h2>Your collection of interview-ready outfits</h2>
       </div>
-      <Filter />
       <OutfitsContainer />
     </section>
   );
