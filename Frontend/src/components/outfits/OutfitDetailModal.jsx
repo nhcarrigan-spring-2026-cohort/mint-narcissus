@@ -93,7 +93,7 @@ export default function OutfitDetailModal({
               <div>
                 <dt className='text-muted-foreground'>Suitable For</dt>
                 <dd className='font-medium'>
-                  {outfit.tags.map((tag, id) => (
+                  {outfit.tags?.map((id, tag) => (
                     <Badge
                       key={id}
                       variant='outline'
