@@ -97,13 +97,13 @@ export function OutfitAddForm() {
   }
 
   return (
-    <div className=' m-6'>
-      <h1>Add Your Outfit</h1>
-      <p>You are helping others to help themselves.</p>
+    <div className=' m-6 p-10 '>
+      <h1>List a New Outfit</h1>
+      <p>Share your professional outfit with job seekers</p>
       <div className=' mt-4'>
         <form
           id='outfit-form'
-          className='grid grid-cols-2 gap-5   space-y-5'
+          className='space-y-5'
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <Controller
@@ -111,12 +111,12 @@ export function OutfitAddForm() {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor='outfit-title'>Title:</FieldLabel>
+                <FieldLabel htmlFor='outfit-title'>Outfit Title:</FieldLabel>
                 <Input
                   {...field}
                   id='outfit-title'
                   aria-invalid={fieldState.invalid}
-                  placeholder='Red dress'
+                  placeholder='e.g., Classic Navy Suit'
                   value={field.value ?? ''}
                 />
                 {fieldState.invalid && (
@@ -137,7 +137,7 @@ export function OutfitAddForm() {
                   {...field}
                   id='outfit-description'
                   aria-invalid={fieldState.invalid}
-                  placeholder='Describe fully'
+                  placeholder='Describe the outfit, its features, and condition...'
                   value={field.value ?? ''}
                 />
                 {fieldState.invalid && (
@@ -184,9 +184,9 @@ export function OutfitAddForm() {
                     <SelectValue placeholder='Select' />
                   </SelectTrigger>
                   <SelectContent position='item-aligned'>
-                    <SelectItem value='FORMAL'>Formal</SelectItem>
-                    <SelectItem value='SEMI_FORMAL'>Semi-Formal</SelectItem>
-                    <SelectItem value='BUSINESS_CASUAL'>
+                    <SelectItem value='Formal'>Formal</SelectItem>
+                    <SelectItem value='Semi Formal'>Semi-Formal</SelectItem>
+                    <SelectItem value='Business Casual'>
                       Business-Casual
                     </SelectItem>
                   </SelectContent>
@@ -203,11 +203,9 @@ export function OutfitAddForm() {
             control={form.control}
             render={({ field, fieldState }) => (
               <FieldSet data-invalid={fieldState.invalid}>
-                <FieldLegend>Interview Types</FieldLegend>
-                <FieldDescription>
-                  Select all applicable categories.
-                </FieldDescription>
-                <FieldGroup className='grid grid-cols-6 gap-2'>
+                <FieldLegend>Suitable for Interview Types</FieldLegend>
+
+                <FieldGroup className='grid grid-cols-3 gap-2'>
                   {interviewTypeEnum.options.map((option) => (
                     <Field
                       key={option}
@@ -250,7 +248,7 @@ export function OutfitAddForm() {
             <FieldDescription>
               Enter as much information on the label as you can
             </FieldDescription>
-            <div className='flex'>
+            <div className='flex-col w-2/3 space-y-4'>
               <Controller
                 name='size.label'
                 control={form.control}
@@ -290,8 +288,7 @@ export function OutfitAddForm() {
           <FieldSet>
             <FieldLegend variant='label'>Fit & Measurements</FieldLegend>
             <FieldDescription>
-              Enter the specific measurements for this item in inches or
-              centimeters.
+              Enter the specific measurements for this item in centimeters.
             </FieldDescription>
 
             {/* Grid container for measurement inputs */}
