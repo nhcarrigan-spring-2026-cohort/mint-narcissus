@@ -10,7 +10,7 @@ export default function OutfitsContainer() {
   const [filteredOutfits, setFilteredOutfits] = useState(MOCK_OUTFITS);
 
   const handleFilterChange = useCallback((filters) => {
-    console.log(filters);
+    // console.log(filters); For testing OutfitFilters.jsx
 
     const filtered = MOCK_OUTFITS.filter((outfit) => {
       

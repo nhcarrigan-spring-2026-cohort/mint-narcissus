@@ -1,4 +1,7 @@
 /**
+ * Outfit fields are not standard yet, all over the place
+ * 
+ * 
  * Browse.jsx use     Modal             Filter
  * imgSrc             yes               no
  * Title              yes               search

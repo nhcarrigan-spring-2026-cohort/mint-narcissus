@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { HiHeart, HiOutlineHeart } from 'react-icons/hi2';
 import { IoShirtOutline } from 'react-icons/io5';
-import { interviewTypeEnum } from '@/utils/Outfit_Schema';
+
 
 
 export default function OutfitDetailModal({
