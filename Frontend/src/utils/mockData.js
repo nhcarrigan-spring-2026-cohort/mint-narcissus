@@ -4,7 +4,7 @@ export const MOCK_OUTFITS = [
     title: 'Classic Navy Blazer',
     description:
       'Professional navy blue suit perfect for corporate interviews. Tailored fit with matching pants.',
-    // imageURL: '', // use an empty div or unsplash image link
+    // imgSrc: '', // use an empty div or unsplash image link
     category: 'Formal',
     interviewTypes: ['Tech', 'Corporate'],
     status: 'available',
