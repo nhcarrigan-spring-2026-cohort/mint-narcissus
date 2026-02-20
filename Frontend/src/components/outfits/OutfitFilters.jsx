@@ -109,7 +109,7 @@ export function OutfitFilters({ onFilterChange, initialFilters = {} }) {
                   <SelectValue placeholder='All Categories' />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value='All'>All Categories</SelectItem>
+                  <SelectItem value='all'>All Categories</SelectItem>
                   <SelectItem value='Formal'>Formal</SelectItem>
                   <SelectItem value='Semi Formal'>Semi-Formal</SelectItem>
                   <SelectItem value='Business Casual'>

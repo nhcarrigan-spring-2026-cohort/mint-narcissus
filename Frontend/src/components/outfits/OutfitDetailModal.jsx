@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { HiHeart, HiOutlineHeart } from 'react-icons/hi2';
 import { IoShirtOutline } from 'react-icons/io5';
+import { interviewTypeEnum } from '@/utils/Outfit_Schema';
 
 
 export default function OutfitDetailModal({
@@ -25,7 +26,7 @@ export default function OutfitDetailModal({
           <div className='flex-1'>
             <h2 className='font-semibold text-2xl'>{outfit.title}</h2>
             <p className='text-muted-foreground text-sm mt-1'>
-              Listed by {outfit.owner}
+              Listed by {outfit.lender}
             </p>
           </div>
           <div className='flex items-center gap-4'>
@@ -47,7 +48,7 @@ export default function OutfitDetailModal({
         <div className='relative rounded-lg overflow-hidden'>
           <img
             className='w-full h-96 object-cover'
-            src={outfit.imgSrc}
+            src={outfit.imageURL}
             alt={outfit.title}
           />
         </div>
@@ -56,12 +57,12 @@ export default function OutfitDetailModal({
           <Avatar className='relative flex size-10 shrink-0 overflow-hidden rounded-full h-12 w-12'>
             <AvatarImage
               className='aspect-square size-full'
-              src={outfit.owner}
-              alt={outfit.owner}
+              src={outfit.lenderImage}
+              alt={outfit.lender}
             />
           </Avatar>
           <div className='flex-1'>
-            <p className='font-semibold'>{outfit.owner}</p>
+            <p className='font-semibold'>{outfit.lender}</p>
             <p className='text-sm text-muted-foreground'>Lender</p>
           </div>
         </div>
@@ -70,7 +71,7 @@ export default function OutfitDetailModal({
           <p className='text-sm font-semibold text-blue-900 mb-1'>
             💙 Confidence Note
           </p>
-          <p className='text-sm text-blue-700 italic'>"{outfit.quote}"</p>
+          <p className='text-sm text-blue-700 italic'>"{outfit.confidenceNote}"</p>
         </div>
         {/* Details */}
         <div>
@@ -93,13 +94,13 @@ export default function OutfitDetailModal({
               <div>
                 <dt className='text-muted-foreground'>Suitable For</dt>
                 <dd className='font-medium'>
-                  {outfit.tags?.map((id, tag) => (
+                  {outfit.interviewType.map((interviewType, id) => (
                     <Badge
                       key={id}
                       variant='outline'
                       className=' text-black capitalize text-sm'
                     >
-                      {tag}
+                      {interviewType}
                     </Badge>
                   ))}
                 </dd>
@@ -111,11 +112,11 @@ export default function OutfitDetailModal({
             <dl className='space-y-2 text-sm'>
               <div>
                 <dt className='text-muted-foreground'>Top Size</dt>
-                <dd className='font-medium'>{outfit.topSize}</dd>
+                <dd className='font-medium'>{outfit.size.top}</dd>
               </div>
               <div>
                 <dt className='text-muted-foreground'>Bottom Size</dt>
-                <dd className='font-medium'>{outfit.bottomSize}</dd>
+                <dd className='font-medium'>{outfit.size.bottom}</dd>
               </div>
             </dl>
           </div>
