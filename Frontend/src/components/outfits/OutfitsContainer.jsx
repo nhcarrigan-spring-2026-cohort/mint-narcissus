@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import OutfitCard from './OutfitCard';
 import OutfitDetailModal from './OutfitDetailModal';
-import { MockOutfits } from '@/utils/mockData';
+
+import { MOCK_OUTFITS } from '@/utils/mockData';
 
 
 export default function OutfitsContainer() {
@@ -10,7 +11,6 @@ export default function OutfitsContainer() {
   const [favorites, setFavorites] = useState({});
 
   
-
   const handleFavorite = (outfitId) => {
     setFavorites((prev) => ({ ...prev, [outfitId]: !prev[outfitId] }));
   };
@@ -23,7 +23,7 @@ export default function OutfitsContainer() {
   return (
     <>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6'>
-        {MockOutfits.map((outfit) => (
+        {MOCK_OUTFITS.map((outfit) => (
           <div
             className='cursor-pointer'
             key={outfit.id}
