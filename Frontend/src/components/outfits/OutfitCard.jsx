@@ -44,7 +44,7 @@ export default function OutfitCard({
             className='rounded-full bg-white/80 hover:bg-white shadow-sm backdrop-blur-sm size-9 border-none'
             variant='secondary'
             size='icon'
-            onClick={onFavoriteClick}
+            onClick={(e) => { e.stopPropagation(); onFavoriteClick();}}
           >
             {isFavorite ? (
               <HiHeart className='size-5 text-red-500' />

@@ -4,8 +4,8 @@ export const MOCK_OUTFITS = [
     title: 'Classic Navy Blazer',
     description:
       'Professional navy blue suit perfect for corporate interviews. Tailored fit with matching pants.',
-    // imageURL: '', // use an empty div or unsplash image link
-    category: 'Semi Formal',
+    // imgSrc: '', // use an empty div or unsplash image link
+    category: 'Formal',
     interviewTypes: ['Tech', 'Corporate'],
     status: 'available',
     fabric: 'wool blend',
@@ -136,7 +136,70 @@ export const MOCK_OUTFITS = [
       'A heavy-duty suit for serious interviews. It has a great weight to it that makes you stand taller.',
     lender: 'Marcus Thorne',
     lenderImage: 'https://i.pravatar.cc/150?u=7',
+  },{
+    id: 'outfit_001',
+    lender: 'Sarah van der Merwe',
+    lenderImage: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
+    
+    title: 'Navy Suit – Classic Corporate Look',
+    description:
+      'Well-tailored navy suit, perfect for finance & consulting interviews. Single-breasted, notch lapel.',
+    image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400',
+    category: 'FORMAL',
+    typeTags: ['CORPORATE', 'FINANCE'],
+    fabric: 'Wool blend (70% wool, 30% polyester)',
+    size: {
+      topSize: 'UK 38R / EU 48',
+      bottomSize: 'W34 L32',
+      notes: 'Regular fit, true to size',
+    },
+    confidenceNote: 'Very good condition – only worn 4–5 times',
+    status: 'AVAILABLE',
+    visibility: 'PUBLIC',
   },
+  {
+    id: 'outfit_002',
+    lender: 'Jaco Botha',
+    lenderImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop',
+    
+    title: 'Charcoal Grey Suit – Slim Fit',
+    description:
+      'Modern slim-fit charcoal suit. Great for tech & corporate interviews in winter.',
+    image: 'https://images.unsplash.com/photo-1594938291224-79b8b0c9b2d8?w=400',
+    category: 'FORMAL',
+    typeTags: ['TECH', 'CORPORATE'],
+    fabric: 'Super 110s wool',
+    size: {
+      topSize: 'EU 50',
+      bottomSize: 'W32 L34',
+      notes: 'Slim through the leg',
+    },
+    confidenceNote: 'Minor wear on left cuff – otherwise excellent',
+    status: 'AVAILABLE',
+    visibility: 'PUBLIC',
+  },
+  {
+    id: 'outfit_003',
+    lender: 'Lindiwe Nkosi',
+    lenderImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop',
+    
+    title: 'Black Pencil Skirt Suit',
+    description:
+      'Classic black skirt suit – timeless for sales & consulting roles.',
+    image: 'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d26?w=400',
+    category: 'FORMAL',
+    typeTags: ['SALES', 'CONSULTING'],
+    fabric: 'Poly-viscose blend',
+    size: {
+      topSize: 'UK 10 / EU 38',
+      bottomSize: 'UK 10',
+      notes: '',
+    },
+    confidenceNote: '',
+    status: 'BORROWED',
+    visibility: 'PUBLIC',
+  },
+  
 ];
 
 export const MOCK_USERS = {
@@ -198,3 +261,116 @@ export const MOCK_USERS = {
     },
   },
 };
+
+export const MockOutfits = [
+  {
+    id: 1,
+    title: 'Classic Navy Suit',
+    imgSrc:
+      'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=800&fit=crop',
+    status: 'Available',
+    tags: ['Formal', 'Corporate', 'Finance'],
+    category: 'Formal',
+    fabric: 'Wool blend',
+    fitInfo: "5'9-6'0, Average build",
+    topSize: 'M /40',
+    bottomSize: '32',
+    description:
+      'Professional navy blue suit perfect for corporate interviews. Tailored fit with matching pants.',
+    quote:
+      'Wore this for my first investment banking interview at Goldman Sachs. Walk in with confidence.',
+    owner: {
+      name: 'Sarah Johnson',
+      avatar:
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
+    },
+  },
+  {
+    id: 2,
+    title: 'Charcoal Grey Blazer',
+    imgSrc:
+      'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&h=800&fit=crop',
+    status: 'Available',
+    tags: ['Business Casual', 'Tech', 'Marketing'],
+    category: 'Semi-Formal',
+    fabric: 'Linen/Cotton',
+    fitInfo: "5'10-6'2, Slim build",
+    topSize: 'L /42',
+    bottomSize: 'N/A',
+    description:
+      'A versatile charcoal blazer that bridges the gap between casual and formal. Great for networking events.',
+    quote:
+      'This blazer landed me my first role at a tech startup. It’s sharp but doesn’t feel stuffy.',
+    owner: {
+      name: 'Marcus Chen',
+      avatar:
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop',
+    },
+  },
+  {
+    id: 3,
+    title: 'Modern Black Trouser Suit',
+    imgSrc:
+      'https://images.unsplash.com/photo-1485231183945-3dec4355128f?w=600&h=800&fit=crop',
+    status: 'Rented',
+    tags: ['Legal', 'Executive', 'Classic'],
+    category: 'Formal',
+    fabric: 'Premium Wool',
+    fitInfo: "5'4-5'7, Athletic build",
+    topSize: 'S / 36',
+    bottomSize: '28',
+    description:
+      'Sharp, double-breasted black suit with tapered trousers. Ideal for high-stakes presentations.',
+    quote:
+      'I wore this for my moot court finals. It makes you feel like the smartest person in the room.',
+    owner: {
+      name: 'Elena Rodriguez',
+      avatar:
+        'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop',
+    },
+  },
+  {
+    id: 4,
+    title: 'Beige Trench & Pencil Skirt',
+    imgSrc:
+      'https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=600&h=800&fit=crop',
+    status: 'Available',
+    tags: ['Creative', 'Media', 'Consulting'],
+    category: 'Business Casual',
+    fabric: 'Cotton Gabardine',
+    fitInfo: "5'2-5'5, Petite build",
+    topSize: 'XS / 34',
+    bottomSize: '24',
+    description:
+      'A timeless look for creative industry interviews. Polished, professional, but full of personality.',
+    quote:
+      'Perfect for when you want to look put-together without looking like a robot.',
+    owner: {
+      name: 'Jordan Smith',
+      avatar:
+        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop',
+    },
+  },
+  {
+    id: 5,
+    title: 'Oxford Blue Pinstripe Suit',
+    imgSrc:
+      'https://images.unsplash.com/photo-1594932224010-75f2793ee09f?w=600&h=800&fit=crop',
+    status: 'Available',
+    tags: ['Academic', 'Research', 'Pharma'],
+    category: 'Formal',
+    fabric: 'Micro-fiber',
+    fitInfo: "6'0-6'3, Broad build",
+    topSize: 'XL / 46',
+    bottomSize: '38',
+    description:
+      'A traditional pinstripe suit that commands respect. Comfortable for long days of interviewing.',
+    quote:
+      'Used this for my residency interview. It’s breathable and kept me cool under pressure.',
+    owner: {
+      name: 'Dr. David Okafor',
+      avatar:
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop',
+    },
+  },
+];
