@@ -42,27 +42,27 @@ export default function OutfitsContainer() {
               description={outfit.description}
               quote={outfit.quote}
               owner={outfit.owner}
-              
               isFavorite={favorites[outfit.id] || false}
               onFavoriteClick={() => handleFavorite(outfit.id)}
             />
           </div>
         ))}
       </div>
-
-      <OutfitDetailModal
-        outfit={selectedOutfit}
-        isOpen={!!selectedOutfit}
-        onClose={handleCloseModal}
-        isFavorite={
-          selectedOutfit ? favorites[selectedOutfit.id] || false : false
-        }
-        onFavoriteClick={() => {
-          if (selectedOutfit) {
-            handleFavorite(selectedOutfit.id);
+      {selectedOutfit && (
+        <OutfitDetailModal
+          outfit={selectedOutfit}
+          isOpen={!!selectedOutfit}
+          onClose={handleCloseModal}
+          isFavorite={
+            selectedOutfit ? favorites[selectedOutfit.id] || false : false
           }
-        }}
-      />
+          onFavoriteClick={() => {
+            if (selectedOutfit) {
+              handleFavorite(selectedOutfit.id);
+            }
+          }}
+        />
+      )}
     </>
   );
 }
