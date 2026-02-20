@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import OutfitCard from './OutfitCard';
 import OutfitDetailModal from './OutfitDetailModal';
 import { MOCK_OUTFITS } from '@/utils/mockData';
@@ -9,11 +9,14 @@ export default function OutfitsContainer() {
   const [favorites, setFavorites] = useState({});
   const [filteredOutfits, setFilteredOutfits] = useState(MOCK_OUTFITS);
 
-  const handleFilterChange = (filters) => {
+  const handleFilterChange = useCallback((filters) => {
+    console.log(filters);
+
     const filtered = MOCK_OUTFITS.filter((outfit) => {
+      
       const matchesSearch =
         !filters.search ||
-        outfit.name?.toLowerCase().includes(filters.search.toLowerCase()) ||
+        outfit.title?.toLowerCase().includes(filters.search.toLowerCase()) ||
         outfit.description
           ?.toLowerCase()
           .includes(filters.search.toLowerCase());
@@ -23,7 +26,7 @@ export default function OutfitsContainer() {
 
       const matchesInterviewType =
         filters.interviewType === 'all' ||
-        outfit.interviewType === filters.interviewType;
+        outfit.tags === filters.interviewType;
 
       const matchesStatus =
         filters.status === 'all' || outfit.status === filters.status;
@@ -45,7 +48,7 @@ export default function OutfitsContainer() {
     });
 
     setFilteredOutfits(filtered);
-  };
+  },[]);
 
   const handleFavorite = (outfitId) => {
     setFavorites((prev) => ({ ...prev, [outfitId]: !prev[outfitId] }));

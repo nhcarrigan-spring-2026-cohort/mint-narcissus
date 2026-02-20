@@ -1,3 +1,22 @@
+/**
+ * Browse.jsx use     Modal             Filter
+ * imgSrc             yes               no
+ * Title              yes               search
+ * tags[]             yes               interviewType
+ * size               no                  *
+ * fit                no                  no
+ * fabric             yes                 no
+ * confidence note    yes                 no
+ * owner.name         yes                 no
+ * owner.img          yes                 no
+ * description                   description         search
+ * topSize                   top-size            size
+ * bottomSize                   bottom-size         size
+ * category                                       category 
+ * status                                       available
+ * 
+ */
+
 import { z } from 'zod';
 
 // We export these individually so you can use them to

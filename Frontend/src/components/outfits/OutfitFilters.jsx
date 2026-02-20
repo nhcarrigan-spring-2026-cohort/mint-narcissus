@@ -22,26 +22,30 @@ const defaultFilters = {
 };
 
 export function OutfitFilters({ onFilterChange, initialFilters = {} }) {
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState(() => ({
     ...defaultFilters,
     ...initialFilters,
-  });
+  }));
 
+  // Notify parent whenever filters actually change
+  useEffect(() => {
+    if (typeof onFilterChange === 'function') {
+      onFilterChange(filters);
+    } else if (onFilterChange !== undefined) {
+      console.warn('onFilterChange prop is not a function:', onFilterChange);
+    }
+  }, [filters, onFilterChange]);
 
-  
-useEffect(() => {
-  if (typeof onFilterChange === 'function') {
-    onFilterChange(filters);
-  } else {
-    console.warn(
-      'onFilterChange prop is not a function – received:',
-      onFilterChange,
-    );
-  }
-}, [filters, onFilterChange]);
+  const updateFilter = (key, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
   const resetFilters = () => {
     setFilters(defaultFilters);
+    // onFilterChange will be called by useEffect
   };
 
   const hasActiveFilters = Object.values(filters).some(
@@ -75,7 +79,7 @@ useEffect(() => {
 
           {/* Filters grid */}
           <div className='grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
-            {/* Search */}
+            {/* 1. Search */}
             <div className='space-y-2'>
               <Label htmlFor='search-outfits' className='text-sm font-medium'>
                 Search
@@ -87,76 +91,79 @@ useEffect(() => {
                   placeholder='Name, description, brand...'
                   className='pl-10'
                   value={filters.search}
-                  onChange={(e) => debouncedSearch(e.target.value)}
+                  onChange={(e) => updateFilter('search', e.target.value)}
                 />
               </div>
             </div>
 
-            {/* Category */}
+            {/* 2. Category */}
             <div className='space-y-2'>
               <Label htmlFor='category' className='text-sm font-medium'>
                 Category
               </Label>
-              <div>
-                <Select>
-                  <SelectTrigger id='category'>
-                    <SelectValue placeholder='All Categories' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value='all'>All Categories</SelectItem>
-                    <SelectItem value='formal'>Formal</SelectItem>
-                    <SelectItem value='semi-formal'>Semi-Formal</SelectItem>
-                    <SelectItem value='business-casual'>
-                      Business Casual
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <Select
+                value={filters.category}
+                onValueChange={(value) => updateFilter('category', value)}
+              >
+                <SelectTrigger id='category'>
+                  <SelectValue placeholder='All Categories' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='All'>All Categories</SelectItem>
+                  <SelectItem value='Formal'>Formal</SelectItem>
+                  <SelectItem value='Semi Formal'>Semi-Formal</SelectItem>
+                  <SelectItem value='Business Casual'>
+                    Business Casual
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
-            {/* Interview Type */}
+            {/* 3. Interview Type */}
             <div className='space-y-2'>
               <Label htmlFor='interview-type' className='text-sm font-medium'>
                 Interview Type
               </Label>
-              <div>
-                <Select>
-                  <SelectTrigger id='interview-type'>
-                    <SelectValue placeholder='All Types' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value='all'>All Types</SelectItem>
-                    <SelectItem value='tech'>Tech</SelectItem>
-                    <SelectItem value='corporate'>Corporate</SelectItem>
-                    <SelectItem value='finance'>Finance</SelectItem>
-                    <SelectItem value='creative'>Creative</SelectItem>
-                    <SelectItem value='healthcare'>Healthcare</SelectItem>
-                    <SelectItem value='retail'>Retail</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <Select
+                value={filters.interviewType}
+                onValueChange={(value) => updateFilter('interviewType', value)}
+              >
+                <SelectTrigger id='interview-type'>
+                  <SelectValue placeholder='All Types' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='all'>All Types</SelectItem>
+                  <SelectItem value='Tech'>Tech</SelectItem>
+                  <SelectItem value='Corporate'>Corporate</SelectItem>
+                  <SelectItem value='Finance'>Finance</SelectItem>
+                  <SelectItem value='Creative'>Creative</SelectItem>
+                  <SelectItem value='Healthcare'>Healthcare</SelectItem>
+                  <SelectItem value='Retail'>Retail</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
-            {/* Status */}
+            {/* 4. Status */}
             <div className='space-y-2'>
               <Label htmlFor='status' className='text-sm font-medium'>
                 Status
               </Label>
-              <div>
-                <Select>
-                  <SelectTrigger id='status'>
-                    <SelectValue placeholder='All Statuses' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value='all'>All Statuses</SelectItem>
-                    <SelectItem value='available'>Available</SelectItem>
-                    <SelectItem value='borrowed'>Currently Borrowed</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <Select
+                value={filters.status}
+                onValueChange={(value) => updateFilter('status', value)}
+              >
+                <SelectTrigger id='status'>
+                  <SelectValue placeholder='All Statuses' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='all'>All Statuses</SelectItem>
+                  <SelectItem value='available'>Available</SelectItem>
+                  <SelectItem value='borrowed'>Currently Borrowed</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
-            {/* Size */}
+            {/* 5. Size */}
             <div className='space-y-2'>
               <Label htmlFor='size' className='text-sm font-medium'>
                 Size
@@ -165,12 +172,7 @@ useEffect(() => {
                 id='size'
                 placeholder='M, 32, UK 12, L / 34–36…'
                 value={filters.size}
-                onChange={(e) =>
-                  setFilters((prev) => ({
-                    ...prev,
-                    size: e.target.value.trim(),
-                  }))
-                }
+                onChange={(e) => updateFilter('size', e.target.value.trim())}
               />
               <p className='text-xs text-muted-foreground/70'>
                 e.g. M, 32, UK 10, L / 34–36
