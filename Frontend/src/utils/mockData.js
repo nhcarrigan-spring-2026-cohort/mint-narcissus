@@ -6,7 +6,7 @@ export const MOCK_OUTFITS = [
       'Professional navy blue suit perfect for corporate interviews. Tailored fit with matching pants.',
     // imgSrc: '', // use an empty div or unsplash image link
     category: 'Formal',
-    interviewTypes: ['Tech', 'Corporate'],
+    interviewType: ['Tech', 'Corporate'],
     status: 'available',
     fabric: 'wool blend',
     size: {
@@ -26,7 +26,7 @@ export const MOCK_OUTFITS = [
       'Professional navy blue suit perfect for corporate interviews. Tailored fit with matching pants.',
     // imageURL: '', // use an empty div or unsplash image link
     category: 'Business Casual',
-    interviewTypes: ['Tech', 'Creative'],
+    interviewType: ['Tech', 'Creative'],
     fit: "5'9–6'0, Average Build",
     status: 'available',
     fabric: 'cotton',
@@ -46,7 +46,7 @@ export const MOCK_OUTFITS = [
     description:
       'A sleek, high-waisted charcoal pencil skirt paired with a cream silk blouse. Professional yet stylish.',
     category: 'Formal',
-    interviewTypes: ['Law', 'Finance', 'Consulting'],
+    interviewType: ['Law', 'Finance', 'Consulting'],
     status: 'available',
     fabric: 'silk and wool',
     size: {
@@ -65,7 +65,7 @@ export const MOCK_OUTFITS = [
     description:
       'A high-quality olive merino wool sweater paired with slim-fit tan chinos. Great for a relaxed but polished look.',
     category: 'Business Casual',
-    interviewTypes: ['Creative', 'Marketing', 'Startup'],
+    interviewType: ['Creative', 'Marketing', 'Startup'],
     fit: "5'7–5'10, Slim Build",
     status: 'available',
     fabric: 'merino wool',
@@ -85,7 +85,7 @@ export const MOCK_OUTFITS = [
     description:
       'Deep emerald green structured blazer and wide-leg trousers. Bold color that stays professional.',
     category: 'Formal',
-    interviewTypes: ['Management', 'PR', 'Corporate'],
+    interviewType: ['Management', 'PR', 'Corporate'],
     status: 'available',
     fabric: 'crepe',
     size: {
@@ -104,7 +104,7 @@ export const MOCK_OUTFITS = [
     description:
       'All-black ensemble featuring a structured mock-neck top and tailored trousers. Very "Architect" chic.',
     category: 'Business Casual',
-    interviewTypes: ['Design', 'Tech', 'Architecture'],
+    interviewType: ['Design', 'Tech', 'Architecture'],
     status: 'available',
     fabric: 'synthetic blend',
     size: {
@@ -123,7 +123,7 @@ export const MOCK_OUTFITS = [
     description:
       'Timeless grey suit with a subtle herringbone pattern. Includes blazer, vest, and trousers.',
     category: 'Formal',
-    interviewTypes: ['Finance', 'Education', 'Government'],
+    interviewType: ['Finance', 'Education', 'Government'],
     fit: "6'1–6'4, Broad Build",
     status: 'available',
     fabric: 'tweed wool',

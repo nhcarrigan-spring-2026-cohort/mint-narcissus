@@ -19,7 +19,7 @@ export default function OutfitCard({
   isFavorite,
   onFavoriteClick,
   status,
-  tags = [],
+  interviewTypes = [],
   fabric,
   fitInfo,
   quote,
@@ -68,7 +68,7 @@ export default function OutfitCard({
 
           {/* Tags */}
           <div className='flex-wrap gap-2 mb-2'>
-            {tags.map((tag, key) => (
+            {interviewTypes.map((tag, key) => (
               <Badge
                 key={key}
                 variant='outline'

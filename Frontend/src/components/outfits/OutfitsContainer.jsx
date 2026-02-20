@@ -26,17 +26,17 @@ export default function OutfitsContainer() {
 
       const matchesInterviewType =
         filters.interviewType === 'all' ||
-        outfit.tags === filters.interviewType;
+        outfit.interviewType?.includes(filters.interviewType);
 
       const matchesStatus =
         filters.status === 'all' || outfit.status === filters.status;
 
       const matchesSize =
         !filters.size ||
-        outfit.size?.toLowerCase().includes(filters.size.toLowerCase()) ||
+        outfit.size?.top?.toLowerCase().includes(filters.size.toLowerCase()) ||
         // If your outfits have topSize/bottomSize instead:
-        outfit.topSize?.toLowerCase().includes(filters.size.toLowerCase()) ||
-        outfit.bottomSize?.toLowerCase().includes(filters.size.toLowerCase());
+        outfit.size?.bottom?.toLowerCase().includes(filters.size.toLowerCase()) ||
+        outfit.size?.shoes?.toLowerCase().includes(filters.size.toLowerCase());
 
       return (
         matchesSearch &&
@@ -73,7 +73,7 @@ export default function OutfitsContainer() {
               title={outfit.title}
               imgSrc={outfit.imgSrc}
               status={outfit.status}
-              tags={outfit.tags}
+              tags={outfit.interviewTypes}
               category={outfit.category}
               fabric={outfit.fabric}
               fitInfo={outfit.fitInfo}
