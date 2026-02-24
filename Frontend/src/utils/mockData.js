@@ -101,3 +101,9 @@ export const MOCK_USERS = {
     },
   },
 };
+export const MOCK_STATS = [
+    { id: 1, label: 'Total Listed', value: 3, color: '' },
+    { id: 2, label: 'Available', value: 2, color: 'text-emerald-600' },
+    { id: 3, label: 'Currently Lent', value: 0, color: 'text-amber-600' },
+    { id: 4, label: 'Unavailable', value: 0, color: 'text-gray-500' },
+  ];
