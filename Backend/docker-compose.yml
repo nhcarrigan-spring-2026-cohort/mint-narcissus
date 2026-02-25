@@ -35,3 +35,12 @@ services:
     environment:
       - PORT=3003
 
+  messaging-service:
+    build:
+      context: ./services/messaging-service
+      dockerfile: Dockerfile
+    ports:
+      - "3004:3004"
+    environment:
+      - PORT=3004
+

@@ -21,6 +21,12 @@ const auth = async (req, res, next) => {
         .json({ message: "User not found. Please login again." });
     }
 
+    if (user.isRestricted) {
+      return res
+        .status(403)
+        .json({ message: "Your account has been restricted. Please contact support." });
+    }
+
     // Attach user to request
     req.user = user;
     next();
@@ -35,12 +41,9 @@ const auth = async (req, res, next) => {
 // =======================================================
 
 // Admin authentication middleware
-const adminAuth = async (req, res, next) => {
-  try {
-    // First check if user is authenticated
-    await auth(req, res, () => {});
-
-    // Check if user has admin role
+const adminAuth = (req, res, next) => {
+  auth(req, res, () => {
+    // Only reached if auth succeeded and req.user is set
     if (req.user.role !== "admin") {
       return res
         .status(403)
@@ -48,10 +51,7 @@ const adminAuth = async (req, res, next) => {
     }
 
     next();
-  } catch (error) {
-    console.error("Admin auth middleware error:", error);
-    return res.status(403).json({ message: "Access denied." });
-  }
+  });
 };
 
 module.exports = { auth, adminAuth };
