@@ -14,6 +14,11 @@
  * bottomSize        bottom-size         size
  * category                              category
  * status                                available
+ * description                   description         search
+ * topSize                   top-size            size
+ * bottomSize                   bottom-size         size
+ * category                                       category
+ * status                                       available
  *
  */
 
