@@ -9,11 +9,11 @@
  * confidence note    yes                 no
  * owner.name         yes                 no
  * owner.img          yes                 no
- * description                   description         search
- * topSize                   top-size            size
- * bottomSize                   bottom-size         size
- * category                                       category
- * status                                       available
+ * description       description         search
+ * topSize           top-size            size
+ * bottomSize        bottom-size         size
+ * category                              category
+ * status                                available
  *
  */
 

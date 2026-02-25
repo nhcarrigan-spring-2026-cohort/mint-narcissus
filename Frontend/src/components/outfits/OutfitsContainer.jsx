@@ -30,10 +30,11 @@ export default function OutfitsContainer() {
             onClick={() => handleCardClick(outfit)}
           >
             <OutfitCard
+
               title={outfit.title}
               imgSrc={outfit.imgSrc}
               status={outfit.status}
-              tags={outfit.tags}
+              interviewTypes={outfit.interviewTypes}
               category={outfit.category}
               fabric={outfit.fabric}
               fitInfo={outfit.fitInfo}
