@@ -1,0 +1,9 @@
+const express = require("express");
+
+const router = express.Router();
+
+router.get("/health", (req, res) => {
+  res.json({ status: "ok", service: "messaging-service" });
+});
+
+module.exports = router;

@@ -1,7 +1,7 @@
 import React from 'react';
 import OutfitsContainer from '@/components/outfits/OutfitsContainer';
-
-
+import DashboardStats from '@/components/lender/DashboardStats';
+import { MOCK_STATS } from '@/utils/mockData';
 
 
   
@@ -15,7 +15,7 @@ export default function MyOutfits() {
                 <p className='text-muted-foreground'>Manage your listed outfits</p>
               </div>
             </div>
-      <div></div>
+      <div><DashboardStats stats={MOCK_STATS} /></div>
       
       <div>{/* Can currently no filter component to filter only the lenders outfits: need to get filter feature in first*/}
         <OutfitsContainer />
