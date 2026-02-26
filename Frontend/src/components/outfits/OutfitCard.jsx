@@ -1,4 +1,3 @@
-
 export default function OutfitCard() {
   return (
     <section>
