@@ -39,8 +39,8 @@ export const MOCK_OUTFITS = [
     },
     quote:
       'Wore this to my first software engineer interview. Be yourself, be confident.',
-    owner: {name: `Michael Chen`, img: 'https://i.pravatar.cc/150'},
-  }
+    owner: { name: `Michael Chen`, img: 'https://i.pravatar.cc/150' },
+  },
 ];
 
 export const MOCK_USERS = {
@@ -214,4 +214,10 @@ export const MockOutfits = [
         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop',
     },
   },
+];
+export const MOCK_STATS = [
+  { id: 1, label: 'Total Listed', value: 3, color: '' },
+  { id: 2, label: 'Available', value: 2, color: 'text-emerald-600' },
+  { id: 3, label: 'Currently Lent', value: 0, color: 'text-amber-600' },
+  { id: 4, label: 'Unavailable', value: 0, color: 'text-gray-500' },
 ];
