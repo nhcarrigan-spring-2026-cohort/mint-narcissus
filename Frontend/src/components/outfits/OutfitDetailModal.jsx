@@ -25,7 +25,7 @@ export default function OutfitDetailModal({
           <div className='flex-1'>
             <h2 className='font-semibold text-2xl'>{outfit.title}</h2>
             <p className='text-muted-foreground text-sm mt-1'>
-              Listed by {outfit.owner.name}
+              Listed by {outfit.owner}
             </p>
           </div>
           <div className='flex items-center gap-4'>
@@ -56,12 +56,12 @@ export default function OutfitDetailModal({
           <Avatar className='relative flex size-10 shrink-0 overflow-hidden rounded-full h-12 w-12'>
             <AvatarImage
               className='aspect-square size-full'
-              src={outfit.owner.img}
-              alt={outfit.owner.name}
+              src={outfit.owner}
+              alt={outfit.owner}
             />
           </Avatar>
           <div className='flex-1'>
-            <p className='font-semibold'>{outfit.owner.name}</p>
+            <p className='font-semibold'>{outfit.owner}</p>
             <p className='text-sm text-muted-foreground'>Lender</p>
           </div>
         </div>
@@ -93,13 +93,13 @@ export default function OutfitDetailModal({
               <div>
                 <dt className='text-muted-foreground'>Suitable For</dt>
                 <dd className='font-medium'>
-                  {outfit.interviewTypes?.map((interviewTypes, id) => (
+                  {outfit.tags.map((tag, id) => (
                     <Badge
                       key={id}
                       variant='outline'
                       className=' text-black capitalize text-sm'
                     >
-                      {interviewTypes}
+                      {tag}
                     </Badge>
                   ))}
                 </dd>
@@ -111,11 +111,11 @@ export default function OutfitDetailModal({
             <dl className='space-y-2 text-sm'>
               <div>
                 <dt className='text-muted-foreground'>Top Size</dt>
-                <dd className='font-medium'>{outfit.size.top}</dd>
+                <dd className='font-medium'>{outfit.topSize}</dd>
               </div>
               <div>
                 <dt className='text-muted-foreground'>Bottom Size</dt>
-                <dd className='font-medium'>{outfit.size.bottom}</dd>
+                <dd className='font-medium'>{outfit.bottomSize}</dd>
               </div>
             </dl>
           </div>
