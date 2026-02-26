@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { HiOutlineTag } from "react-icons/hi2";
 import { HiHeart, HiOutlineHeart } from "react-icons/hi";
 import { IoShirtOutline } from "react-icons/io5";
@@ -134,5 +135,12 @@ export default function OutfitCard({
         </Button>
       </CardFooter>
     </Card>
+=======
+export default function OutfitCard() {
+  return (
+    <section>
+      <div>Outfits component</div>
+    </section>
+>>>>>>> parent of 69a49ef (Feat/outfit card component (#56))
   );
 }

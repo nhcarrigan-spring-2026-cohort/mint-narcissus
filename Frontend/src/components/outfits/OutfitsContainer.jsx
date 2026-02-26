@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from 'react';
 import OutfitCard from './OutfitCard';
 import OutfitDetailModal from './OutfitDetailModal';
@@ -67,3 +68,12 @@ export default function OutfitsContainer() {
     </>
   );
 }
+=======
+import React from 'react';
+
+const OutfitsContainer = () => {
+  return <div>Outfits Container</div>;
+};
+
+export default OutfitsContainer;
+>>>>>>> parent of 69a49ef (Feat/outfit card component (#56))
