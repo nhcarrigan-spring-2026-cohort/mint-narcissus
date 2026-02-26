@@ -105,13 +105,7 @@ export default function OutfitCard({
               </p>
             </div>
           )}
-          <span className='relative flex size-10 shrink-0 overflow-hidden rounded-full h-7 w-7'>
-            <Avatar
-              className='aspect-square size-full'
-              src={owner.img}
-            />
-          </span>
-          <span className='text-sm text-muted-foreground'>{owner.name}</span>
+          
         </div>
       </CardContent>
 
@@ -123,7 +117,7 @@ export default function OutfitCard({
               <span className='relative flex size-10 shrink-0 overflow-hidden rounded-full h-7 w-7'>
                 <AvatarImage
                   className='aspect-square size-full'
-                  src={owner.avatar}
+                  src={owner.img}
                   alt={`Picture of person named ${owner.name}`}
                 />
               </span>
