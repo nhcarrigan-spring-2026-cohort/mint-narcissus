@@ -1,9 +1,9 @@
-import React from 'react';
-
-import { MOCK_OUTFITS } from '@/utils/mockData';
 import { useState } from 'react';
 import OutfitCard from './OutfitCard';
 import OutfitDetailModal from './OutfitDetailModal';
+
+import { MOCK_OUTFITS } from '@/utils/mockData';
+
 
 export default function OutfitsContainer() {
   const [selectedOutfit, setSelectedOutfit] = useState(null);
@@ -30,10 +30,11 @@ export default function OutfitsContainer() {
             onClick={() => handleCardClick(outfit)}
           >
             <OutfitCard
+
               title={outfit.title}
               imgSrc={outfit.imgSrc}
               status={outfit.status}
-              tags={outfit.tags}
+              interviewTypes={outfit.interviewTypes}
               category={outfit.category}
               fabric={outfit.fabric}
               fitInfo={outfit.fitInfo}
@@ -42,28 +43,27 @@ export default function OutfitsContainer() {
               description={outfit.description}
               quote={outfit.quote}
               owner={outfit.owner}
-              
-              
               isFavorite={favorites[outfit.id] || false}
               onFavoriteClick={() => handleFavorite(outfit.id)}
             />
           </div>
         ))}
       </div>
-
-      <OutfitDetailModal
-        outfit={selectedOutfit}
-        isOpen={!!selectedOutfit}
-        onClose={handleCloseModal}
-        isFavorite={
-          selectedOutfit ? favorites[selectedOutfit.id] || false : false
-        }
-        onFavoriteClick={() => {
-          if (selectedOutfit) {
-            handleFavorite(selectedOutfit.id);
+      {selectedOutfit && (
+        <OutfitDetailModal
+          outfit={selectedOutfit}
+          isOpen={!!selectedOutfit}
+          onClose={handleCloseModal}
+          isFavorite={
+            selectedOutfit ? favorites[selectedOutfit.id] || false : false
           }
-        }}
-      />
+          onFavoriteClick={() => {
+            if (selectedOutfit) {
+              handleFavorite(selectedOutfit.id);
+            }
+          }}
+        />
+      )}
     </>
   );
 }
