@@ -20,7 +20,7 @@ export default function OutfitCard({
   isFavorite,
   onFavoriteClick,
   status,
-  interviewTypes,
+  tags = [],
   fabric,
   fitInfo,
   quote,
@@ -45,10 +45,7 @@ export default function OutfitCard({
             className='rounded-full bg-white/80 hover:bg-white shadow-sm backdrop-blur-sm size-9 border-none'
             variant='secondary'
             size='icon'
-            onClick={(e) => {
-              e.stopPropagation();
-              onFavoriteClick();
-            }}
+            onClick={onFavoriteClick}
           >
             {isFavorite ? (
               <HiHeart className='size-5 text-red-500' />
@@ -70,25 +67,24 @@ export default function OutfitCard({
         <div className='cursor-pointer'>
           <h3>{title}</h3>
 
-          {/* interviewTypes */}
+          {/* Tags */}
           <div className='flex-wrap gap-2 mb-2'>
-            {interviewTypes &&
-              interviewTypes.map((interviewTypes, key) => (
-                <Badge
-                  key={key}
-                  variant='outline'
-                  className='font-normal capitalize px-2 py-0'
-                >
-                  {key === 0 && <HiOutlineTag className='mr-1 size-3' />}
-                  {interviewTypes}
-                </Badge>
-              ))}
+            {tags.map((tag, key) => (
+              <Badge
+                key={key}
+                variant='outline'
+                className='font-normal capitalize px-2 py-0'
+              >
+                {key === 0 && <HiOutlineTag className='mr-1 size-3' />}
+                {tag}
+              </Badge>
+            ))}
           </div>
 
           {/* Details */}
           <div className='space-y-1.5 text-sm text-muted-foreground'>
             {fitInfo && (
-              <div className='flex items-start  gap-2'>
+              <div className='flex items-start justify-center gap-2'>
                 <IoShirtOutline className='size-4 mt-0.5 shrink-0' />
                 <span>{fitInfo}</span>
               </div>
@@ -106,7 +102,6 @@ export default function OutfitCard({
               </p>
             </div>
           )}
-          
         </div>
       </CardContent>
 
@@ -118,7 +113,7 @@ export default function OutfitCard({
               <span className='relative flex size-10 shrink-0 overflow-hidden rounded-full h-7 w-7'>
                 <AvatarImage
                   className='aspect-square size-full'
-                  src={owner.img}
+                  src={owner.avatar}
                   alt={`Picture of person named ${owner.name}`}
                 />
               </span>
