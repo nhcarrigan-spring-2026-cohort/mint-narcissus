@@ -4,7 +4,7 @@ export const MOCK_OUTFITS = [
     title: 'Classic Navy Blazer',
     description:
       'Professional navy blue suit perfect for corporate interviews. Tailored fit with matching pants.',
-    // imgSrc: '', // use an empty div or unsplash image link
+    imgSrc: '', // use an empty div or unsplash image link
     category: 'Formal',
     interviewTypes: ['Tech', 'Corporate'],
     status: 'available',
@@ -16,8 +16,8 @@ export const MOCK_OUTFITS = [
     },
     confidenceNote:
       'Wore this for my first investment banking interview at Goldman Sachs. Walk in with confidence.',
-    lender: `Sarah Johnson`,
-    lenderImage: 'https://i.pravatar.cc/150',
+    owner: { name: `Sarah Johnson`,
+    img: 'https://i.pravatar.cc/150'},
   },
   {
     id: 2,
@@ -37,8 +37,8 @@ export const MOCK_OUTFITS = [
     },
     confidenceNote:
       'Wore this to my first software engineer interview. Be yourself, be confident.',
-    lender: `Michael Chen`,
-    lenderImage: 'https://i.pravatar.cc/150',
+    owner:{ name: `Michael Chen`,
+    img: 'https://i.pravatar.cc/150'},
   },
 ];
 
