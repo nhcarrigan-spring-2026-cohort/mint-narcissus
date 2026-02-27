@@ -17,31 +17,29 @@ export const filterOutfits = (outfits, filters) => {
       outfit.description.toLowerCase().includes(search.toLowerCase());
 
     const matchesCategory =
-      !category || category === 'None' || outfit.category === category;
+      !category || category === 'All' || outfit.category === category;
 
     const matchesInterview =
       !interviewType ||
-      interviewType === 'None' ||
+      interviewType === 'All' ||
       outfit.interviewTypes.includes(interviewType);
 
     const matchesAvailability =
-      !availability ||
-      availability === 'None' ||
-      outfit.status === availability;
+      !availability || availability === 'All' || outfit.status === availability;
 
     const matchesTop =
-      !topSize || topSize === 'None' || outfit.size.topSize === topSize;
+      !topSize || topSize === 'All' || outfit.size.topSize === topSize;
 
     const matchesBottom =
       !bottomSize ||
-      bottomSize === 'None' ||
+      bottomSize === 'All' ||
       outfit.size.bottomSize === bottomSize;
 
     const matchesHeight =
-      !height || height === 'None' || outfit.size.height === height;
+      !height || height === 'All' || outfit.size.height === height;
 
     const matchesFit =
-      !fitType || fitType === 'None' || outfit.size.fitType === fitType;
+      !fitType || fitType === 'All' || outfit.size.fitType === fitType;
 
     return (
       matchesSearch &&

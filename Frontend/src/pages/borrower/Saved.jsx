@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import Filter from '@/components/borrower/Filter';
 import OutfitsContainer from '@/components/outfits/OutfitsContainer';
 import { filterOutfits } from '@/utils/filterOutfit';
@@ -8,33 +9,38 @@ import { LuHeart, TbHanger } from '@/utils/icons';
 
 export default function Saved() {
   const savedItems = useSelector((state) => state.saved.items);
-  const [filters, setFilters] = useState({
-    search: '',
-    category: '',
-    interviewType: '',
-    availability: '',
-    topSize: '',
-    bottomSize: '',
-    height: '',
-    fitType: '',
-  });
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const filters = {
+    search: searchParams.get('search') || '',
+    category: searchParams.get('category') || '',
+    interviewType: searchParams.get('interviewType') || '',
+    availability: searchParams.get('availability') || '',
+    topSize: searchParams.get('topSize') || '',
+    bottomSize: searchParams.get('bottomSize') || '',
+    height: searchParams.get('height') || '',
+    fitType: searchParams.get('fitType') || '',
+  };
+
+  const updateFilter = (key, value) => {
+    const newParams = new URLSearchParams(searchParams.toString());
+
+    if (!value || value === 'All') {
+      newParams.delete(key);
+    } else {
+      newParams.set(key, value);
+    }
+    setSearchParams(newParams);
+  };
+
+  const clearFilters = () => {
+    setSearchParams({});
+  };
 
   const filteredSaved = useMemo(() => {
     return filterOutfits(savedItems, filters);
   }, [savedItems, filters]);
-
-  const clearFilters = () => {
-    setFilters({
-      search: '',
-      category: '',
-      interviewType: '',
-      availability: '',
-      topSize: '',
-      bottomSize: '',
-      height: '',
-      fitType: '',
-    });
-  };
 
   return (
     <section className='grow py-8 px-4'>
@@ -57,10 +63,19 @@ export default function Saved() {
         <div className='w-full my-6'>
           <Filter
             filters={filters}
-            setFilters={setFilters}
+            updateFilter={updateFilter}
             onClear={clearFilters}
           />
-          <OutfitsContainer outfits={filteredSaved} />
+          {filteredSaved.length === 0 ? (
+            <EmptyState
+              title='No outfits match your filters'
+              description='Try adjusting your size filters to see more options.'
+              actionLabel='Clear Filters'
+              onAction={clearFilters}
+            />
+          ) : (
+            <OutfitsContainer outfits={filteredSaved} />
+          )}
         </div>
       )}
     </section>

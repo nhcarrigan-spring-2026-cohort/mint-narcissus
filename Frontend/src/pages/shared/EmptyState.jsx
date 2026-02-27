@@ -25,14 +25,22 @@ const EmptyState = ({
         </EmptyTitle>
         <EmptyDescription>{description}</EmptyDescription>
       </EmptyHeader>
-      <EmptyContent className='flex-row justify-center gap-2'>
-        <Button
-          className='bg-app-primary/90 hover:bg-app-primary'
-          onClick={onAction}
-        >
-          <Link to={redirectPath}>{actionLabel}</Link>
-        </Button>
-      </EmptyContent>
+      {actionLabel && (
+        <EmptyContent className='flex-row justify-center gap-2'>
+          {redirectPath ? (
+            <Button className='bg-app-primary/90 hover:bg-app-primary' asChild>
+              <Link to={redirectPath}>{actionLabel}</Link>
+            </Button>
+          ) : (
+            <Button
+              className='bg-app-primary/90 hover:bg-app-primary'
+              onClick={onAction}
+            >
+              {actionLabel}
+            </Button>
+          )}
+        </EmptyContent>
+      )}
     </Empty>
   );
 };
