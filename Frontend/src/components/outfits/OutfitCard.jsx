@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { toast } from 'sonner';
 import { LuHeart, LuShirt, LuTag } from '@/utils/icons';
 
 export default function OutfitCard({ outfit }) {
@@ -34,6 +35,16 @@ export default function OutfitCard({ outfit }) {
   const savedItems = useSelector((state) => state.saved.items);
 
   const isSaved = savedItems.some((item) => item.id === outfit.id);
+
+  const handleToggleSave = () => {
+    if (isSaved) {
+      dispatch(toggleSave(outfit));
+      toast.success(`${outfit.title} removed from saved`);
+    } else {
+      dispatch(toggleSave(outfit));
+      toast.success(`${outfit.title} saved successfully`);
+    }
+  };
   return (
     <Card
       className={`pt-0 overflow-hidden transition-all duration-200 ${isAvailable ? 'opacity-100' : 'opacity-50'}`}
@@ -47,7 +58,7 @@ export default function OutfitCard({ outfit }) {
           variant='outline'
           size='icon'
           className='absolute top-3 right-3 rounded-full bg-white/80 hover:bg-white'
-          onClick={() => dispatch(toggleSave(outfit))}
+          onClick={handleToggleSave}
         >
           <LuHeart
             className={`transition-colors ${isSaved ? 'text-app-saved fill-app-saved' : ''}`}

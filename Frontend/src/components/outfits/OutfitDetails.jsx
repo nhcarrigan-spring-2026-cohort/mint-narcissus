@@ -14,6 +14,7 @@ import { Button } from '../ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Separator } from '../ui/separator';
 import { Badge } from '../ui/badge';
+import { toast } from 'sonner';
 import { LuHeart, LuShirt } from '@/utils/icons';
 
 const OutfitDetails = ({ outfit, isAvailable, isSaved }) => {
@@ -29,6 +30,16 @@ const OutfitDetails = ({ outfit, isAvailable, isSaved }) => {
     size,
     title,
   } = outfit;
+
+  const handleToggleSave = () => {
+    if (isSaved) {
+      dispatch(toggleSave(outfit));
+      toast.success(`${outfit.title} removed from saved`);
+    } else {
+      dispatch(toggleSave(outfit));
+      toast.success(`${outfit.title} saved successfully`);
+    }
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -124,7 +135,7 @@ const OutfitDetails = ({ outfit, isAvailable, isSaved }) => {
           <Button
             variant='outline'
             className='flex-1'
-            onClick={() => dispatch(toggleSave(outfit))}
+            onClick={handleToggleSave}
           >
             <LuHeart
               className={`transition-colors ${isSaved ? 'text-app-saved fill-app-saved' : ''}`}
