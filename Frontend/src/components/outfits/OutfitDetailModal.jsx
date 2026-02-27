@@ -7,6 +7,7 @@ import { HiHeart, HiOutlineHeart } from 'react-icons/hi2';
 import { IoShirtOutline } from 'react-icons/io5';
 
 
+
 export default function OutfitDetailModal({
   outfit,
   isOpen,
@@ -47,7 +48,7 @@ export default function OutfitDetailModal({
         <div className='relative rounded-lg overflow-hidden'>
           <img
             className='w-full h-96 object-cover'
-            src={outfit.imgSrc}
+            src={outfit.imageURL}
             alt={outfit.title}
           />
         </div>

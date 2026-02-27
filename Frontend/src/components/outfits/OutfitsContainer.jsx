@@ -1,16 +1,55 @@
-import React from 'react';
-
-import { MOCK_OUTFITS } from '@/utils/mockData';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import OutfitCard from './OutfitCard';
 import OutfitDetailModal from './OutfitDetailModal';
+import { MOCK_OUTFITS } from '@/utils/mockData';
+import { OutfitFilters } from './OutfitFilters'; // or OutfitFilters — whatever you named it
 
 export default function OutfitsContainer() {
   const [selectedOutfit, setSelectedOutfit] = useState(null);
-
   const [favorites, setFavorites] = useState({});
+  const [filteredOutfits, setFilteredOutfits] = useState(MOCK_OUTFITS);
 
-  
+  const handleFilterChange = useCallback((filters) => {
+    // console.log(filters); For testing OutfitFilters.jsx
+
+    const filtered = MOCK_OUTFITS.filter((outfit) => {
+      
+      const matchesSearch =
+        !filters.search ||
+        outfit.title?.toLowerCase().includes(filters.search.toLowerCase()) ||
+        outfit.description
+          ?.toLowerCase()
+          .includes(filters.search.toLowerCase());
+
+      const matchesCategory =
+        filters.category === 'all' || outfit.category === filters.category;
+
+      const matchesInterviewType =
+        filters.interviewType === 'all' ||
+        outfit.interviewType?.includes(filters.interviewType);
+
+      const matchesStatus =
+        filters.status === 'all' || outfit.status === filters.status;
+
+      const matchesSize =
+        !filters.size ||
+        outfit.size?.top?.toLowerCase().includes(filters.size.toLowerCase()) ||
+        // If your outfits have topSize/bottomSize instead:
+        outfit.size?.bottom?.toLowerCase().includes(filters.size.toLowerCase()) ||
+        outfit.size?.shoes?.toLowerCase().includes(filters.size.toLowerCase());
+
+      return (
+        matchesSearch &&
+        matchesCategory &&
+        matchesInterviewType &&
+        matchesStatus &&
+        matchesSize
+      );
+    });
+
+    setFilteredOutfits(filtered);
+  },[]);
+
   const handleFavorite = (outfitId) => {
     setFavorites((prev) => ({ ...prev, [outfitId]: !prev[outfitId] }));
   };
@@ -19,11 +58,12 @@ export default function OutfitsContainer() {
 
   const handleCloseModal = () => setSelectedOutfit(null);
 
-
   return (
     <>
+      <OutfitFilters onFilterChange={handleFilterChange} />
+
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6'>
-        {MOCK_OUTFITS.map((outfit) => (
+        {filteredOutfits.map((outfit) => (
           <div
             className='cursor-pointer'
             key={outfit.id}
@@ -33,7 +73,7 @@ export default function OutfitsContainer() {
               title={outfit.title}
               imgSrc={outfit.imgSrc}
               status={outfit.status}
-              tags={outfit.tags}
+              tags={outfit.interviewTypes}
               category={outfit.category}
               fabric={outfit.fabric}
               fitInfo={outfit.fitInfo}
@@ -42,8 +82,6 @@ export default function OutfitsContainer() {
               description={outfit.description}
               quote={outfit.quote}
               owner={outfit.owner}
-              
-              
               isFavorite={favorites[outfit.id] || false}
               onFavoriteClick={() => handleFavorite(outfit.id)}
             />
@@ -59,9 +97,7 @@ export default function OutfitsContainer() {
           selectedOutfit ? favorites[selectedOutfit.id] || false : false
         }
         onFavoriteClick={() => {
-          if (selectedOutfit) {
-            handleFavorite(selectedOutfit.id);
-          }
+          if (selectedOutfit) handleFavorite(selectedOutfit.id);
         }}
       />
     </>
