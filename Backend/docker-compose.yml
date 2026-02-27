@@ -1,8 +1,8 @@
 services:
   gateway:
     build:
-      context: ./services/gateway
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/gateway/Dockerfile
     ports:
       - "8080:8080"
     environment:
@@ -10,8 +10,8 @@ services:
 
   auth-service:
     build:
-      context: ./services/auth-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/auth-service/Dockerfile
     ports:
       - "3001:3001"
     environment:
@@ -19,8 +19,8 @@ services:
 
   items-service:
     build:
-      context: ./services/items-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/items-service/Dockerfile
     ports:
       - "3002:3002"
     environment:
@@ -28,8 +28,8 @@ services:
 
   requests-service:
     build:
-      context: ./services/requests-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/requests-service/Dockerfile
     ports:
       - "3003:3003"
     environment:
@@ -37,8 +37,8 @@ services:
 
   messaging-service:
     build:
-      context: ./services/messaging-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/messaging-service/Dockerfile
     ports:
       - "3004:3004"
     environment:
