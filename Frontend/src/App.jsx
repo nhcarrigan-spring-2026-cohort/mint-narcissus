@@ -9,7 +9,7 @@ import { Login, ProfileSetup, Register } from './pages/auth';
 import { Browse, Saved } from './pages/borrower';
 import { ListOutfit, MyOutfits, Requests } from './pages/lender';
 import { Messages, PageNotFound, Settings } from './pages/shared';
-import OutfitGallery from './components/OutfitGallery';
+
 
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -28,12 +28,7 @@ function App() {
     return <ProfileSetup />;
   }
 
-import ComponentPreview from './pages/ComponentPreview';
 
-
-
-
-function App() {
   return (
     <Routes>
       {/* BORROWER */}

@@ -1,10 +1,8 @@
 import React from 'react';
-
-const OutfitsContainer = () => {
-  return <div>Outfits Container</div>;
-};
-
-
+import { useState } from 'react';
+import {MOCK_OUTFITS} from '../../utils/mockData';
+import OutfitCard from './OutfitCard';
+import OutfitDetailModal from './OutfitDetailModal';
 
 export default function OutfitsContainer() {
   const [selectedOutfit, setSelectedOutfit] = useState(null);
