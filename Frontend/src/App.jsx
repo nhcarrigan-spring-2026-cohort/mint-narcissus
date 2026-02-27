@@ -8,7 +8,7 @@ import LenderLayout from './layouts/LenderLayout';
 import { Login, ProfileSetup, Register } from './pages/auth';
 import { Browse, Saved } from './pages/borrower';
 import { ListOutfit, MyOutfits, Requests } from './pages/lender';
-import { Messages, PageNotFound, Settings } from './pages/shared';
+import { Messages, NotFound, Settings } from './pages/shared';
 
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -37,7 +37,7 @@ function App() {
             <Route path='/saved' element={<Saved />} />
             <Route path='/messages' element={<Messages />} />
             <Route path='/settings' element={<Settings />} />
-            <Route path='*' element={<PageNotFound />} />
+            <Route path='*' element={<NotFound />} />
           </Route>
         </Route>
       )}
@@ -50,7 +50,7 @@ function App() {
             <Route path='/messages' element={<Messages />} />
             <Route path='/list' element={<ListOutfit />} />
             <Route path='/settings' element={<Settings />} />
-            <Route path='*' element={<PageNotFound />} />
+            <Route path='*' element={<NotFound />} />
           </Route>
         </Route>
       )}

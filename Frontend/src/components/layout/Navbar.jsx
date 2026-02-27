@@ -5,29 +5,29 @@ import RoleSwitch from '../shared/RoleSwitch';
 import NavDrawer from '../shared/NavDrawer';
 import Logo from './Logo';
 import {
-  FiHeart,
-  FiInbox,
-  FiMessageCircle,
-  FiPlus,
-  FiSearch,
-  FiUser,
+  LuHeart,
+  LuInbox,
+  LuMessageCircle,
+  LuPlus,
+  LuSearch,
+  LuUser,
 } from '@/utils/icons';
 
 const borrowerNavItems = [
   {
     label: 'Browse',
     path: '/',
-    icon: <FiSearch />,
+    icon: <LuSearch />,
   },
   {
     label: 'Saved',
     path: '/saved',
-    icon: <FiHeart />,
+    icon: <LuHeart />,
   },
   {
     label: 'Messages',
     path: '/messages',
-    icon: <FiMessageCircle />,
+    icon: <LuMessageCircle />,
   },
 ];
 
@@ -35,17 +35,17 @@ const lenderNavItems = [
   {
     label: 'My Outfits',
     path: '/',
-    icon: <FiUser />,
+    icon: <LuUser />,
   },
   {
     label: 'Requests',
     path: '/requests',
-    icon: <FiInbox />,
+    icon: <LuInbox />,
   },
   {
     label: 'Messages',
     path: '/messages',
-    icon: <FiMessageCircle />,
+    icon: <LuMessageCircle />,
   },
 ];
 
@@ -97,7 +97,7 @@ export default function Navbar() {
             to='/list'
             className={`flex justify-center items-center text-sm font-medium lg:gap-2 gap-1 bg-app-primary text-white lg:px-4 md:py-2 px-2 py-1 rounded-sm`}
           >
-            <FiPlus className='size-4' />
+            <LuPlus className='size-4' />
             <span>List Outfit</span>
           </NavLink>
         )}

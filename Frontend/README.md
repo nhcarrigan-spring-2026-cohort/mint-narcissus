@@ -50,7 +50,7 @@ Role is stored in Redux and persisted via `localStorage` key `activeRole`.
 - `/saved` -> `Saved`
 - `/messages` -> `Messages`
 - `/settings` -> `Settings`
-- `*` -> `PageNotFound`
+- `*` -> `NotFound`
 
 ### Lender Routes
 
@@ -59,7 +59,7 @@ Role is stored in Redux and persisted via `localStorage` key `activeRole`.
 - `/messages` -> `Messages`
 - `/list` -> `ListOutfit`
 - `/settings` -> `Settings`
-- `*` -> `PageNotFound`
+- `*` -> `NotFound`
 
 ## Project Structure
 
@@ -83,7 +83,7 @@ Frontend/
       admin/
       Messages.jsx
       Settings.jsx
-      PageNotFound.jsx
+      NotFound.jsx
     store/
       store.js
       authSlice.js

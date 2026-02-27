@@ -1,44 +1,81 @@
 export const MOCK_OUTFITS = [
   {
     id: '1',
-    title: 'Classic Navy Blazer',
+    title: 'Classic Navy Suit',
     description:
       'Professional navy blue suit perfect for corporate interviews. Tailored fit with matching pants.',
-    // imageURL: '', // use an empty div or unsplash image link
+    outfitImageUrl:
+      'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=800&fit=crop',
     category: 'Formal',
-    interviewTypes: ['Tech', 'Corporate'],
-    status: 'available',
-    fabric: 'wool blend',
+    interviewTypes: ['Corporate', 'Finance'],
+    fabric: 'Wool Blend',
     size: {
-      top: 'Regular',
-      bottom: 'Regular',
-      shoes: 'Regular',
+      topSize: 'M',
+      bottomSize: '32',
+      height: 'Regular',
+      fitType: 'Slim',
     },
     confidenceNote:
       'Wore this for my first investment banking interview at Goldman Sachs. Walk in with confidence.',
-    lender: `Sarah Johnson`,
-    lenderImage: 'https://i.pravatar.cc/150',
+    status: 'Available',
+    isSaved: 'false',
+    lenderDetails: {
+      lenderName: 'Sarah Johnson',
+      lenderImageUrl:
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
+    },
   },
   {
-    id: 2,
+    id: '2',
     title: 'Tech Interview Blazer Combo',
     description:
-      'Professional navy blue suit perfect for corporate interviews. Tailored fit with matching pants.',
-    // imageURL: '', // use an empty div or unsplash image link
+      'Smart casual outfit great for tech startups and creative roles. Includes blazer and khaki chinos.',
+    outfitImageUrl:
+      'https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=600&h=800&fit=crop',
     category: 'Business Casual',
     interviewTypes: ['Tech', 'Creative'],
-    fit: "5'9–6'0, Average Build",
-    status: 'available',
-    fabric: 'cotton',
+    fabric: 'Cotton',
     size: {
-      top: 'Regular',
-      bottom: 'Regular',
-      shoes: 'Regular',
+      topSize: 'L',
+      bottomSize: '34',
+      height: 'Tall',
+      fitType: 'Regular',
     },
     confidenceNote:
       'Wore this to my first software engineer interview. Be yourself, be confident.',
-    lender: `Michael Chen`,
-    lenderImage: 'https://i.pravatar.cc/150',
+    status: 'Available',
+    isSaved: 'false',
+    lenderDetails: {
+      lenderName: 'Michael Chen',
+      lenderImageUrl:
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop',
+    },
+  },
+  {
+    id: '3',
+    title: 'Charcoal Gray Suit',
+    description:
+      'Elegant charcoal suit with modern cut. Versatile for any professional setting.',
+    outfitImageUrl:
+      'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&h=800&fit=crop',
+    category: 'Formal',
+    interviewTypes: ['Corporate', 'Tech'],
+    fabric: 'Italian Wool',
+    size: {
+      topSize: 'S',
+      bottomSize: '30',
+      height: 'Short',
+      fitType: 'Slim',
+    },
+    confidenceNote:
+      "This suit has helped three people land their dream jobs. You're next!",
+    status: 'Borrowed',
+    isSaved: 'false',
+    lenderDetails: {
+      lenderName: 'Sarah Johnson',
+      lenderImageUrl:
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
+    },
   },
 ];
 
