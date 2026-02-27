@@ -9,6 +9,7 @@ import { Login, ProfileSetup, Register } from './pages/auth';
 import { Browse, Saved } from './pages/borrower';
 import { ListOutfit, MyOutfits, Requests } from './pages/lender';
 import { Messages, PageNotFound, Settings } from './pages/shared';
+import { Login_Prince } from './pages/auth/Login_Prince';
 
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
