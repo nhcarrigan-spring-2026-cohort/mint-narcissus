@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { MOCK_OUTFITS } from '@/utils/mockData';
-import { useState } from 'react';
-import OutfitCard from './OutfitCard';
-import OutfitDetailModal from './OutfitDetailModal';
+const OutfitsContainer = () => {
+  return <div>Outfits Container</div>;
+};
 
 
 
