@@ -19,7 +19,7 @@ export default function OutfitCard({
   isFavorite,
   onFavoriteClick,
   status,
-  tags = [],
+  interviewTypes = [],
   fabric,
   fitInfo,
   quote,
@@ -31,11 +31,12 @@ export default function OutfitCard({
       {/* Image section */}
       <CardHeader className='p-0 relative'>
         <div className='relative h-64 w-full overflow-hidden'>
-          <img
+          {!imgSrc ? (<div>No Picture</div>) : (
+            <img
             className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer'
             src={imgSrc}
             alt={title}
-          />
+          />)}
         </div>
 
         {/* Favorite button */}
@@ -66,9 +67,9 @@ export default function OutfitCard({
         <div className='cursor-pointer'>
           <h3>{title}</h3>
 
-          {/* Tags */}
+          {/* interviewTypes */}
           <div className='flex-wrap gap-2 mb-2'>
-            {tags.map((tag, key) => (
+            {interviewTypes.map((tag, key) => (
               <Badge
                 key={key}
                 variant='outline'
