@@ -13,7 +13,11 @@ if (!JWT_SECRET) {
  * On failure, responds with 401 immediately.
  */
 const verifyJWT = (req, res, next) => {
-  const token = req.cookies?.token;
+  const token =
+    req.cookies?.token ||
+    (req.headers.authorization?.startsWith("Bearer ")
+      ? req.headers.authorization.split(" ")[1]
+      : null);
 
   if (!token) {
     return res
