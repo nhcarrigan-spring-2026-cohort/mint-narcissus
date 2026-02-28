@@ -208,7 +208,7 @@ router.get(
     const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
     const token = generateToken(req.user._id);
     res.cookie("token", token, COOKIE_OPTIONS);
-    res.redirect(`${clientUrl}/dashboard`);
+    res.redirect(`${clientUrl}/`);
   },
 );
 
