@@ -6,7 +6,7 @@ import BorrowerLayout from './layouts/BorrowerLayout';
 import LenderLayout from './layouts/LenderLayout';
 
 import { Login, ProfileSetup, Register } from './pages/auth';
-import { Browse, Saved } from './pages/borrower';
+import { Browse, MyRequests, Saved } from './pages/borrower';
 import { ListOutfit, MyOutfits, Requests } from './pages/lender';
 import { Messages, NotFound, Settings } from './pages/shared';
 import { Toaster } from './components/ui/sonner';
@@ -37,6 +37,7 @@ function App() {
             <Route element={<BorrowerLayout />}>
               <Route path='/' element={<Browse />} />
               <Route path='/saved' element={<Saved />} />
+              <Route path='/my-requests' element={<MyRequests />} />
               <Route path='/messages' element={<Messages />} />
               <Route path='/settings' element={<Settings />} />
               <Route path='*' element={<NotFound />} />

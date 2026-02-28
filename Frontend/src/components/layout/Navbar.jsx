@@ -10,6 +10,7 @@ import {
   LuMessageCircle,
   LuPlus,
   LuSearch,
+  LuShoppingBag,
   LuUser,
 } from '@/utils/icons';
 
@@ -23,6 +24,11 @@ const borrowerNavItems = [
     label: 'Saved',
     path: '/saved',
     icon: <LuHeart />,
+  },
+  {
+    label: 'My Requests',
+    path: '/my-requests',
+    icon: <LuShoppingBag />,
   },
   {
     label: 'Messages',

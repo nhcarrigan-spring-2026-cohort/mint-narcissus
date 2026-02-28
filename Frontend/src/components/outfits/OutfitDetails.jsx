@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import { toggleSave } from '@/store/savedSlice';
 import {
@@ -15,10 +14,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Separator } from '../ui/separator';
 import { Badge } from '../ui/badge';
 import { toast } from 'sonner';
-import { LuHeart, LuShirt } from '@/utils/icons';
+import { LuHeart } from '@/utils/icons';
+import BorrowRequestDialog from '../borrower/BorrowRequestDialog';
 
 const OutfitDetails = ({ outfit, isAvailable, isSaved }) => {
   const dispatch = useDispatch();
+
   const {
     category,
     confidenceNote,
@@ -142,10 +143,9 @@ const OutfitDetails = ({ outfit, isAvailable, isSaved }) => {
             />
             {isSaved ? 'Saved' : 'Save'}
           </Button>
-          <Button className='flex-1 bg-app-primary/90 hover:bg-app-primary'>
-            <LuShirt />
-            Request to Borrow
-          </Button>
+          <div className='flex-1'>
+            <BorrowRequestDialog outfit={outfit} isAvailable={isAvailable} />
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
