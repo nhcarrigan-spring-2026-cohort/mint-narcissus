@@ -1,4 +1,11 @@
 services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      
   gateway:
     build:
       context: .
@@ -16,6 +23,11 @@ services:
       - "3001:3001"
     environment:
       - PORT=3001
+      - MONGODB_URI=mongodb://mongo:27017/mint-narcissus
+    env_file:
+      - .env
+    depends_on:
+      - mongo
 
   items-service:
     build:
@@ -43,4 +55,10 @@ services:
       - "3004:3004"
     environment:
       - PORT=3004
+      - MONGODB_URI=mongodb://mongo:27017/mint-narcissus
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
 
