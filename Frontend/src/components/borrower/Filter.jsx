@@ -1,12 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Field } from '../ui/field';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
 import { Label } from '../ui/label';
 import {
   InputGroup,
@@ -17,6 +10,7 @@ import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import { Badge } from '../ui/badge';
 import { LuFilter, LuSearch, LuX } from '@/utils/icons';
+import FilterSelect from './FilterSelect';
 
 const fieldLabelMap = {
   category: 'Category',
@@ -62,27 +56,41 @@ const labelMap = {
   },
 };
 
-const Filter = ({ filters, updateFilter, onClear }) => {
+const filterConfig = [
+  { key: 'category', label: 'Category', allLabel: 'All Categories' },
+  { key: 'interviewType', label: 'Interview Type', allLabel: 'All Types' },
+  { key: 'availability', label: 'Availability' },
+  { key: 'topSize', label: 'Top Size' },
+  { key: 'bottomSize', label: 'Bottom Size' },
+  { key: 'height', label: 'Height' },
+  { key: 'fitType', label: 'Fit Type' },
+];
+
+const Filter = ({ filters, updateFilter, onClear, defaultFilters }) => {
   const [searchInput, setSearchInput] = useState(filters.search);
 
   useEffect(() => {
-    setSearchInput(filters.search);
-  }, [filters.search]);
-
-  useEffect(() => {
     const timeout = setTimeout(() => {
-      updateFilter('search', searchInput);
+      if (searchInput !== filters.search) {
+        updateFilter('search', searchInput);
+      }
     }, 400);
     return () => clearTimeout(timeout);
-  }, [searchInput, updateFilter]);
+  }, [searchInput, filters.search, updateFilter]);
 
-  const hasActiveFilters = Object.entries(filters).some(
-    ([key, value]) => value && value !== '' && value !== 'All',
-  );
+  const activeFilters = useMemo(() => {
+    return Object.entries(filters).filter(
+      ([_, value]) => value && value !== '' && value !== 'All',
+    );
+  }, [filters]);
 
-  const getLabel = (key, value) => {
+  const activeCount = activeFilters.length;
+  const hasActiveFilters = activeCount > 0;
+
+  const getLabel = useCallback((key, value) => {
     return labelMap[key]?.[value] || value;
-  };
+  }, []);
+
   return (
     <div className='w-full p-5 flex flex-col gap-2.5 bg-app-fg shadow-sm rounded-md'>
       <h4 className='flex items-center justify-between gap-2'>
@@ -95,7 +103,10 @@ const Filter = ({ filters, updateFilter, onClear }) => {
             variant='outline'
             size='sm'
             className='text-app-filter-label'
-            onClick={onClear}
+            onClick={() => {
+              setSearchInput('');
+              onClear();
+            }}
           >
             <LuX /> Clear filters
           </Button>
@@ -120,149 +131,17 @@ const Filter = ({ filters, updateFilter, onClear }) => {
           </InputGroup>
         </Field>
 
-        {/* Category */}
-        <Field className='w-full'>
-          <Label className='text-app-filter-label font-medium'>Category</Label>
-          <Select
-            value={filters.category}
-            onValueChange={(v) => updateFilter('category', v)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder='Select a category' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value='All'>All Categories</SelectItem>
-              <SelectItem value='Formal'>Formal</SelectItem>
-              <SelectItem value='Semi-Formal'>Semi-Formal</SelectItem>
-              <SelectItem value='Business-Casual'>Business-Casual</SelectItem>
-            </SelectContent>
-          </Select>
-        </Field>
-
-        {/* Interview Type */}
-        <Field className='w-full'>
-          <Label className='text-app-filter-label font-medium'>
-            Interview Type
-          </Label>
-          <Select
-            value={filters.interviewType}
-            onValueChange={(v) => updateFilter('interviewType', v)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder='Select interview type' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value='All'>All Types</SelectItem>
-              <SelectItem value='Tech'>Tech</SelectItem>
-              <SelectItem value='Corporate'>Corporate</SelectItem>
-              <SelectItem value='Finance'>Finance</SelectItem>
-              <SelectItem value='Creative'>Creative</SelectItem>
-              <SelectItem value='Healthcare'>Healthcare</SelectItem>
-              <SelectItem value='Retail'>Retail</SelectItem>
-              <SelectItem value='Others'>Others</SelectItem>
-            </SelectContent>
-          </Select>
-        </Field>
-
-        {/* Availability */}
-        <Field className='w-full'>
-          <Label className='text-app-filter-label font-medium'>
-            Availability
-          </Label>
-          <Select
-            value={filters.availability}
-            onValueChange={(v) => updateFilter('availability', v)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder='Select availability' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value='All'>All</SelectItem>
-              <SelectItem value='Available'>Available only</SelectItem>
-              <SelectItem value='Borrowed'>Currently Borrowed</SelectItem>
-            </SelectContent>
-          </Select>
-        </Field>
-
-        {/* Top Size */}
-        <Field className='w-full'>
-          <Label className='text-app-filter-label font-medium'>Top Size</Label>
-          <Select
-            value={filters.topSize}
-            onValueChange={(v) => updateFilter('topSize', v)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder='Select Top Size' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value='All'>All</SelectItem>
-              <SelectItem value='S'>S</SelectItem>
-              <SelectItem value='M'>M</SelectItem>
-              <SelectItem value='L'>L</SelectItem>
-              <SelectItem value='XL'>XL</SelectItem>
-            </SelectContent>
-          </Select>
-        </Field>
-
-        {/* Bottom Size */}
-        <Field className='w-full'>
-          <Label className='text-app-filter-label font-medium'>
-            Bottom Size
-          </Label>
-          <Select
-            value={filters.bottomSize}
-            onValueChange={(v) => updateFilter('bottomSize', v)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder='Select Bottom Size' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value='All'>All</SelectItem>
-              <SelectItem value='28'>28</SelectItem>
-              <SelectItem value='30'>30</SelectItem>
-              <SelectItem value='32'>32</SelectItem>
-              <SelectItem value='34'>34</SelectItem>
-            </SelectContent>
-          </Select>
-        </Field>
-
-        {/* Height */}
-        <Field className='w-full'>
-          <Label className='text-app-filter-label font-medium'>Height</Label>
-          <Select
-            value={filters.height}
-            onValueChange={(v) => updateFilter('height', v)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder='Select Height' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value='All'>All</SelectItem>
-              <SelectItem value='Short'>5'4 - 5'7</SelectItem>
-              <SelectItem value='Regular'>5'8 - 5'11</SelectItem>
-              <SelectItem value='Tall'>6'0+</SelectItem>
-            </SelectContent>
-          </Select>
-        </Field>
-
-        {/* Fit Type */}
-        <Field className='w-full'>
-          <Label className='text-app-filter-label font-medium'>Fit Type</Label>
-          <Select
-            value={filters.fitType}
-            onValueChange={(v) => updateFilter('fitType', v)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder='Select Fit Type' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value='All'>All</SelectItem>
-              <SelectItem value='Slim'>Slim</SelectItem>
-              <SelectItem value='Regular'>Regular</SelectItem>
-              <SelectItem value='Relaxed'>Relaxed</SelectItem>
-            </SelectContent>
-          </Select>
-        </Field>
+        {filterConfig.map(({ key, label, allLabel }) => (
+          <FilterSelect
+            key={key}
+            label={label}
+            value={filters[key]}
+            onChange={(v) => updateFilter(key, v)}
+            mapKey={key}
+            allLabel={allLabel}
+            labelMap={labelMap}
+          />
+        ))}
       </div>
 
       {/* Active filters */}
@@ -270,20 +149,25 @@ const Filter = ({ filters, updateFilter, onClear }) => {
         <>
           <Separator />
           <div className='flex flex-wrap items-center gap-2 text-sm text-muted-foreground'>
-            <span>Active filters:</span>
+            <span>Active filters ({activeCount}) :</span>
 
-            {Object.entries(filters)
-              .filter(([_, value]) => value && value !== '' && value !== 'All')
-              .map(([key, value]) => (
-                <Badge
-                  key={key}
-                  className='rounded bg-app-badge-1 cursor-pointer'
-                  variant='secondary'
-                  onClick={() => updateFilter(key, 'All')}
-                >
-                  {fieldLabelMap[key]} : {getLabel(key, value)} ✕
-                </Badge>
-              ))}
+            {activeFilters.map(([key, value]) => (
+              <Badge
+                key={key}
+                className='rounded bg-app-badge-1 cursor-pointer'
+                variant='secondary'
+                onClick={() => updateFilter(key, defaultFilters[key])}
+                role='button'
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    updateFilter(key, defaultFilters[key]);
+                  }
+                }}
+              >
+                {fieldLabelMap[key]} : {getLabel(key, value)} ✕
+              </Badge>
+            ))}
           </div>
         </>
       )}

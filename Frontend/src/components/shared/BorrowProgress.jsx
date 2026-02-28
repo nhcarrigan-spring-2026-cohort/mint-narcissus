@@ -7,7 +7,6 @@ import {
   LuStar,
 } from '@/utils/icons';
 import { Badge } from '../ui/badge';
-import { Separator } from '../ui/separator';
 
 const steps = [
   {

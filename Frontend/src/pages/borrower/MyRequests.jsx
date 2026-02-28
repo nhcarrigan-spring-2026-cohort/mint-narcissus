@@ -18,25 +18,32 @@ export default function MyRequests() {
   }
 
   return (
-    <section className='p-6 space-y-4'>
-      <h2 className='text-2xl font-semibold'>My Requests</h2>
+    <section className='grow py-8 px-4'>
+      <h2 className='font-serif font-bold text-app-primary text-3xl leading-snug'>
+        My Requests
+      </h2>
+      <h3 className='text-muted-foreground text-sm'>
+        Your collection of interview-ready outfits
+      </h3>
 
-      {myRequests.map((request) => (
-        <Card key={request.id} className='p-4 space-y-2'>
-          <div className='flex justify-between w-96'>
-            <span className='font-medium'>{request.outfitTitle}</span>
-            <span className='text-sm capitalize'>{request.status}</span>
-          </div>
+      <div className='w-full my-6'>
+        {myRequests.map((request) => (
+          <Card key={request.id} className='p-4 space-y-2'>
+            <div className='flex justify-between'>
+              <span className='font-medium'>{request.outfitTitle}</span>
+              <span className='text-sm capitalize'>{request.status}</span>
+            </div>
 
-          <p className='text-sm text-muted-foreground'>
-            Lender: {request.lenderName}
-          </p>
+            <p className='text-sm text-muted-foreground'>
+              Lender: {request.lenderName}
+            </p>
 
-          {request.message && (
-            <p className='text-sm italic'>"{request.message}"</p>
-          )}
-        </Card>
-      ))}
+            {request.message && (
+              <p className='text-sm italic'>"{request.message}"</p>
+            )}
+          </Card>
+        ))}
+      </div>
     </section>
   );
 }

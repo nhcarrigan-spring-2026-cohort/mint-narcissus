@@ -19,7 +19,6 @@ const borrowerNavItems = [
     label: 'Browse',
     path: '/',
     icon: <LuSearch />,
-    icon: <LuSearch />,
   },
   {
     label: 'Saved',
@@ -35,7 +34,6 @@ const borrowerNavItems = [
     label: 'Messages',
     path: '/messages',
     icon: <LuMessageCircle />,
-    icon: <LuMessageCircle />,
   },
 ];
 
@@ -44,18 +42,15 @@ const lenderNavItems = [
     label: 'My Outfits',
     path: '/',
     icon: <LuUser />,
-    icon: <LuUser />,
   },
   {
     label: 'Requests',
     path: '/requests',
     icon: <LuInbox />,
-    icon: <LuInbox />,
   },
   {
     label: 'Messages',
     path: '/messages',
-    icon: <LuMessageCircle />,
     icon: <LuMessageCircle />,
   },
 ];

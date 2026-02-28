@@ -123,19 +123,21 @@ npm run format
 
 ## API Integration
 
-The app uses a centralized Axios instance located at:
-`src/api/axios.js`
+The app uses a centralized Axios instance located at: `src/api/axios.js`
 
 ### Configuration:
+
 -baseURL: http://localhost:3001/api
-- withCredentials: true (required for HTTP-only cookie authentication)
-`Global response interceptor:
+
+- withCredentials: true (required for HTTP-only cookie authentication) `Global
+  response interceptor:
   - 401 → dispatch logout
   - 403 → console error
 
 ### Usage:
-```javascript
-import axiosInstance from "@/api/axios";
 
-await axiosInstance.get("/auth/me");
+```javascript
+import axiosInstance from '@/api/axios';
+
+await axiosInstance.get('/auth/me');
 ```
