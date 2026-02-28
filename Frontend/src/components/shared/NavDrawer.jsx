@@ -12,12 +12,12 @@ import {
 } from '../ui/drawer';
 
 import {
-  FiBriefcase,
-  FiLogOut,
-  FiMenu,
-  FiSettings,
-  FiUser,
-  FiX,
+  LuBriefcase,
+  LuLogOut,
+  LuMenu,
+  LuSettings,
+  LuUser,
+  LuX,
 } from '@/utils/icons';
 
 const NavDrawer = ({ navItems, user, onLogout, onSwitch }) => {
@@ -26,14 +26,14 @@ const NavDrawer = ({ navItems, user, onLogout, onSwitch }) => {
   return (
     <Drawer direction='right'>
       <DrawerTrigger>
-        <FiMenu />
+        <LuMenu />
       </DrawerTrigger>
       <DrawerContent className='data-[vaul-drawer-direction=bottom]:max-h-[50vh] data-[vaul-drawer-direction=top]:max-h-[50vh]'>
         <DrawerHeader>
           <DrawerTitle className='flex justify-between items-center'>
             {name}
             <DrawerClose className='shrink' asChild>
-              <FiX />
+              <LuX />
             </DrawerClose>
           </DrawerTitle>
           <DrawerDescription>{email}</DrawerDescription>
@@ -46,7 +46,7 @@ const NavDrawer = ({ navItems, user, onLogout, onSwitch }) => {
               onClick={() => onSwitch('borrower')}
               className={`flex flex-col justify-center items-start border rounded-lg p-4 grow text-sm ${activeRole === 'borrower' ? 'border-app-primary bg-app-primary text-white' : ''}`}
             >
-              <FiUser />
+              <LuUser />
               Borrower
             </span>
             <span
@@ -54,7 +54,7 @@ const NavDrawer = ({ navItems, user, onLogout, onSwitch }) => {
               onClick={() => onSwitch('lender')}
               className={`flex flex-col justify-center items-start border rounded-lg p-4 grow text-sm ${activeRole === 'lender' ? 'border-app-primary bg-app-primary text-white' : ''}`}
             >
-              <FiBriefcase />
+              <LuBriefcase />
               Lender
             </span>
           </div>
@@ -77,7 +77,7 @@ const NavDrawer = ({ navItems, user, onLogout, onSwitch }) => {
               to='/settings'
               className='flex gap-2 py-1 px-2 items-center text-sm hover:bg-app-hover focus:bg-app-primary focus:text-white rounded-sm'
             >
-              <FiSettings />
+              <LuSettings />
               Settings
             </NavLink>
             <NavLink
@@ -85,7 +85,7 @@ const NavDrawer = ({ navItems, user, onLogout, onSwitch }) => {
               className='flex gap-2 py-1 px-2 items-center text-sm hover:bg-destructive/70 focus:bg-destructive/80 focus:text-white rounded-sm'
               onClick={() => onLogout()}
             >
-              <FiLogOut />
+              <LuLogOut />
               Log out
             </NavLink>
           </div>

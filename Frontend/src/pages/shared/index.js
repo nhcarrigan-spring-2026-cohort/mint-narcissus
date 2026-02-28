@@ -1,5 +1,5 @@
 import Messages from './Messages';
 import Settings from './Settings';
-import PageNotFound from './PageNotFound';
+import NotFound from './NotFound';
 
-export { Messages, Settings, PageNotFound };
+export { Messages, Settings, NotFound };

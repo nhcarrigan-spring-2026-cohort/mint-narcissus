@@ -11,11 +11,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import {
-  FiBriefcase,
-  FiChevronDown,
-  FiLogOut,
-  FiSettings,
-  FiUser,
+  LuBriefcase,
+  LuChevronDown,
+  LuLogOut,
+  LuSettings,
+  LuUser,
 } from '@/utils/icons';
 
 const RoleSwitch = ({ user, onLogout, onSwitch }) => {
@@ -36,7 +36,7 @@ const RoleSwitch = ({ user, onLogout, onSwitch }) => {
           <Badge variant='outline' className='capitalize'>
             {activeRole}
           </Badge>
-          <FiChevronDown className='size-4' />
+          <LuChevronDown className='size-4' />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-52'>
@@ -56,7 +56,7 @@ const RoleSwitch = ({ user, onLogout, onSwitch }) => {
             onClick={() => onSwitch('borrower')}
             className='flex items-center gap-4 cursor-pointer'
           >
-            <FiUser />
+            <LuUser />
             Borrower
             {activeRole === 'borrower' && (
               <Badge className='ml-2' variant='outline'>
@@ -69,7 +69,7 @@ const RoleSwitch = ({ user, onLogout, onSwitch }) => {
             onClick={() => onSwitch('lender')}
             className='flex items-center gap-4 cursor-pointer'
           >
-            <FiBriefcase />
+            <LuBriefcase />
             Lender
             {activeRole === 'lender' && (
               <Badge className='ml-2' variant='outline'>
@@ -81,7 +81,7 @@ const RoleSwitch = ({ user, onLogout, onSwitch }) => {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Link to='/settings' className='flex items-center gap-4'>
-            <FiSettings />
+            <LuSettings />
             Settings
           </Link>
         </DropdownMenuItem>
@@ -90,7 +90,7 @@ const RoleSwitch = ({ user, onLogout, onSwitch }) => {
           variant='destructive'
           className='flex items-center gap-4'
         >
-          <FiLogOut />
+          <LuLogOut />
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>
