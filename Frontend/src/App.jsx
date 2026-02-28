@@ -14,9 +14,6 @@ import { Toaster } from './components/ui/sonner';
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
   const activeRole = user?.activeRole;
-  if (!activeRole) {
-    return <ProfileSetup />;
-  }
   return (
     <>
       {(!isAuthenticated && (
