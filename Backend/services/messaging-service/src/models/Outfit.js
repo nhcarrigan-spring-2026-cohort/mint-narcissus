@@ -12,10 +12,12 @@ const Outfit =
     new mongoose.Schema(
       {
         lender: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        lenderId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         status: String,
       },
       { strict: false },
     ),
+    "items", // items-service stores outfits in the "items" collection
   );
 
 module.exports = Outfit;

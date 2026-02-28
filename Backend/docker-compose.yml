@@ -1,8 +1,15 @@
 services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      
   gateway:
     build:
-      context: ./services/gateway
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/gateway/Dockerfile
     ports:
       - "8080:8080"
     environment:
@@ -10,17 +17,22 @@ services:
 
   auth-service:
     build:
-      context: ./services/auth-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/auth-service/Dockerfile
     ports:
       - "3001:3001"
     environment:
       - PORT=3001
+      - MONGODB_URI=mongodb://mongo:27017/mint-narcissus
+    env_file:
+      - .env
+    depends_on:
+      - mongo
 
   items-service:
     build:
-      context: ./services/items-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/items-service/Dockerfile
     ports:
       - "3002:3002"
     environment:
@@ -28,8 +40,8 @@ services:
 
   requests-service:
     build:
-      context: ./services/requests-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/requests-service/Dockerfile
     ports:
       - "3003:3003"
     environment:
@@ -37,10 +49,16 @@ services:
 
   messaging-service:
     build:
-      context: ./services/messaging-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/messaging-service/Dockerfile
     ports:
       - "3004:3004"
     environment:
       - PORT=3004
+      - MONGODB_URI=mongodb://mongo:27017/mint-narcissus
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
 

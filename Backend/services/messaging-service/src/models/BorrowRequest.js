@@ -23,6 +23,7 @@ const borrowRequestSchema = new mongoose.Schema(
       enum: [
         "pending",
         "approved",
+        "agreement_pending",
         "rejected",
         "borrowed",
         "returned",
@@ -34,6 +35,9 @@ const borrowRequestSchema = new mongoose.Schema(
     agreementAcceptedAt: Date,
     borrowedAt: Date,
     returnedAt: Date,
+    ratingsPending: { type: Boolean, default: false },
+    lenderRated: { type: Boolean, default: false },
+    borrowerRated: { type: Boolean, default: false },
   },
   { timestamps: true },
 );

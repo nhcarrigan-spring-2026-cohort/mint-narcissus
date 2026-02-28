@@ -1,8 +1,7 @@
 const dotenv = require("dotenv");
 const path = require("path");
 
-// Load .env from Backend root BEFORE any other imports that read process.env
-dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");

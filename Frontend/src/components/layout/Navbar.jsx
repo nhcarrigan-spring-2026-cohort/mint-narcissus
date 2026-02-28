@@ -19,6 +19,7 @@ const borrowerNavItems = [
     label: 'Browse',
     path: '/',
     icon: <LuSearch />,
+    icon: <LuSearch />,
   },
   {
     label: 'Saved',
@@ -34,6 +35,7 @@ const borrowerNavItems = [
     label: 'Messages',
     path: '/messages',
     icon: <LuMessageCircle />,
+    icon: <LuMessageCircle />,
   },
 ];
 
@@ -42,15 +44,18 @@ const lenderNavItems = [
     label: 'My Outfits',
     path: '/',
     icon: <LuUser />,
+    icon: <LuUser />,
   },
   {
     label: 'Requests',
     path: '/requests',
     icon: <LuInbox />,
+    icon: <LuInbox />,
   },
   {
     label: 'Messages',
     path: '/messages',
+    icon: <LuMessageCircle />,
     icon: <LuMessageCircle />,
   },
 ];
@@ -103,6 +108,7 @@ export default function Navbar() {
             to='/list'
             className={`flex justify-center items-center text-sm font-medium lg:gap-2 gap-1 bg-app-primary text-white lg:px-4 md:py-2 px-2 py-1 rounded-sm`}
           >
+            <LuPlus className='size-4' />
             <LuPlus className='size-4' />
             <span>List Outfit</span>
           </NavLink>

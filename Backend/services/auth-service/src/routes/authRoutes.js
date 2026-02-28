@@ -127,7 +127,7 @@ router.get("/me", auth, async (req, res) => {
   try {
     res.json({
       user: {
-        id: req.user._id,
+        _id: req.user._id,
         name: req.user.name,
         email: req.user.email,
         role: req.user.role,
@@ -144,6 +144,45 @@ router.get("/me", auth, async (req, res) => {
     });
   } catch (error) {
     console.error("Get user error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// PATCH /api/auth/me
+// Update profile fields. Sets isProfileComplete: true.
+router.patch("/me", auth, async (req, res) => {
+  try {
+    const { activeRole, sizeProfile, bio, profilePhoto } = req.body;
+    const updates = { isProfileComplete: true };
+
+    if (activeRole && ["borrower", "lender"].includes(activeRole)) {
+      updates.activeRole = activeRole;
+    }
+    if (sizeProfile !== undefined) updates.sizeProfile = sizeProfile;
+    if (bio !== undefined) updates.bio = bio;
+    if (profilePhoto !== undefined) updates.profilePhoto = profilePhoto;
+
+    const user = await User.findByIdAndUpdate(req.user._id, updates, { new: true });
+
+    res.json({
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        activeRole: user.activeRole,
+        profilePhoto: user.profilePhoto,
+        bio: user.bio,
+        isProfileComplete: user.isProfileComplete,
+        isRestricted: user.isRestricted,
+        badges: user.badges,
+        averageRating: user.averageRating,
+        totalRatings: user.totalRatings,
+        createdAt: user.createdAt,
+      },
+    });
+  } catch (error) {
+    console.error("Update profile error:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
