@@ -10,8 +10,6 @@ import { Browse, MyRequests, Saved } from './pages/borrower';
 import { ListOutfit, MyOutfits, Requests } from './pages/lender';
 import { Messages, NotFound, Settings } from './pages/shared';
 import { Toaster } from './components/ui/sonner';
-import { Messages, NotFound, Settings } from './pages/shared';
-import { Toaster } from './components/ui/sonner';
 
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
