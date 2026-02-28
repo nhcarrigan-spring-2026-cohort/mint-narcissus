@@ -14,50 +14,43 @@ import { Toaster } from './components/ui/sonner';
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
   const activeRole = user?.activeRole;
-
-  if (!isAuthenticated) {
-    return (
-      <Routes>
-        <Route path='*' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-      </Routes>
-    );
-  }
-
-  if (!user?.profileCompleted) {
+  if (!activeRole) {
     return <ProfileSetup />;
   }
-
   return (
     <>
-      <Routes>
-        {/* BORROWER */}
-        {activeRole === 'borrower' && (
-          <Route>
-            <Route element={<BorrowerLayout />}>
-              <Route path='/' element={<Browse />} />
-              <Route path='/saved' element={<Saved />} />
-              <Route path='/my-requests' element={<MyRequests />} />
-              <Route path='/messages' element={<Messages />} />
-              <Route path='/settings' element={<Settings />} />
-              <Route path='*' element={<NotFound />} />
-            </Route>
-          </Route>
+      {(!isAuthenticated && (
+        <Routes>
+          <Route path='*' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+        </Routes>
+      )) ||
+        (!user?.profileCompleted && <ProfileSetup />) || (
+          <Routes>
+            {/* BORROWER */}
+            {activeRole === 'borrower' && (
+              <Route element={<BorrowerLayout />}>
+                <Route path='/' element={<Browse />} />
+                <Route path='/saved' element={<Saved />} />
+                <Route path='/my-requests' element={<MyRequests />} />
+                <Route path='/messages' element={<Messages />} />
+                <Route path='/settings' element={<Settings />} />
+                <Route path='*' element={<NotFound />} />
+              </Route>
+            )}
+            {/* LENDER */}
+            {activeRole === 'lender' && (
+              <Route element={<LenderLayout />}>
+                <Route path='/' element={<MyOutfits />} />
+                <Route path='/requests' element={<Requests />} />
+                <Route path='/messages' element={<Messages />} />
+                <Route path='/list' element={<ListOutfit />} />
+                <Route path='/settings' element={<Settings />} />
+                <Route path='*' element={<NotFound />} />
+              </Route>
+            )}
+          </Routes>
         )}
-        {/* LENDER */}
-        {activeRole === 'lender' && (
-          <Route>
-            <Route element={<LenderLayout />}>
-              <Route path='/' element={<MyOutfits />} />
-              <Route path='/requests' element={<Requests />} />
-              <Route path='/messages' element={<Messages />} />
-              <Route path='/list' element={<ListOutfit />} />
-              <Route path='/settings' element={<Settings />} />
-              <Route path='*' element={<NotFound />} />
-            </Route>
-          </Route>
-        )}
-      </Routes>
       <Toaster position='bottom-right' />
     </>
   );
