@@ -1,11 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
+const mongoose = require("mongoose");
 const BorrowRequest = require("../models/BorrowRequest");
 const Conversation = require("../models/Conversation");
 const Message = require("../models/Message");
 const Outfit = require("../models/Outfit");
 const { auth } = require("../middleware/auth");
+
+// Minimal User model for updating ratings. strict:false lets it coexist with
+// auth-service's full User schema on the shared DB.
+const User =
+  mongoose.models.User ||
+  mongoose.model("User", new mongoose.Schema({}, { strict: false }));
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -38,13 +45,15 @@ router.post("/request", auth, async (req, res) => {
       return res.status(404).json({ message: "Outfit not found." });
     }
 
-    if (outfit.status !== "available") {
+    if (outfit.status !== "Available") {
       return res
         .status(400)
         .json({ message: "This outfit is not available for borrowing." });
     }
 
-    if (outfit.lender.toString() === req.user._id.toString()) {
+    const outfitLenderId = (outfit.lenderId || outfit.lender)?.toString();
+
+    if (outfitLenderId === req.user._id.toString()) {
       return res
         .status(400)
         .json({ message: "You cannot request your own outfit." });
@@ -65,7 +74,7 @@ router.post("/request", auth, async (req, res) => {
     const request = await BorrowRequest.create({
       outfit: outfitId,
       borrower: req.user._id,
-      lender: outfit.lender,
+      lender: outfitLenderId,
     });
 
     res.status(201).json(request);
@@ -170,8 +179,8 @@ router.get("/requests/:id", auth, async (req, res) => {
 });
 
 // PATCH /api/messages/requests/:id/approve
-// Lender approves the request.
-// Creates Conversation + opening system message. Sets outfit status to 'borrowed'.
+// Lender approves the request. Creates Conversation + opening system message.
+// Item status is NOT changed here — that happens when the borrower accepts the agreement.
 router.patch("/requests/:id/approve", auth, async (req, res) => {
   try {
     const request = await BorrowRequest.findById(req.params.id);
@@ -192,8 +201,6 @@ router.patch("/requests/:id/approve", auth, async (req, res) => {
 
     request.status = "approved";
     await request.save();
-
-    await Outfit.findByIdAndUpdate(request.outfit, { status: "borrowed" });
 
     const conversation = await Conversation.create({
       borrowRequest: request._id,
@@ -266,6 +273,251 @@ router.patch("/requests/:id/cancel", auth, async (req, res) => {
     request.status = "cancelled";
     await request.save();
 
+    res.json(request);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error." });
+  }
+});
+
+// PATCH /api/messages/requests/:id/confirm-lend
+// Lender triggers this after chatting to signal they want to lend.
+// Moves status to "agreement_pending" and prompts the borrower to sign the agreement.
+router.patch("/requests/:id/confirm-lend", auth, async (req, res) => {
+  try {
+    const request = await BorrowRequest.findById(req.params.id);
+
+    if (!request) {
+      return res.status(404).json({ message: "Request not found." });
+    }
+
+    if (request.lender.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Access denied." });
+    }
+
+    if (request.status !== "approved") {
+      return res.status(400).json({
+        message: `Cannot confirm lend on a request with status '${request.status}'.`,
+      });
+    }
+
+    request.status = "agreement_pending";
+    await request.save();
+
+    const conversation = await Conversation.findOne({
+      borrowRequest: request._id,
+    });
+
+    if (conversation) {
+      await postSystemMessage(
+        conversation._id,
+        req.user._id,
+        "The lender has confirmed they'd like to proceed. Please review and accept the lending agreement to finalise the arrangement.",
+      );
+    }
+
+    res.json(request);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error." });
+  }
+});
+
+// POST /api/messages/requests/:id/agreement
+// Borrower accepts the digital lending agreement.
+// Sets status to "borrowed", timestamps the agreement, calls items-service to
+// mark the outfit as Borrowed, and auto-rejects all other active requests on
+// the same outfit.
+router.post("/requests/:id/agreement", auth, async (req, res) => {
+  try {
+    const request = await BorrowRequest.findById(req.params.id);
+
+    if (!request) {
+      return res.status(404).json({ message: "Request not found." });
+    }
+
+    if (request.borrower.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Access denied." });
+    }
+
+    if (request.status !== "agreement_pending") {
+      return res.status(400).json({
+        message: `Agreement cannot be accepted on a request with status '${request.status}'.`,
+      });
+    }
+
+    const now = new Date();
+    request.status = "borrowed";
+    request.agreementAcceptedAt = now;
+    request.borrowedAt = now;
+    await request.save();
+
+    // Mark the outfit as Borrowed in items-service
+    const itemsServiceUrl = process.env.ITEMS_SERVICE_URL || "http://localhost:3002";
+    await fetch(`${itemsServiceUrl}/api/internal/items/${request.outfit}/status`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "x-internal-secret": process.env.INTERNAL_SECRET,
+      },
+      body: JSON.stringify({ status: "Borrowed" }),
+    });
+
+    // Auto-reject all other pending or approved requests for the same outfit
+    await BorrowRequest.updateMany(
+      {
+        outfit: request.outfit,
+        _id: { $ne: request._id },
+        status: { $in: ["pending", "approved"] },
+      },
+      { status: "rejected" },
+    );
+
+    const conversation = await Conversation.findOne({
+      borrowRequest: request._id,
+    });
+
+    if (conversation) {
+      await postSystemMessage(
+        conversation._id,
+        req.user._id,
+        "Agreement accepted. The outfit is now officially on loan — please coordinate handover details here.",
+      );
+    }
+
+    res.json(request);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error." });
+  }
+});
+
+// PATCH /api/messages/requests/:id/returned
+// Lender confirms the item has been handed back.
+// Reopens the outfit in items-service, closes the conversation, and flags both
+// parties for rating.
+router.patch("/requests/:id/returned", auth, async (req, res) => {
+  try {
+    const request = await BorrowRequest.findById(req.params.id);
+
+    if (!request) {
+      return res.status(404).json({ message: "Request not found." });
+    }
+
+    if (request.lender.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Access denied." });
+    }
+
+    if (request.status !== "borrowed") {
+      return res.status(400).json({
+        message: `Cannot mark as returned on a request with status '${request.status}'.`,
+      });
+    }
+
+    request.status = "returned";
+    request.returnedAt = new Date();
+    request.ratingsPending = true;
+    await request.save();
+
+    // Mark outfit as Available again in items-service
+    const itemsServiceUrl = process.env.ITEMS_SERVICE_URL || "http://localhost:3002";
+    await fetch(`${itemsServiceUrl}/api/internal/items/${request.outfit}/status`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "x-internal-secret": process.env.INTERNAL_SECRET,
+      },
+      body: JSON.stringify({ status: "Available" }),
+    });
+
+    // Close the conversation and post a final system message
+    const conversation = await Conversation.findOneAndUpdate(
+      { borrowRequest: request._id },
+      { isActive: false },
+      { new: true },
+    );
+
+    if (conversation) {
+      await postSystemMessage(
+        conversation._id,
+        req.user._id,
+        "Item returned — the chat is now closed. Please take a moment to rate your experience.",
+      );
+    }
+
+    res.json(request);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error." });
+  }
+});
+
+// POST /api/messages/requests/:id/rate
+// Either participant rates the other after the item is returned.
+// Body: { rating: 1–5 }
+// Once both parties have rated, status moves to "rated" and ratingsPending clears.
+router.post("/requests/:id/rate", auth, async (req, res) => {
+  try {
+    const request = await BorrowRequest.findById(req.params.id);
+
+    if (!request) {
+      return res.status(404).json({ message: "Request not found." });
+    }
+
+    if (request.status !== "returned") {
+      return res.status(400).json({
+        message: "Ratings can only be submitted after the item is returned.",
+      });
+    }
+
+    if (!request.ratingsPending) {
+      return res.status(400).json({ message: "Ratings have already been submitted." });
+    }
+
+    const { rating } = req.body;
+    if (!rating || !Number.isInteger(Number(rating)) || rating < 1 || rating > 5) {
+      return res.status(400).json({ message: "Rating must be a whole number between 1 and 5." });
+    }
+
+    const isLender = request.lender.toString() === req.user._id.toString();
+    const isBorrower = request.borrower.toString() === req.user._id.toString();
+
+    if (!isLender && !isBorrower) {
+      return res.status(403).json({ message: "Access denied." });
+    }
+
+    if (isLender && request.lenderRated) {
+      return res.status(400).json({ message: "You have already submitted your rating." });
+    }
+
+    if (isBorrower && request.borrowerRated) {
+      return res.status(400).json({ message: "You have already submitted your rating." });
+    }
+
+    // Apply the rating to the other party's User document
+    const ratedUserId = isLender ? request.borrower : request.lender;
+    const ratedUser = await User.findById(ratedUserId).lean();
+
+    const prevTotal = ratedUser?.totalRatings || 0;
+    const prevAverage = ratedUser?.averageRating || 0;
+    const newTotal = prevTotal + 1;
+    const newAverage = Math.round(((prevAverage * prevTotal + Number(rating)) / newTotal) * 10) / 10;
+
+    await User.findByIdAndUpdate(ratedUserId, {
+      averageRating: newAverage,
+      totalRatings: newTotal,
+    });
+
+    if (isLender) request.lenderRated = true;
+    else request.borrowerRated = true;
+
+    // Finalise once both sides have rated
+    if (request.lenderRated && request.borrowerRated) {
+      request.status = "rated";
+      request.ratingsPending = false;
+    }
+
+    await request.save();
     res.json(request);
   } catch (err) {
     console.error(err);

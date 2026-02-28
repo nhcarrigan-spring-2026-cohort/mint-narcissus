@@ -1,8 +1,7 @@
 const dotenv = require("dotenv");
 const path = require("path");
 
-// Load .env from Backend root before any other imports
-dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
+require("dotenv").config();
 
 const http = require("http");
 const express = require("express");
