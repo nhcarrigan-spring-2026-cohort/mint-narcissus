@@ -195,7 +195,17 @@ router.patch("/me", auth, async (req, res) => {
 // ===========================================================================
 
 // GET /api/auth/linkedin - Initiate LinkedIn OAuth flow
-router.get("/linkedin", passport.authenticate("linkedin"));
+router.get("/linkedin", (req, res, next) => {
+  // Detect whether the user came from /register or /login using the Referer header
+  const referer = req.get("Referer") || "";
+  const mode = referer.includes("/register") ? "signup" : "login";
+  res.cookie("linkedin_auth_mode", mode, {
+    httpOnly: true,
+    maxAge: 10 * 60 * 1000, // 10 minutes
+    sameSite: "lax",
+  });
+  passport.authenticate("linkedin")(req, res, next);
+});
 
 // ===========================================================================
 
@@ -204,9 +214,25 @@ router.get(
   "/linkedin/callback",
   (req, res, next) => {
     const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
-    passport.authenticate("linkedin", {
-      session: false,
-      failureRedirect: `${clientUrl}/login?error=linkedin_failed`,
+    const mode = req.cookies?.linkedin_auth_mode || "login";
+    const fallbackPath = mode === "signup" ? "/register" : "/login";
+
+    // Clear the mode cookie
+    res.clearCookie("linkedin_auth_mode");
+
+    passport.authenticate("linkedin", { session: false }, (err, user) => {
+      // Handle user cancellation or any OAuth error
+      if (err || !user) {
+        const errorType = err?.code === "user_cancelled_login" || err?.code === "user_cancelled_authorize"
+          ? "linkedin_cancelled"
+          : "linkedin_failed";
+        logger.warn("LinkedIn OAuth callback error", { error: err?.message, code: err?.code, mode });
+        return res.redirect(`${clientUrl}${fallbackPath}?error=${errorType}`);
+      }
+
+      // Success — issue token and redirect home
+      req.user = user;
+      next();
     })(req, res, next);
   },
   (req, res) => {
