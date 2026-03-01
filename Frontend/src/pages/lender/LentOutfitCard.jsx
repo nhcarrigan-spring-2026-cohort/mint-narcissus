@@ -15,6 +15,17 @@ import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { LuTrash2 } from '@/utils/icons';
 import { Card, CardContent } from '@/components/ui/card';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 const LentOutfitCard = ({ outfit }) => {
   const dispatch = useDispatch();
@@ -100,13 +111,33 @@ const LentOutfitCard = ({ outfit }) => {
                 outfit={outfit}
                 isAvailable={outfit.status === 'Available'}
               />
-              {/* LATER: Confirm Delete Dialog */}
-              <Button
-                variant='destructive'
-                onClick={() => handleRemoveOutfit(outfit.id)}
-              >
-                <LuTrash2 /> Remove
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant='destructive'>
+                    <LuTrash2 /> Remove
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className='font-serif text-app-primary'>
+                      Remove Outfit Listing
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you sure you want to remove this outfit from your
+                      listings? This action cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      variant='destructive'
+                      onClick={() => handleRemoveOutfit(outfit.id)}
+                    >
+                      Remove
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           </div>
         </div>
