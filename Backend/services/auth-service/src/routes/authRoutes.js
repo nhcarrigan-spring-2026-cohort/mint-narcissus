@@ -51,6 +51,7 @@ router.post("/register", async (req, res) => {
         email: user.email,
         role: user.role,
         activeRole: user.activeRole,
+        isProfileComplete: user.isProfileComplete,
       },
     });
   } catch (error) {
