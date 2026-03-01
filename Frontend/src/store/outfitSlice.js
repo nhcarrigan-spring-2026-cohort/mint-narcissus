@@ -22,7 +22,6 @@ const outfitSlice = createSlice({
         },
       }),
     },
-
     updateOutfitStatus: (state, action) => {
       const { outfitId, status } = action.payload;
 
@@ -32,19 +31,14 @@ const outfitSlice = createSlice({
         localStorage.setItem('outfits', JSON.stringify(state.items));
       }
     },
-
-    toggleAvailability: (state, action) => {
-      const outfit = state.items.find((o) => o.id === action.payload);
-      if (outfit) {
-        outfit.status =
-          outfit.status === 'Unavailable' ? 'Available' : 'Unavailable';
-        localStorage.setItem('outfits', JSON.stringify(state.items));
-      }
+    removeOutfit: (state, action) => {
+      state.items = state.items.filter((o) => o.id !== action.payload);
+      localStorage.setItem('outfits', JSON.stringify(state.items));
     },
   },
 });
 
-export const { addOutfit, updateOutfitStatus, toggleAvailability } =
+export const { addOutfit, updateOutfitStatus, removeOutfit } =
   outfitSlice.actions;
 
 export default outfitSlice.reducer;

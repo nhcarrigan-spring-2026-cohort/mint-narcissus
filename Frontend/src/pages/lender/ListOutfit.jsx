@@ -67,8 +67,10 @@ const ListOutfit = () => {
         fabric,
         size: { height, fitType: fitPreference, topSize, bottomSize },
         confidenceNote,
-        lenderId: user.id,
-        lenderName: user.name,
+        lenderDetails: {
+          lenderId: user.id,
+          lenderName: user.name,
+        },
       }),
     );
     toast.success('Outfit listed successfully!');

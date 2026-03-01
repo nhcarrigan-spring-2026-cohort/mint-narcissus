@@ -20,10 +20,12 @@ export const MOCK_OUTFITS = [
     status: 'Available',
     isSaved: 'false',
     lenderDetails: {
+      lenderId: '4',
       lenderName: 'Sarah Johnson',
       lenderImageUrl:
         'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
     },
+    createdAt: '03/01/2026',
   },
   {
     id: '2',
@@ -46,10 +48,12 @@ export const MOCK_OUTFITS = [
     status: 'Available',
     isSaved: 'false',
     lenderDetails: {
+      lenderId: '3',
       lenderName: 'Michael Chen',
       lenderImageUrl:
         'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop',
     },
+    createdAt: '03/01/2026',
   },
   {
     id: '3',
@@ -63,8 +67,8 @@ export const MOCK_OUTFITS = [
     fabric: 'Italian Wool',
     size: {
       topSize: 'S',
-      fitType: 'Slim',
       bottomSize: '30',
+      fitType: 'Slim',
       height: 'Short',
     },
     confidenceNote:
@@ -72,10 +76,12 @@ export const MOCK_OUTFITS = [
     status: 'Borrowed',
     isSaved: 'false',
     lenderDetails: {
+      lenderId: '4',
       lenderName: 'Sarah Johnson',
       lenderImageUrl:
         'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
     },
+    createdAt: '03/01/2026',
   },
 ];
 
@@ -111,7 +117,7 @@ export const MOCK_USERS = {
   },
   loginEmailUser: {
     id: '3',
-    name: 'Sarah Johnson',
+    name: 'Michael Chen',
     email: 'demo@email.com',
     activeRole: 'borrower',
     profileCompleted: true,
@@ -125,7 +131,7 @@ export const MOCK_USERS = {
   },
   loginLinkedInUser: {
     id: '4',
-    name: 'LinkedIn User',
+    name: 'Sarah Johnson',
     email: 'linkedin@mail.com',
     activeRole: 'lender',
     profileCompleted: true,

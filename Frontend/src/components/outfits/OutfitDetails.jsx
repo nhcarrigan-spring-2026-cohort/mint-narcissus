@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toggleSave } from '@/store/savedSlice';
 import {
   Dialog,
@@ -17,8 +17,9 @@ import { toast } from 'sonner';
 import { LuHeart } from '@/utils/icons';
 import BorrowRequestDialog from '../borrower/BorrowRequestDialog';
 
-const OutfitDetails = ({ outfit, isAvailable, isSaved }) => {
+const OutfitDetails = ({ outfit, isAvailable, isSaved = false }) => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
   const {
     category,
@@ -132,21 +133,23 @@ const OutfitDetails = ({ outfit, isAvailable, isSaved }) => {
             </div>
           </div>
         </div>
-        <DialogFooter className='flex gap-2'>
-          <Button
-            variant='outline'
-            className='flex-1'
-            onClick={handleToggleSave}
-          >
-            <LuHeart
-              className={`transition-colors ${isSaved ? 'text-app-saved fill-app-saved' : ''}`}
-            />
-            {isSaved ? 'Saved' : 'Save'}
-          </Button>
-          <div className='flex-1'>
-            <BorrowRequestDialog outfit={outfit} isAvailable={isAvailable} />
-          </div>
-        </DialogFooter>
+        {user.activeRole === 'borrower' && (
+          <DialogFooter className='flex gap-2'>
+            <Button
+              variant='outline'
+              className='flex-1'
+              onClick={handleToggleSave}
+            >
+              <LuHeart
+                className={`transition-colors ${isSaved ? 'text-app-saved fill-app-saved' : ''}`}
+              />
+              {isSaved ? 'Saved' : 'Save'}
+            </Button>
+            <div className='flex-1'>
+              <BorrowRequestDialog outfit={outfit} isAvailable={isAvailable} />
+            </div>
+          </DialogFooter>
+        )}
       </DialogContent>
     </Dialog>
   );
