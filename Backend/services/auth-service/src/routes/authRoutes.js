@@ -139,6 +139,7 @@ router.get("/me", auth, async (req, res) => {
         activeRole: req.user.activeRole,
         profilePhoto: req.user.profilePhoto,
         bio: req.user.bio,
+        sizeProfile: req.user.sizeProfile,
         isProfileComplete: req.user.isProfileComplete,
         isRestricted: req.user.isRestricted,
         badges: req.user.badges,
@@ -163,7 +164,23 @@ router.patch("/me", auth, async (req, res) => {
     if (activeRole && ["borrower", "lender"].includes(activeRole)) {
       updates.activeRole = activeRole;
     }
-    if (sizeProfile !== undefined) updates.sizeProfile = sizeProfile;
+
+    // Validate and apply sizeProfile with dot-notation for partial updates
+    if (sizeProfile !== undefined) {
+      if (typeof sizeProfile !== "object" || sizeProfile === null || Array.isArray(sizeProfile)) {
+        return res.status(400).json({ message: "sizeProfile must be an object" });
+      }
+      const allowedKeys = ["height", "fitPreference", "topSize", "bottomSize"];
+      for (const key of allowedKeys) {
+        if (key in sizeProfile) {
+          if (typeof sizeProfile[key] !== "string") {
+            return res.status(400).json({ message: `sizeProfile.${key} must be a string` });
+          }
+          updates[`sizeProfile.${key}`] = sizeProfile[key];
+        }
+      }
+    }
+
     if (bio !== undefined) updates.bio = bio;
     if (profilePhoto !== undefined) updates.profilePhoto = profilePhoto;
 
@@ -178,6 +195,7 @@ router.patch("/me", auth, async (req, res) => {
         activeRole: user.activeRole,
         profilePhoto: user.profilePhoto,
         bio: user.bio,
+        sizeProfile: user.sizeProfile,
         isProfileComplete: user.isProfileComplete,
         isRestricted: user.isRestricted,
         badges: user.badges,
