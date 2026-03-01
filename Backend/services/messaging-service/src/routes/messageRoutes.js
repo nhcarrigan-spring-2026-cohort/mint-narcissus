@@ -3,6 +3,9 @@ const router = express.Router();
 const Conversation = require("../models/Conversation");
 const Message = require("../models/Message");
 const { auth } = require("../middleware/auth");
+const { createLogger } = require("shared/logger");
+
+const logger = createLogger("messaging-service");
 
 // GET /api/messages/conversations
 // Returns all conversations for the current user, sorted by most recent activity.
@@ -23,7 +26,7 @@ router.get("/conversations", auth, async (req, res) => {
 
     res.json(result);
   } catch (err) {
-    console.error(err);
+    logger.error("Get conversations failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
@@ -77,7 +80,7 @@ router.get("/conversations/:conversationId", auth, async (req, res) => {
       },
     });
   } catch (err) {
-    console.error(err);
+    logger.error("Get conversation messages failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
@@ -146,7 +149,7 @@ router.post("/conversations/:conversationId", auth, async (req, res) => {
 
     res.status(201).json(message);
   } catch (err) {
-    console.error(err);
+    logger.error("Send message failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
@@ -180,7 +183,7 @@ router.patch(
 
       res.json({ message: "Marked as read." });
     } catch (err) {
-      console.error(err);
+      logger.error("Mark conversation read failed", err);
       res.status(500).json({ message: "Server error." });
     }
   },

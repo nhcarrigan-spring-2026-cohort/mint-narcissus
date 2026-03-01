@@ -17,6 +17,8 @@ import { LuLinkedin } from '@/utils/icons';
 import { MOCK_USERS } from '@/utils/mockData';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { Loader2 } from "lucide-react";
+import { linkedinOAuthRedirect, registerApi } from '@/api/auth.api';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -24,13 +26,31 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLinkedInRegister = () => {
-    toast.success('User Registered Successfully!');
+    setIsLoading(true);
+    try {
+      dispatch(linkedinOAuthRedirect());
+    }finally {
+      setIsLoading(false);
+    }
   };
-  const handleEmailRegister = (e) => {
+
+  const handleEmailRegister = async (e) => {
     e.preventDefault();
-    toast.success('User Registered Successfully!');
+    setIsLoading(true);
+    try {
+      const formData = { name, email, password };
+      const data = await registerApi(formData);
+      console.log(data);
+      dispatch(login(data));
+      toast.success(data?.message);
+    } catch (err) {
+      toast.error(err.response?.data?.message)
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // TODO: Remove after demo
@@ -60,11 +80,13 @@ const Register = () => {
         <CardContent className='px-6 space-y-4'>
           <Button
             variant='outline'
+            disabled={isLoading}
             className='w-full text-foreground hover:text-accent-foreground'
             onClick={handleLinkedInRegister}
           >
             <LuLinkedin className='mr-2 size-4' />
-            Sign up with LinkedIn
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isLoading ? "Loading..." : "Sign up with LinkedIn"}
           </Button>
           <div className='flex items-center'>
             <Separator className='flex-1' />
@@ -122,7 +144,8 @@ const Register = () => {
               className='bg-app-primary/95 hover:bg-app-primary w-full transition-colors'
               disabled={!name || !email || !password}
             >
-              Sign Up
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isLoading ? "Loading..." : "Sign Up"}
             </Button>
           </form>
         </CardContent>

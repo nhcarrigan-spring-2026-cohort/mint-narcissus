@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+const { createLogger } = require("shared/logger");
+
+const logger = createLogger("items-service");
 
 const connectDB = async () => {
   try {
@@ -6,23 +9,23 @@ const connectDB = async () => {
       process.env.MONGODB_URI || "mongodb://localhost:27017/mint-narcissus",
     );
 
-    console.log("MongoDB Connected");
+    logger.info("MongoDB connected");
 
     mongoose.connection.on("error", (err) => {
-      console.error(`MongoDB connection error: ${err}`);
+      logger.error("MongoDB connection error", err);
     });
 
     mongoose.connection.on("disconnected", () => {
-      console.log("MongoDB disconnected");
+      logger.warn("MongoDB disconnected");
     });
 
     process.on("SIGINT", async () => {
       await mongoose.connection.close();
-      console.log("MongoDB connection closed through app termination");
+      logger.info("MongoDB connection closed through app termination");
       process.exit(0);
     });
   } catch (error) {
-    console.error(`Error connecting to MongoDB: ${error.message}`);
+    logger.error("Error connecting to MongoDB", error);
     process.exit(1);
   }
 };

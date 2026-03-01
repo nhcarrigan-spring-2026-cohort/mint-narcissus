@@ -1,5 +1,6 @@
 const passport = require("passport");
 const OAuth2Strategy = require("passport-oauth2");
+const https = require("https");
 const User = require("../models/User");
 
 passport.use(
@@ -17,19 +18,25 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         // LinkedIn OIDC userinfo endpoint (works with openid/profile/email scopes)
-        const response = await fetch(
-          "https://api.linkedin.com/v2/userinfo",
-          { headers: { Authorization: `Bearer ${accessToken}` } },
-        );
-
-        if (!response.ok) {
-          return done(
-            new Error(`LinkedIn userinfo failed: ${response.status}`),
-          );
-        }
-
-        // OIDC userinfo response: { sub, name, given_name, family_name, picture, email }
-        const info = await response.json();
+        const info = await new Promise((resolve, reject) => {
+          const options = {
+            hostname: "api.linkedin.com",
+            path: "/v2/userinfo",
+            family: 4, // force IPv4 — avoids ETIMEDOUT in Docker on macOS
+            headers: { Authorization: `Bearer ${accessToken}` },
+          };
+          https.get(options, (res) => {
+            let body = "";
+            res.on("data", (chunk) => (body += chunk));
+            res.on("end", () => {
+              if (res.statusCode !== 200) {
+                return reject(new Error(`LinkedIn userinfo failed: ${res.statusCode}`));
+              }
+              try { resolve(JSON.parse(body)); }
+              catch (e) { reject(e); }
+            });
+          }).on("error", reject);
+        });
 
         const linkedinId = info.sub;
         const email = info.email || null;

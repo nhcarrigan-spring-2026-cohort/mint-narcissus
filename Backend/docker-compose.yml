@@ -14,6 +14,16 @@ services:
       - "8080:8080"
     environment:
       - PORT=8080
+      - JWT_SECRET=${JWT_SECRET}
+      - AUTH_SERVICE_URL=http://auth-service:3001
+      - ITEMS_SERVICE_URL=http://items-service:3002
+      - REQUESTS_SERVICE_URL=http://requests-service:3003
+      - MESSAGING_SERVICE_URL=http://messaging-service:3004
+    depends_on:
+      - auth-service
+      - items-service
+      - requests-service
+      - messaging-service
 
   auth-service:
     build:
