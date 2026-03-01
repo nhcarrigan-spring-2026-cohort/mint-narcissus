@@ -14,6 +14,11 @@ const borrowRoutes = require("./routes/borrowRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const healthRoutes = require("./routes/health");
 const initSocket = require("./socket/socketHandler");
+const { createLogger } = require("shared/logger");
+const { requestContext } = require("shared/logger/middleware/requestContext");
+const { createHttpLogger } = require("shared/logger/middleware/httpLogger");
+
+const logger = createLogger("messaging-service");
 
 const app = express();
 const server = http.createServer(app);
@@ -41,6 +46,10 @@ app.use((req, res, next) => {
   next();
 });
 
+// Logger middleware
+app.use(requestContext);
+app.use(createHttpLogger(logger));
+
 app.use(healthRoutes);
 app.use("/api/messages", borrowRoutes);
 app.use("/api/messages", messageRoutes);
@@ -51,10 +60,10 @@ const startServer = async () => {
   try {
     await connectDB();
     server.listen(PORT, () => {
-      console.log(`Messaging service running on port ${PORT}`);
+      logger.info("Service started", { meta: { port: PORT } });
     });
   } catch (error) {
-    console.error("Failed to start messaging service:", error);
+    logger.error("Failed to start messaging service", error);
     process.exit(1);
   }
 };

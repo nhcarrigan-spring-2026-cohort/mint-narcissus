@@ -11,6 +11,11 @@ const connectDB = require("./config/database");
 const passport = require("./config/passport");
 const authRoutes = require("./routes/authRoutes");
 const healthRoutes = require("./routes/health");
+const { createLogger } = require("shared/logger");
+const { requestContext } = require("shared/logger/middleware/requestContext");
+const { createHttpLogger } = require("shared/logger/middleware/httpLogger");
+
+const logger = createLogger("auth-service");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -24,6 +29,10 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// Logger middleware
+app.use(requestContext);
+app.use(createHttpLogger(logger));
 
 // Session middleware required for OAuth state verification
 app.use(
@@ -51,10 +60,10 @@ const startServer = async () => {
   try {
     await connectDB();
     app.listen(PORT, () => {
-      console.log(`Auth service running on port ${PORT}`);
+      logger.info("Service started", { meta: { port: PORT } });
     });
   } catch (error) {
-    console.error("Failed to start auth service:", error);
+    logger.error("Failed to start auth service", error);
     process.exit(1);
   }
 };

@@ -1,5 +1,9 @@
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie");
+const { createLogger } = require("shared/logger");
+const { als } = require("shared/logger/context");
+
+const logger = createLogger("messaging-service");
 
 // In-memory map: conversationId -> Set of userIds currently in the room.
 // Used to track and broadcast online/offline presence within a conversation.
@@ -34,7 +38,9 @@ module.exports = (io) => {
   });
 
   io.on("connection", (socket) => {
-    console.log(`Socket connected: user ${socket.userId}`);
+    als.run({ correlationId: socket.id, userId: socket.userId }, () => {
+      logger.info("Socket connected");
+    });
 
     // Client joins a conversation room when they open the chat view.
     socket.on("join_conversation", (conversationId) => {
@@ -82,7 +88,9 @@ module.exports = (io) => {
         }
       });
 
-      console.log(`Socket disconnected: user ${socket.userId}`);
+      als.run({ correlationId: socket.id, userId: socket.userId }, () => {
+        logger.info("Socket disconnected");
+      });
     });
   });
 };

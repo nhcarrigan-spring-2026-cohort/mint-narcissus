@@ -3,6 +3,9 @@ const User = require("../models/User");
 const { generateToken } = require("../utils/jwt");
 const { auth } = require("../middleware/auth.js");
 const passport = require("../config/passport.js");
+const { createLogger } = require("shared/logger");
+
+const logger = createLogger("auth-service");
 
 // ===========================================================================
 
@@ -41,6 +44,7 @@ router.post("/register", async (req, res) => {
 
     res.status(201).json({
       message: "User registered successfully",
+      token,
       user: {
         id: user._id,
         name: user.name,
@@ -50,7 +54,7 @@ router.post("/register", async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Register error:", error);
+    logger.error("Registration failed", error);
     res.status(500).json({ message: "Server error during registration" });
   }
 });
@@ -90,6 +94,7 @@ router.post("/login", async (req, res) => {
 
     res.json({
       message: "Login successful",
+      token,
       user: {
         id: user._id,
         name: user.name,
@@ -99,7 +104,7 @@ router.post("/login", async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Login error:", error);
+    logger.error("Login failed", error);
     res.status(500).json({ message: "Server error during login" });
   }
 });
@@ -116,7 +121,7 @@ router.post("/logout", (req, res) => {
 
     res.json({ message: "Logout successful" });
   } catch (error) {
-    console.error("Logout error:", error);
+    logger.error("Logout failed", error);
     res.status(500).json({ message: "Server error during logout" });
   }
 });
@@ -134,6 +139,7 @@ router.get("/me", auth, async (req, res) => {
         activeRole: req.user.activeRole,
         profilePhoto: req.user.profilePhoto,
         bio: req.user.bio,
+        sizeProfile: req.user.sizeProfile,
         isProfileComplete: req.user.isProfileComplete,
         isRestricted: req.user.isRestricted,
         badges: req.user.badges,
@@ -143,7 +149,7 @@ router.get("/me", auth, async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Get user error:", error);
+    logger.error("Get user failed", error);
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -158,7 +164,23 @@ router.patch("/me", auth, async (req, res) => {
     if (activeRole && ["borrower", "lender"].includes(activeRole)) {
       updates.activeRole = activeRole;
     }
-    if (size !== undefined) updates.size = size;
+
+    // Validate and apply sizeProfile with dot-notation for partial updates
+    if (sizeProfile !== undefined) {
+      if (typeof sizeProfile !== "object" || sizeProfile === null || Array.isArray(sizeProfile)) {
+        return res.status(400).json({ message: "sizeProfile must be an object" });
+      }
+      const allowedKeys = ["height", "fitPreference", "topSize", "bottomSize"];
+      for (const key of allowedKeys) {
+        if (key in sizeProfile) {
+          if (typeof sizeProfile[key] !== "string") {
+            return res.status(400).json({ message: `sizeProfile.${key} must be a string` });
+          }
+          updates[`sizeProfile.${key}`] = sizeProfile[key];
+        }
+      }
+    }
+
     if (bio !== undefined) updates.bio = bio;
     if (profilePhoto !== undefined) updates.profilePhoto = profilePhoto;
 
@@ -173,6 +195,7 @@ router.patch("/me", auth, async (req, res) => {
         activeRole: user.activeRole,
         profilePhoto: user.profilePhoto,
         bio: user.bio,
+        sizeProfile: user.sizeProfile,
         isProfileComplete: user.isProfileComplete,
         isRestricted: user.isRestricted,
         badges: user.badges,
@@ -182,7 +205,7 @@ router.patch("/me", auth, async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Update profile error:", error);
+    logger.error("Update profile failed", error);
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -190,7 +213,17 @@ router.patch("/me", auth, async (req, res) => {
 // ===========================================================================
 
 // GET /api/auth/linkedin - Initiate LinkedIn OAuth flow
-router.get("/linkedin", passport.authenticate("linkedin"));
+router.get("/linkedin", (req, res, next) => {
+  // Detect whether the user came from /register or /login using the Referer header
+  const referer = req.get("Referer") || "";
+  const mode = referer.includes("/register") ? "signup" : "login";
+  res.cookie("linkedin_auth_mode", mode, {
+    httpOnly: true,
+    maxAge: 10 * 60 * 1000, // 10 minutes
+    sameSite: "lax",
+  });
+  passport.authenticate("linkedin")(req, res, next);
+});
 
 // ===========================================================================
 
@@ -199,16 +232,32 @@ router.get(
   "/linkedin/callback",
   (req, res, next) => {
     const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
-    passport.authenticate("linkedin", {
-      session: false,
-      failureRedirect: `${clientUrl}/login?error=linkedin_failed`,
+    const mode = req.cookies?.linkedin_auth_mode || "login";
+    const fallbackPath = mode === "signup" ? "/register" : "/login";
+
+    // Clear the mode cookie
+    res.clearCookie("linkedin_auth_mode");
+
+    passport.authenticate("linkedin", { session: false }, (err, user) => {
+      // Handle user cancellation or any OAuth error
+      if (err || !user) {
+        const errorType = err?.code === "user_cancelled_login" || err?.code === "user_cancelled_authorize"
+          ? "linkedin_cancelled"
+          : "linkedin_failed";
+        logger.warn("LinkedIn OAuth callback error", { error: err?.message, code: err?.code, mode });
+        return res.redirect(`${clientUrl}${fallbackPath}?error=${errorType}`);
+      }
+
+      // Success — issue token and redirect home
+      req.user = user;
+      next();
     })(req, res, next);
   },
   (req, res) => {
     const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
     const token = generateToken(req.user._id);
     res.cookie("token", token, COOKIE_OPTIONS);
-    res.redirect(`${clientUrl}/dashboard`);
+    res.redirect(`${clientUrl}/`);
   },
 );
 
