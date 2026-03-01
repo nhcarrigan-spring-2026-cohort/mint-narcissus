@@ -152,13 +152,13 @@ router.get("/me", auth, async (req, res) => {
 // Update profile fields. Sets isProfileComplete: true.
 router.patch("/me", auth, async (req, res) => {
   try {
-    const { activeRole, sizeProfile, bio, profilePhoto } = req.body;
+    const { activeRole, size, bio, profilePhoto } = req.body;
     const updates = { isProfileComplete: true };
 
     if (activeRole && ["borrower", "lender"].includes(activeRole)) {
       updates.activeRole = activeRole;
     }
-    if (sizeProfile !== undefined) updates.sizeProfile = sizeProfile;
+    if (size !== undefined) updates.size = size;
     if (bio !== undefined) updates.bio = bio;
     if (profilePhoto !== undefined) updates.profilePhoto = profilePhoto;
 

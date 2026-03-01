@@ -11,9 +11,9 @@ export const MOCK_OUTFITS = [
     fabric: 'Wool Blend',
     size: {
       topSize: 'M',
+      fitType: 'Slim',
       bottomSize: '32',
       height: 'Regular',
-      fitType: 'Slim',
     },
     confidenceNote:
       'Wore this for my first investment banking interview at Goldman Sachs. Walk in with confidence.',
@@ -37,9 +37,9 @@ export const MOCK_OUTFITS = [
     fabric: 'Cotton',
     size: {
       topSize: 'L',
+      fitType: 'Regular',
       bottomSize: '34',
       height: 'Tall',
-      fitType: 'Regular',
     },
     confidenceNote:
       'Wore this to my first software engineer interview. Be yourself, be confident.',
@@ -63,9 +63,9 @@ export const MOCK_OUTFITS = [
     fabric: 'Italian Wool',
     size: {
       topSize: 'S',
+      fitType: 'Slim',
       bottomSize: '30',
       height: 'Short',
-      fitType: 'Slim',
     },
     confidenceNote:
       "This suit has helped three people land their dream jobs. You're next!",
@@ -87,11 +87,11 @@ export const MOCK_USERS = {
     activeRole: null,
     profileCompleted: false,
     isVerified: false,
-    sizeProfile: {
+    size: {
       height: null,
+      fitType: null,
       topSize: null,
       bottomSize: null,
-      fitPreference: null,
     },
   },
   registerLinkedInUser: {
@@ -102,11 +102,11 @@ export const MOCK_USERS = {
     profileCompleted: false,
     isVerified: true,
     linkedinUrl: 'https://linkedin.com/in/demo',
-    sizeProfile: {
+    size: {
       height: null,
+      fitType: null,
       topSize: null,
       bottomSize: null,
-      fitPreference: null,
     },
   },
   loginEmailUser: {
@@ -116,11 +116,11 @@ export const MOCK_USERS = {
     activeRole: 'borrower',
     profileCompleted: true,
     isVerified: false,
-    sizeProfile: {
-      heightCategory: 'Tall',
+    size: {
+      height: 'Tall',
+      fitType: 'Slim',
       topSize: 'S',
       bottomSize: '34',
-      fitPreference: 'Slim',
     },
   },
   loginLinkedInUser: {
@@ -130,11 +130,11 @@ export const MOCK_USERS = {
     activeRole: 'lender',
     profileCompleted: true,
     isVerified: true,
-    sizeProfile: {
-      heightCategory: 'Regular',
+    size: {
+      height: 'Regular',
+      fitType: 'Slim',
       topSize: 'M',
       bottomSize: '32',
-      fitPreference: 'Slim',
     },
   },
 };

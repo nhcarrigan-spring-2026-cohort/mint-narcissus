@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { switchRole, logout } from '@/store/authSlice';
 import RoleSwitch from '../shared/RoleSwitch';
@@ -56,6 +56,7 @@ const lenderNavItems = [
 ];
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { activeRole } = user;
@@ -63,6 +64,7 @@ export default function Navbar() {
     activeRole === 'borrower' ? borrowerNavItems : lenderNavItems;
 
   const handleSwitch = (role) => {
+    navigate('/');
     dispatch(switchRole(role));
   };
   const handleLogout = () => {
@@ -103,7 +105,6 @@ export default function Navbar() {
             to='/list'
             className={`flex justify-center items-center text-sm font-medium lg:gap-2 gap-1 bg-app-primary text-white lg:px-4 md:py-2 px-2 py-1 rounded-sm`}
           >
-            <LuPlus className='size-4' />
             <LuPlus className='size-4' />
             <span>List Outfit</span>
           </NavLink>

@@ -42,11 +42,11 @@ const ProfileSetup = () => {
     dispatch(
       completeProfile({
         activeRole: selectedRole,
-        sizeProfile: {
+        size: {
           height,
           topSize,
           bottomSize,
-          fitPreference,
+          fitType: fitPreference,
         },
       }),
     );
@@ -118,7 +118,7 @@ const ProfileSetup = () => {
                 </Select>
               </Field>
               <Field>
-                <FieldLabel htmlFor='topSize'>Fit Preference</FieldLabel>
+                <FieldLabel htmlFor='fitPreference'>Fit Preference</FieldLabel>
                 <Select value={fitPreference} onValueChange={setFitPreference}>
                   <SelectTrigger>
                     <SelectValue placeholder='Fit Preference' />
