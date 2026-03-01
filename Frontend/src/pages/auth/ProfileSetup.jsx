@@ -22,6 +22,7 @@ import {
   SelectValue,
   SelectContent,
 } from '@/components/ui/select';
+import { updateMeApi } from '@/api/auth.api';
 
 const ProfileSetup = () => {
   const dispatch = useDispatch();
@@ -33,24 +34,32 @@ const ProfileSetup = () => {
   const [topSize, setTopSize] = useState('');
   const [bottomSize, setBottomSize] = useState('');
   const [fitPreference, setFitPreference] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleStep = () => {
     step === 1 ? setStep(2) : setStep(1);
   };
 
-  const handleComplete = () => {
-    dispatch(
-      completeProfile({
-        activeRole: selectedRole,
-        sizeProfile: {
-          height,
-          topSize,
-          bottomSize,
-          fitPreference,
-        },
-      }),
-    );
-    navigate('/');
+  const handleComplete = async () => {
+    const profileData = {
+      activeRole: selectedRole,
+      sizeProfile: {
+        height,
+        topSize,
+        bottomSize,
+        fitPreference,
+      }
+    };
+    setIsLoading(true);
+    try {
+      const data = await updateMeApi(profileData);
+      dispatch(completeProfile(profileData));
+      navigate('/');
+    } catch (err) {
+      toast.error(err.response?.data?.message)
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

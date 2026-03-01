@@ -25,6 +25,12 @@ export const getMeApi = async () => {
   return data;
 };
 
+// update user
+export const updateMeApi = async (payload) => {
+  const { data } = await axiosInstance.patch(AUTH_ENDPOINTS.ME, payload);
+  return data;
+};
+
 // linkedin redirect
 export const linkedinOAuthRedirect = () => {
   window.location.replace(`${import.meta.env.VITE_API_BASE_URL}/auth/linkedin`);

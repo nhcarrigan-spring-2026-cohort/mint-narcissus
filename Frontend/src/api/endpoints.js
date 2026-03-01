@@ -5,3 +5,7 @@ export const AUTH_ENDPOINTS = {
   ME: '/auth/me',
   AUTH_HEALTH: '/health',
 };
+
+export const MESSAGE_ENDPOINTS = {
+  
+}
