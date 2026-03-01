@@ -7,6 +7,9 @@ const Conversation = require("../models/Conversation");
 const Message = require("../models/Message");
 const Outfit = require("../models/Outfit");
 const { auth } = require("../middleware/auth");
+const { createLogger } = require("shared/logger");
+
+const logger = createLogger("messaging-service");
 
 // Minimal User model for updating ratings. strict:false lets it coexist with
 // auth-service's full User schema on the shared DB.
@@ -79,7 +82,7 @@ router.post("/request", auth, async (req, res) => {
 
     res.status(201).json(request);
   } catch (err) {
-    console.error(err);
+    logger.error("Create borrow request failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
@@ -112,7 +115,7 @@ router.get("/requests/incoming", auth, async (req, res) => {
       pagination: { page, limit, total, pages: Math.ceil(total / limit) },
     });
   } catch (err) {
-    console.error(err);
+    logger.error("Get incoming requests failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
@@ -144,7 +147,7 @@ router.get("/requests/my-requests", auth, async (req, res) => {
       pagination: { page, limit, total, pages: Math.ceil(total / limit) },
     });
   } catch (err) {
-    console.error(err);
+    logger.error("Get my requests failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
@@ -173,7 +176,7 @@ router.get("/requests/:id", auth, async (req, res) => {
 
     res.json(request);
   } catch (err) {
-    console.error(err);
+    logger.error("Get request detail failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
@@ -215,7 +218,7 @@ router.patch("/requests/:id/approve", auth, async (req, res) => {
 
     res.json({ request, conversationId: conversation._id });
   } catch (err) {
-    console.error(err);
+    logger.error("Approve request failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
@@ -245,7 +248,7 @@ router.patch("/requests/:id/reject", auth, async (req, res) => {
 
     res.json(request);
   } catch (err) {
-    console.error(err);
+    logger.error("Reject request failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
@@ -275,7 +278,7 @@ router.patch("/requests/:id/cancel", auth, async (req, res) => {
 
     res.json(request);
   } catch (err) {
-    console.error(err);
+    logger.error("Cancel request failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
@@ -318,7 +321,7 @@ router.patch("/requests/:id/confirm-lend", auth, async (req, res) => {
 
     res.json(request);
   } catch (err) {
-    console.error(err);
+    logger.error("Confirm lend failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
@@ -387,7 +390,7 @@ router.post("/requests/:id/agreement", auth, async (req, res) => {
 
     res.json(request);
   } catch (err) {
-    console.error(err);
+    logger.error("Accept agreement failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
@@ -447,7 +450,7 @@ router.patch("/requests/:id/returned", auth, async (req, res) => {
 
     res.json(request);
   } catch (err) {
-    console.error(err);
+    logger.error("Mark returned failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
@@ -520,7 +523,7 @@ router.post("/requests/:id/rate", auth, async (req, res) => {
     await request.save();
     res.json(request);
   } catch (err) {
-    console.error(err);
+    logger.error("Submit rating failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
