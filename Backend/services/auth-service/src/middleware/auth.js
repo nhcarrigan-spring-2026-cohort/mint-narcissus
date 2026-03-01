@@ -1,5 +1,8 @@
 const { verifyToken } = require("../utils/jwt");
 const User = require("../models/User");
+const { createLogger } = require("shared/logger");
+
+const logger = createLogger("auth-service");
 
 const auth = async (req, res, next) => {
   try {
@@ -35,7 +38,7 @@ const auth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    console.error("Auth middleware error:", error);
+    logger.error("Auth middleware error", error);
     return res
       .status(401)
       .json({ message: "Invalid or expired token. Please login again." });

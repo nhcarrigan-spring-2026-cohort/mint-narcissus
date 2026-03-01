@@ -12,7 +12,8 @@
     "cors": "^2.8.6",
     "express": "^4.21.0",
     "http-proxy-middleware": "^2.0.6",
-    "jsonwebtoken": "^9.0.0"
+    "jsonwebtoken": "^9.0.0",
+    "shared": "*"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"

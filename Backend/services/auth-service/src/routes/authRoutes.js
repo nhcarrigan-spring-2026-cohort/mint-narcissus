@@ -3,6 +3,9 @@ const User = require("../models/User");
 const { generateToken } = require("../utils/jwt");
 const { auth } = require("../middleware/auth.js");
 const passport = require("../config/passport.js");
+const { createLogger } = require("shared/logger");
+
+const logger = createLogger("auth-service");
 
 // ===========================================================================
 
@@ -51,7 +54,7 @@ router.post("/register", async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Register error:", error);
+    logger.error("Registration failed", error);
     res.status(500).json({ message: "Server error during registration" });
   }
 });
@@ -101,7 +104,7 @@ router.post("/login", async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Login error:", error);
+    logger.error("Login failed", error);
     res.status(500).json({ message: "Server error during login" });
   }
 });
@@ -118,7 +121,7 @@ router.post("/logout", (req, res) => {
 
     res.json({ message: "Logout successful" });
   } catch (error) {
-    console.error("Logout error:", error);
+    logger.error("Logout failed", error);
     res.status(500).json({ message: "Server error during logout" });
   }
 });
@@ -145,7 +148,7 @@ router.get("/me", auth, async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Get user error:", error);
+    logger.error("Get user failed", error);
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -184,7 +187,7 @@ router.patch("/me", auth, async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Update profile error:", error);
+    logger.error("Update profile failed", error);
     res.status(500).json({ message: "Server error" });
   }
 });

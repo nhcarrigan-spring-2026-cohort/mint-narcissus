@@ -1,5 +1,8 @@
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+const { createLogger } = require("shared/logger");
+
+const logger = createLogger("messaging-service");
 
 // Minimal schema to check isRestricted against the shared User collection.
 // Uses strict: false so it coexists safely with any other service's User model
@@ -49,7 +52,8 @@ const auth = async (req, res, next) => {
 
     req.user = { _id: user._id };
     next();
-  } catch {
+  } catch (error) {
+    logger.error("Auth middleware error", error);
     return res
       .status(401)
       .json({ message: "Invalid or expired token. Please login again." });

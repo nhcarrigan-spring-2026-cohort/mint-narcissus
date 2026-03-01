@@ -3,6 +3,9 @@ const router = express.Router();
 const mongoose = require("mongoose");
 
 const Item = require("../models/Item");
+const { createLogger } = require("shared/logger");
+
+const logger = createLogger("items-service");
 
 // ─── Internal Auth ───────────────────────────────────────────────────────────
 // Requests must carry the shared secret in the x-internal-secret header.
@@ -44,7 +47,7 @@ router.patch("/items/:id/status", internalAuth, async (req, res) => {
 
     res.json(item);
   } catch (err) {
-    console.error(err);
+    logger.error("Internal update item status failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });

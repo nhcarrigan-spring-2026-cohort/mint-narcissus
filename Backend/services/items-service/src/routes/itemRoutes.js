@@ -7,6 +7,9 @@ const { auth } = require("../middleware/auth");
 const { requireProfileComplete, requireRole } = require("../../../../shared/index");
 const cloudinary = require("../config/cloudinary");
 const upload = require("../utils/upload");
+const { createLogger } = require("shared/logger");
+
+const logger = createLogger("items-service");
 
 // ─── Helper ──────────────────────────────────────────────────────────────────
 
@@ -38,7 +41,7 @@ router.get(
       });
       res.json(items);
     } catch (err) {
-      console.error(err);
+      logger.error("Get lender items failed", err);
       res.status(500).json({ message: "Server error." });
     }
   },
@@ -76,7 +79,7 @@ router.get(
         pages: Math.ceil(total / safeLimit),
       });
     } catch (err) {
-      console.error(err);
+      logger.error("Get items feed failed", err);
       res.status(500).json({ message: "Server error." });
     }
   },
@@ -134,7 +137,7 @@ router.post(
 
       res.status(201).json(item);
     } catch (err) {
-      console.error(err);
+      logger.error("Create item failed", err);
       res.status(500).json({ message: "Server error." });
     }
   },
@@ -153,7 +156,7 @@ router.get("/:id", auth, async (req, res) => {
 
     res.json(item);
   } catch (err) {
-    console.error(err);
+    logger.error("Get item detail failed", err);
     res.status(500).json({ message: "Server error." });
   }
 });
@@ -215,7 +218,7 @@ router.patch(
       });
       res.json(updated);
     } catch (err) {
-      console.error(err);
+      logger.error("Update item failed", err);
       res.status(500).json({ message: "Server error." });
     }
   },
@@ -258,7 +261,7 @@ router.patch(
       await item.save();
       res.json(item);
     } catch (err) {
-      console.error(err);
+      logger.error("Update item status failed", err);
       res.status(500).json({ message: "Server error." });
     }
   },
@@ -293,7 +296,7 @@ router.delete(
       await item.deleteOne();
       res.json({ message: "Item deleted." });
     } catch (err) {
-      console.error(err);
+      logger.error("Delete item failed", err);
       res.status(500).json({ message: "Server error." });
     }
   },
