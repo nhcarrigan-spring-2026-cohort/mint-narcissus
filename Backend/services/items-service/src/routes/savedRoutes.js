@@ -6,6 +6,9 @@ const SavedItem = require("../models/SavedItem");
 const Item = require("../models/Item");
 const { auth } = require("../middleware/auth");
 const { requireProfileComplete, requireRole } = require("../../../../shared/index");
+const { createLogger } = require("shared/logger");
+
+const logger = createLogger("items-service");
 
 // GET /api/items/saved
 // Borrower's saved outfits with live item status on each.
@@ -22,7 +25,7 @@ router.get(
 
       res.json(saved);
     } catch (err) {
-      console.error(err);
+      logger.error("Get saved items failed", err);
       res.status(500).json({ message: "Server error." });
     }
   },
@@ -59,7 +62,7 @@ router.post(
 
       res.status(201).json(saved);
     } catch (err) {
-      console.error(err);
+      logger.error("Save item failed", err);
       res.status(500).json({ message: "Server error." });
     }
   },
@@ -89,7 +92,7 @@ router.delete(
 
       res.json({ message: "Unsaved." });
     } catch (err) {
-      console.error(err);
+      logger.error("Unsave item failed", err);
       res.status(500).json({ message: "Server error." });
     }
   },
