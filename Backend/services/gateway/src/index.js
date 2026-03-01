@@ -4,6 +4,12 @@ const cookieParser = require("cookie-parser");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const { verifyJWT } = require("./middleware/auth");
 const healthRoutes = require("./routes/health");
+const { createLogger } = require("shared/logger");
+const { correlationId } = require("shared/logger/middleware/correlationId");
+const { requestContext } = require("shared/logger/middleware/requestContext");
+const { createHttpLogger } = require("shared/logger/middleware/httpLogger");
+
+const logger = createLogger("gateway");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -18,7 +24,7 @@ const REQUIRED_VARS = [
 ];
 REQUIRED_VARS.forEach((key) => {
   if (!process.env[key]) {
-    console.error(`[Gateway] Missing required env var: ${key}`);
+    logger.error("Missing required env var", { meta: { key } });
     process.exit(1);
   }
 });
@@ -44,6 +50,11 @@ app.use((req, _res, next) => {
   next();
 });
 
+// ── Logger middleware ─────────────────────────────────────────────────────────
+app.use(correlationId);
+app.use(requestContext);
+app.use(createHttpLogger(logger));
+
 // ── Health ────────────────────────────────────────────────────────────────────
 app.use(healthRoutes);
 
@@ -54,7 +65,7 @@ const proxy = (target) =>
     changeOrigin: true,
     on: {
       error: (err, _req, res) => {
-        console.error(`[Gateway] Proxy error → ${target}:`, err.message);
+        logger.error("Proxy error", err, { meta: { target } });
         res.status(502).json({ error: "Bad Gateway" });
       },
     },
@@ -88,7 +99,7 @@ app.use((_req, res) => {
 
 // ── Start ─────────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`[Gateway] Running on port ${PORT}`);
+  logger.info("Service started", { meta: { port: PORT } });
 });
 
 module.exports = app;
