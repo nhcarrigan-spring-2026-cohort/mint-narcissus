@@ -41,6 +41,12 @@ const userSchema = new mongoose.Schema(
     gender: {
       type: String,
     },
+    sizeProfile: {
+      height: { type: String, default: "" },
+      fitPreference: { type: String, default: "" },
+      topSize: { type: String, default: "" },
+      bottomSize: { type: String, default: "" },
+    },
     activeRole: {
       type: String,
       enum: ["borrower", "lender"],
