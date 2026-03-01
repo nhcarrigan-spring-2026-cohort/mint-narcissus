@@ -1,42 +1,14 @@
+import { useSelector } from 'react-redux';
 import { Card, CardContent } from '@/components/ui/card';
-import React from 'react';
-import { LuInfo, LuTrash2 } from '@/utils/icons';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import OutfitDetails from '@/components/outfits/OutfitDetails';
-import { Label } from '@/components/ui/label';
-import { useDispatch, useSelector } from 'react-redux';
+import LentOutfitCard from './LentOutfitCard';
+import { LuInfo } from '@/utils/icons';
 import { MOCK_OUTFITS } from '@/utils/mockData';
-import { removeOutfit, updateOutfitStatus } from '@/store/outfitSlice';
-import { toast } from 'sonner';
 
 const MyOutfits = () => {
   const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
   // Use for checking while development
   const outfits = MOCK_OUTFITS;
   // const outfits = useSelector((state) => state.outfits.items);
-
-  const handleUpdateOutfitStatus = (id, status) =>
-    dispatch(
-      updateOutfitStatus({
-        outfitId: id,
-        status,
-      }),
-    );
-
-  const handleRemoveOutfit = (id) => {
-    dispatch(removeOutfit(id));
-    toast.success('Outfit removed successfully');
-  };
 
   const myOutfits = outfits.filter((o) => o.lenderDetails.lenderId === user.id);
   const total = myOutfits.length;
@@ -46,7 +18,7 @@ const MyOutfits = () => {
     (o) => o.status === 'Unavailable',
   ).length;
 
-  const cardMap = [
+  const statsMap = [
     {
       title: 'Total Listed',
       value: total,
@@ -77,16 +49,16 @@ const MyOutfits = () => {
           </h2>
           <p className='text-muted-foreground'>Manage your listed outfits</p>
         </div>
-        {/* Cards */}
+        {/* Stats Cards */}
         <div className='grid grid-cols-1 md:grid-cols-4 gap-4'>
-          {cardMap.map((c) => (
-            <Card key={c.title}>
+          {statsMap.map((stat) => (
+            <Card key={stat.title}>
               <CardContent>
                 <div className='text-center'>
-                  <p className={`text-3xl font-bold ${c.textColor}`}>
-                    {c.value}
+                  <p className={`text-3xl font-bold ${stat.textColor}`}>
+                    {stat.value}
                   </p>
-                  <p className='text-sm text-muted-foreground'>{c.title}</p>
+                  <p className='text-sm text-muted-foreground'>{stat.title}</p>
                 </div>
               </CardContent>
             </Card>
@@ -117,89 +89,7 @@ const MyOutfits = () => {
         </div>
         {/* Listed Outfits */}
         {myOutfits.map((o) => (
-          <Card
-            key={o.id}
-            className='bg-card text-card-foreground flex flex-col gap-6 rounded-xl border'
-          >
-            <CardContent>
-              <div className='flex flex-col md:flex-row gap-6'>
-                {/* Outfit Image */}
-                <div className='w-full md:w-48 h-48 rounded-lg overflow-hidden shrink-0 relative'>
-                  <img
-                    src={o.outfitImageUrl}
-                    alt={o.title}
-                    className='w-full h-full object-cover'
-                  />
-                </div>
-                <div className='flex-1 space-y-4'>
-                  {/* Outfit Details Top*/}
-                  <div className='flex justify-between items-center'>
-                    <div>
-                      <h3 className='font-serif text-app-primary text-xl font-semibold'>
-                        {o.title}
-                      </h3>
-                      <p className='text-sm text-muted-foreground line-clamp-2 mt-1'>
-                        {o.description}
-                      </p>
-                    </div>
-                  </div>
-                  <div className='grid grid-cols-3 items-center text-sm'>
-                    <div className='space-y-1'>
-                      <Label className='text-muted-foreground font-normal'>
-                        Category
-                      </Label>
-                      <p className='font-medium capitalize'>{o.category}</p>
-                    </div>
-                    <div className='space-y-1'>
-                      <Label className='text-muted-foreground font-normal'>
-                        Listed
-                      </Label>
-                      <p className='font-medium'>{o.createdAt}</p>
-                    </div>
-                    <div className='space-y-1'>
-                      <Label className='text-muted-foreground font-normal'>
-                        Quick Status:
-                      </Label>
-                      <Select
-                        value={o.status}
-                        onValueChange={(value) =>
-                          handleUpdateOutfitStatus(o.id, value)
-                        }
-                      >
-                        <SelectTrigger className='w-full'>
-                          <SelectValue placeholder='Select outfit status' />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Select Outfit Status</SelectLabel>
-                            <SelectItem value='Available'>Available</SelectItem>
-                            <SelectItem value='Borrowed'>Borrowed</SelectItem>
-                            <SelectItem value='Unavailable'>
-                              Unavailable
-                            </SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                  {/* Outfit Details Bottom */}
-                  <div className='grid grid-cols-2 gap-3 pt-2 border-t'>
-                    <OutfitDetails
-                      outfit={o}
-                      isAvailable={o.status === 'Available'}
-                    />
-                    {/* LATER: Confirm Delete Dialog */}
-                    <Button
-                      variant='destructive'
-                      onClick={() => handleRemoveOutfit(o.id)}
-                    >
-                      <LuTrash2 /> Remove
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <LentOutfitCard key={o.id} outfit={o} />
         ))}
       </div>
     </section>
