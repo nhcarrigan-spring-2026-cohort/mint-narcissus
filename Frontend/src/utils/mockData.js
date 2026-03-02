@@ -91,7 +91,7 @@ export const MOCK_USERS = {
     name: 'John Doe',
     email: 'demo@email.com',
     activeRole: null,
-    profileCompleted: false,
+    isProfileComplete: false,
     isVerified: false,
     size: {
       height: null,
@@ -105,7 +105,7 @@ export const MOCK_USERS = {
     name: 'LinkedIn User',
     email: 'linkedin@mail.com',
     activeRole: null,
-    profileCompleted: false,
+    isProfileComplete: false,
     isVerified: true,
     linkedinUrl: 'https://linkedin.com/in/demo',
     size: {
@@ -120,7 +120,7 @@ export const MOCK_USERS = {
     name: 'Michael Chen',
     email: 'demo@email.com',
     activeRole: 'borrower',
-    profileCompleted: true,
+    isProfileComplete: true,
     isVerified: false,
     size: {
       height: 'Tall',
@@ -134,7 +134,7 @@ export const MOCK_USERS = {
     name: 'Sarah Johnson',
     email: 'linkedin@mail.com',
     activeRole: 'lender',
-    profileCompleted: true,
+    isProfileComplete: true,
     isVerified: true,
     size: {
       height: 'Regular',
