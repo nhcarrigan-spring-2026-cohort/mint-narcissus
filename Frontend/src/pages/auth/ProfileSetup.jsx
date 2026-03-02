@@ -23,6 +23,7 @@ import {
   SelectContent,
 } from '@/components/ui/select';
 import { updateMeApi } from '@/api/auth.api';
+import { toast } from 'sonner';
 
 const ProfileSetup = () => {
   const dispatch = useDispatch();
@@ -53,7 +54,7 @@ const ProfileSetup = () => {
     setIsLoading(true);
     try {
       const data = await updateMeApi(profileData);
-      dispatch(completeProfile(profileData));
+      dispatch(completeProfile(data.user));
       navigate('/');
     } catch (err) {
       toast.error(err.response?.data?.message)

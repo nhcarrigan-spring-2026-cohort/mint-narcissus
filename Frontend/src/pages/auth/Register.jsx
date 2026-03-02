@@ -43,8 +43,8 @@ const Register = () => {
     try {
       const formData = { name, email, password };
       const data = await registerApi(formData);
-      console.log(data);
-      dispatch(login(data));
+
+      dispatch(login(data.user));
       toast.success(data?.message);
     } catch (err) {
       toast.error(err.response?.data?.message)

@@ -18,7 +18,7 @@ import { LuLinkedin } from '@/utils/icons';
 import { MOCK_USERS } from '@/utils/mockData';
 import { toast } from 'sonner';
 import { Loader2 } from "lucide-react";
-import { linkedinOAuthRedirect, loginApi } from '@/api/auth.api';
+import { getMeApi, linkedinOAuthRedirect, loginApi } from '@/api/auth.api';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -41,9 +41,12 @@ const Login = () => {
     setIsLoading(true);
     try {
       const formData = { email, password };
+
       const data = await loginApi(formData);
-      console.log(data);
-      dispatch(login(data));
+      //await dispatch(login(data.user));
+
+      const {user} = await getMeApi();
+      dispatch(login(user));
       toast.success(data?.message);
     } catch (err) {
       toast.error(err.response?.data?.message)

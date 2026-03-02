@@ -22,7 +22,7 @@ function App() {
           <Route path='/register' element={<Register />} />
         </Routes>
       )) ||
-        (!user?.profileCompleted && <ProfileSetup />) || (
+        (!user?.isProfileComplete && <ProfileSetup />) || (
           <Routes>
             {/* BORROWER */}
             {activeRole === 'borrower' && (
