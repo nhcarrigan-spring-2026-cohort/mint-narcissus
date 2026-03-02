@@ -25,19 +25,19 @@ const Requests = () => {
 
   const myRequests = requests.filter((r) => myOutfitIds.includes(r.outfitId));
 
-  const pending = myRequests.filter((r) => r.status === 'Pending').length;
-  const approved = myRequests.filter((r) => r.status === 'Approved').length;
-  const declined = myRequests.filter((r) => r.status === 'Declined').length;
-
   const grouped = myRequests.reduce((acc, request) => {
     if (!acc[request.outfitId]) acc[request.outfitId] = [];
     acc[request.outfitId].push(request);
     return acc;
   }, {});
 
+  const pending = myRequests.filter((r) => r.status === 'Pending').length;
+  const approved = myRequests.filter((r) => r.status === 'Approved').length;
+  const declined = myRequests.filter((r) => r.status === 'Declined').length;
+
   const statsMap = [
     {
-      title: 'Pending Requests',
+      title: 'Pending',
       value: pending,
       textColor: 'text-black',
     },
@@ -52,6 +52,7 @@ const Requests = () => {
       textColor: 'text-gray-500',
     },
   ];
+
   return (
     <section className='grow container mx-auto px-4 py-8'>
       <div className='space-y-6'>
@@ -112,10 +113,6 @@ const Requests = () => {
             );
           })}
         </div>
-
-        {/* Object.entries(groupedRequests).map(([outfitId, requests]) => {
-  const outfit = outfits.find(o => o.id === outfitId);
-}); */}
       </div>
     </section>
   );

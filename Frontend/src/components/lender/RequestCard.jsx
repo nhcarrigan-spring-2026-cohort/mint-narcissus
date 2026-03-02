@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { toast } from 'sonner';
 import { LuCircleCheck, LuCircleX, LuMessageSquare } from '@/utils/icons';
+import { Badge } from '../ui/badge';
 
 const RequestCard = ({ request }) => {
   const dispatch = useDispatch();
@@ -23,6 +24,29 @@ const RequestCard = ({ request }) => {
     dispatch(updateRequestStatus({ requestId, status: 'Declined' }));
     toast.success('Request declined');
   };
+
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case 'Approved':
+        return (
+          <Badge className='rounded-lg bg-emerald-100 text-emerald-700 border border-emerald-200'>
+            Approved
+          </Badge>
+        );
+      case 'Declined':
+        return (
+          <Badge className='rounded-lg bg-red-100 text-red-700 border border-red-200'>
+            Declined
+          </Badge>
+        );
+      default:
+        return (
+          <Badge className='rounded-lg bg-yellow-100 text-yellow-800 border border-yellow-200'>
+            Pending
+          </Badge>
+        );
+    }
+  };
   return (
     <div className='space-y-4 border-t pt-4'>
       <div className='flex items-start gap-4'>
@@ -36,6 +60,7 @@ const RequestCard = ({ request }) => {
             Requested on {request.createdAt}
           </p>
         </div>
+        {getStatusBadge(request.status)}
       </div>
       {/* Borrower Message */}
       <div className='bg-blue-50 border border-blue-100 rounded-lg p-4'>
@@ -58,27 +83,29 @@ const RequestCard = ({ request }) => {
         </p>
       </div>
       {/* Action Buttons */}
-      <div className='flex gap-3 pt-2'>
-        <Button
-          variant='default'
-          className='flex-1 bg-emerald-600 hover:bg-emerald-700'
-          disabled={request.status !== 'Pending'}
-          onClick={() => handleApprove(request)}
-        >
-          <LuCircleCheck />
-          Accept Request
-        </Button>
+      {request.status === 'Pending' && (
+        <div className='flex gap-3 pt-2'>
+          <Button
+            variant='default'
+            className='flex-1 bg-emerald-600 hover:bg-emerald-700'
+            disabled={request.status !== 'Pending'}
+            onClick={() => handleApprove(request)}
+          >
+            <LuCircleCheck />
+            Accept Request
+          </Button>
 
-        <Button
-          variant='destructive'
-          className='flex-1'
-          disabled={request.status !== 'Pending'}
-          onClick={() => handleDecline(request.id)}
-        >
-          <LuCircleX />
-          Decline
-        </Button>
-      </div>
+          <Button
+            variant='destructive'
+            className='flex-1'
+            disabled={request.status !== 'Pending'}
+            onClick={() => handleDecline(request.id)}
+          >
+            <LuCircleX />
+            Decline
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
