@@ -4,6 +4,8 @@ import { switchRole, logout } from '@/store/authSlice';
 import RoleSwitch from '../shared/RoleSwitch';
 import NavDrawer from '../shared/NavDrawer';
 import Logo from './Logo';
+import { logoutApi } from '@/api/auth.api';
+
 import {
   LuHeart,
   LuInbox,
@@ -13,6 +15,7 @@ import {
   LuShoppingBag,
   LuUser,
 } from '@/utils/icons';
+import { toast } from 'sonner';
 
 const borrowerNavItems = [
   {
@@ -67,10 +70,17 @@ export default function Navbar() {
     navigate('/');
     dispatch(switchRole(role));
   };
-  const handleLogout = () => {
-    navigate('/');
-    dispatch(logout());
-  };
+
+  const handleLogout = async () => {
+    try {
+      const data = await logoutApi();
+      dispatch(logout());
+      toast.success(data?.message);
+      navigate('/');
+    } catch (err) {
+      toast.error(err.response?.data?.message);
+    }
+  }
 
   return (
     <nav className='bg-app-fg flex items-center justify-between border-b w-full max-h-20 px-3 py-2 md:px-10 md:py-4 shadow'>
@@ -107,6 +117,7 @@ export default function Navbar() {
             className={`flex justify-center items-center text-sm font-medium lg:gap-2 gap-1 bg-app-primary text-white lg:px-4 md:py-2 px-2 py-1 rounded-sm`}
           >
             <LuPlus className='size-4' />
+            <LuPlus className='size-4' />
             <span>List Outfit</span>
           </NavLink>
         )}
@@ -118,4 +129,4 @@ export default function Navbar() {
       </div>
     </nav>
   );
-}
+};

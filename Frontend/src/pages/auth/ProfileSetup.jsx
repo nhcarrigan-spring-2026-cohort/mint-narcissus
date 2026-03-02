@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { completeProfile } from '../../store/authSlice';
+import { completeProfile } from '@/store/authSlice';
+import { updateMeApi } from '@/api/auth.api';
+import SizeGuideModal from '@/components/shared/SizeGuideModal';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { toast } from 'sonner';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Field,
@@ -14,7 +17,6 @@ import {
   FieldSet,
   FieldTitle,
 } from '@/components/ui/field';
-import SizeGuideModal from '@/components/shared/SizeGuideModal';
 import {
   Select,
   SelectItem,
@@ -33,24 +35,32 @@ const ProfileSetup = () => {
   const [topSize, setTopSize] = useState('');
   const [bottomSize, setBottomSize] = useState('');
   const [fitPreference, setFitPreference] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleStep = () => {
     step === 1 ? setStep(2) : setStep(1);
   };
 
-  const handleComplete = () => {
-    dispatch(
-      completeProfile({
-        activeRole: selectedRole,
-        size: {
-          height,
-          topSize,
-          bottomSize,
-          fitType: fitPreference,
-        },
-      }),
-    );
-    navigate('/');
+  const handleComplete = async () => {
+    const profileData = {
+      activeRole: selectedRole,
+      size: {
+        height,
+        topSize,
+        bottomSize,
+        fitType: fitPreference,
+      },
+    };
+    setIsLoading(true);
+    try {
+      const data = await updateMeApi(profileData);
+      dispatch(completeProfile(data.user));
+      navigate('/');
+    } catch (err) {
+      toast.error(err.response?.data?.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -170,6 +180,7 @@ const ProfileSetup = () => {
             <Button onClick={handleStep}>Previous</Button>
             <Button
               disabled={
+                isLoading ||
                 !selectedRole ||
                 !height ||
                 !topSize ||

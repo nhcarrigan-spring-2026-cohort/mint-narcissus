@@ -17,6 +17,8 @@ import { Separator } from '@/components/ui/separator';
 import { LuLinkedin } from '@/utils/icons';
 import { MOCK_USERS } from '@/utils/mockData';
 import { toast } from 'sonner';
+import { Loader2 } from "lucide-react";
+import { getMeApi, linkedinOAuthRedirect, loginApi } from '@/api/auth.api';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -24,14 +26,34 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLinkedInLogin = () => {
-    toast.success('Logged in successfully!');
+    setIsLoading(true);
+    try {
+      dispatch(linkedinOAuthRedirect());
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleEmailLogin = (e) => {
+  const handleEmailLogin = async (e) => {
     e.preventDefault();
-    toast.success('Logged in successfully!');
+    setIsLoading(true);
+    try {
+      const formData = { email, password };
+
+      const data = await loginApi(formData);
+      //await dispatch(login(data.user));
+
+      const {user} = await getMeApi();
+      dispatch(login(user));
+      toast.success(data?.message);
+    } catch (err) {
+      toast.error(err.response?.data?.message)
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // TODO: Remove after demo
@@ -63,11 +85,13 @@ const Login = () => {
         <CardContent className='px-6 space-y-4'>
           <Button
             variant='outline'
+            disabled={isLoading}
             className='w-full text-foreground hover:text-accent-foreground'
             onClick={handleLinkedInLogin}
           >
             <LuLinkedin className='mr-2 size-4' />
-            Sign in with LinkedIn
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isLoading ? "Loading..." : "Sign in with LinkedIn"}
           </Button>
           <div className='flex items-center'>
             <Separator className='flex-1' />
@@ -111,7 +135,8 @@ const Login = () => {
               className='bg-app-primary/95 hover:bg-app-primary w-full transition-colors'
               disabled={!email || !password}
             >
-              Sign In
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isLoading ? "Loading..." : "Sign In"}
             </Button>
           </form>
         </CardContent>
