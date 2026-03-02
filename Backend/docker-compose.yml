@@ -50,6 +50,7 @@ services:
     environment:
       - PORT=3002
       - MONGODB_URI=mongodb://admin:admin@mongo:27017/mint-narcissus?authSource=admin
+      - INTERNAL_SECRET=${INTERNAL_SECRET:-secret_of_secret}
     env_file:
       - .env
     depends_on:
@@ -73,6 +74,7 @@ services:
     environment:
       - PORT=3004
       - MONGODB_URI=mongodb://admin:admin@mongo:27017/mint-narcissus?authSource=admin
+      - INTERNAL_SECRET=${INTERNAL_SECRET:-secret_of_secret}
       - ITEMS_SERVICE_URL=http://items-service:3002
     env_file:
       - .env
