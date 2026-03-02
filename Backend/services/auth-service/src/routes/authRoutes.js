@@ -141,7 +141,7 @@ router.get("/me", auth, async (req, res) => {
         activeRole: req.user.activeRole,
         profilePhoto: req.user.profilePhoto,
         bio: req.user.bio,
-        sizeProfile: req.user.sizeProfile,
+        size: req.user.size,
         isProfileComplete: req.user.isProfileComplete,
         isRestricted: req.user.isRestricted,
         badges: req.user.badges,
@@ -160,25 +160,25 @@ router.get("/me", auth, async (req, res) => {
 // Update profile fields. Sets isProfileComplete: true.
 router.patch("/me", auth, async (req, res) => {
   try {
-    const { activeRole, sizeProfile, bio, profilePhoto } = req.body;
+    const { activeRole, size, bio, profilePhoto } = req.body;
     const updates = { isProfileComplete: true };
 
     if (activeRole && ["borrower", "lender"].includes(activeRole)) {
       updates.activeRole = activeRole;
     }
 
-    // Validate and apply sizeProfile with dot-notation for partial updates
-    if (sizeProfile !== undefined) {
-      if (typeof sizeProfile !== "object" || sizeProfile === null || Array.isArray(sizeProfile)) {
-        return res.status(400).json({ message: "sizeProfile must be an object" });
+    // Validate and apply size with dot-notation for partial updates
+    if (size !== undefined) {
+      if (typeof size !== "object" || size === null || Array.isArray(size)) {
+        return res.status(400).json({ message: "size must be an object" });
       }
-      const allowedKeys = ["height", "fitPreference", "topSize", "bottomSize"];
+      const allowedKeys = ["height", "fitType", "topSize", "bottomSize"];
       for (const key of allowedKeys) {
-        if (key in sizeProfile) {
-          if (typeof sizeProfile[key] !== "string") {
-            return res.status(400).json({ message: `sizeProfile.${key} must be a string` });
+        if (key in size) {
+          if (typeof size[key] !== "string") {
+            return res.status(400).json({ message: `size.${key} must be a string` });
           }
-          updates[`sizeProfile.${key}`] = sizeProfile[key];
+          updates[`size.${key}`] = size[key];
         }
       }
     }
@@ -197,7 +197,7 @@ router.patch("/me", auth, async (req, res) => {
         activeRole: user.activeRole,
         profilePhoto: user.profilePhoto,
         bio: user.bio,
-        sizeProfile: user.sizeProfile,
+        size: user.size,
         isProfileComplete: user.isProfileComplete,
         isRestricted: user.isRestricted,
         badges: user.badges,

@@ -41,9 +41,9 @@ const userSchema = new mongoose.Schema(
     gender: {
       type: String,
     },
-    sizeProfile: {
+    size: {
       height: { type: String, default: "" },
-      fitPreference: { type: String, default: "" },
+      fitType: { type: String, default: "" },
       topSize: { type: String, default: "" },
       bottomSize: { type: String, default: "" },
     },
