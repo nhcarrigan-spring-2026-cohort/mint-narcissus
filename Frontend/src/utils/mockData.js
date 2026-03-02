@@ -155,7 +155,6 @@ export const MOCK_REQUESTS = [
       'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop',
     message:
       'Hi! I have a final round interview at J.P. Morgan next week. This suit looks perfect for the occasion. I promise to take great care of it!',
-    interviewDate: '2026-02-08',
     status: 'Pending',
     createdAt: '2026-02-01',
   },
@@ -168,7 +167,6 @@ export const MOCK_REQUESTS = [
       'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=150&h=150&fit=crop',
     message:
       "Hello! I'm interviewing for a corporate finance role and would love to borrow this outfit. I've never done this before but I'm committed to returning it in perfect condition.",
-    interviewDate: '2026-02-09',
     status: 'Pending',
     createdAt: '2026-02-02',
   },
@@ -181,7 +179,6 @@ export const MOCK_REQUESTS = [
       'https://images.unsplash.com/photo-1544725176-7c40e5a2c9f9?w=150&h=150&fit=crop',
     message:
       'I have a technical interview at a startup on Thursday. This charcoal suit is exactly what I need!',
-    interviewDate: '2026-02-09',
     status: 'Approved',
     createdAt: '2026-02-02',
   },
@@ -194,7 +191,6 @@ export const MOCK_REQUESTS = [
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
     message:
       'Would love to borrow this for my consulting interview. I will coordinate pickup flexibly!',
-    interviewDate: '2026-02-10',
     status: 'Declined',
     createdAt: '2026-02-03',
   },

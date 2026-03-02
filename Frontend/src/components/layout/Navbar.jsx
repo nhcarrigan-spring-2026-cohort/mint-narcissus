@@ -68,6 +68,7 @@ export default function Navbar() {
     dispatch(switchRole(role));
   };
   const handleLogout = () => {
+    navigate('/');
     dispatch(logout());
   };
 

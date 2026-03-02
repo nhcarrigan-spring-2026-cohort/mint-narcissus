@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '@/store/authSlice';
 import {
@@ -19,6 +19,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 const Register = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
@@ -35,11 +36,13 @@ const Register = () => {
 
   // TODO: Remove after demo
   const handleDemoEmailRegister = () => {
+    navigate('/');
     dispatch(login(MOCK_USERS?.registerEmailUser));
   };
 
   // TODO: Remove after demo
   const handleDemoLinkedInRegister = () => {
+    navigate('/');
     dispatch(login(MOCK_USERS.registerLinkedInUser));
   };
 

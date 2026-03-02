@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { login } from '@/store/authSlice';
 import {
   Card,
@@ -19,6 +19,7 @@ import { MOCK_USERS } from '@/utils/mockData';
 import { toast } from 'sonner';
 
 const Login = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
@@ -35,11 +36,13 @@ const Login = () => {
 
   // TODO: Remove after demo
   const handleDemoEmailLogin = () => {
+    navigate('/');
     dispatch(login(MOCK_USERS?.loginEmailUser));
   };
 
   // TODO: Remove after demo
   const handleDemoLinkedInLogin = () => {
+    navigate('/');
     dispatch(login(MOCK_USERS?.loginLinkedInUser));
   };
 

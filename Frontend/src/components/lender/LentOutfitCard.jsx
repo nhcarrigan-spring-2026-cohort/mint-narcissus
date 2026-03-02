@@ -113,7 +113,7 @@ const LentOutfitCard = ({ outfit }) => {
               />
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant='destructive'>
+                  <Button variant='outline' className='hover:text-destructive hover:bg-destructive/10 focus:bg-destructive/10 dark:focus:bg-destructive/20 focus:text-destructive'>
                     <LuTrash2 /> Remove
                   </Button>
                 </AlertDialogTrigger>

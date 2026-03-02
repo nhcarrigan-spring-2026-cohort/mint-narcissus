@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { toast } from 'sonner';
 import { LuCircleCheck, LuCircleX, LuMessageSquare } from '@/utils/icons';
 import { Badge } from '../ui/badge';
+import GetStatusBadge from '../shared/GetStatusBade';
 
 const RequestCard = ({ request }) => {
   const dispatch = useDispatch();
@@ -25,28 +26,6 @@ const RequestCard = ({ request }) => {
     toast.success('Request declined');
   };
 
-  const getStatusBadge = (status) => {
-    switch (status) {
-      case 'Approved':
-        return (
-          <Badge className='rounded-lg bg-emerald-100 text-emerald-700 border border-emerald-200'>
-            Approved
-          </Badge>
-        );
-      case 'Declined':
-        return (
-          <Badge className='rounded-lg bg-red-100 text-red-700 border border-red-200'>
-            Declined
-          </Badge>
-        );
-      default:
-        return (
-          <Badge className='rounded-lg bg-yellow-100 text-yellow-800 border border-yellow-200'>
-            Pending
-          </Badge>
-        );
-    }
-  };
   return (
     <div className='space-y-4 border-t pt-4'>
       <div className='flex items-start gap-4'>
@@ -60,7 +39,7 @@ const RequestCard = ({ request }) => {
             Requested on {request.createdAt}
           </p>
         </div>
-        {getStatusBadge(request.status)}
+        <GetStatusBadge status={request.status} />
       </div>
       {/* Borrower Message */}
       <div className='bg-blue-50 border border-blue-100 rounded-lg p-4'>
@@ -87,7 +66,7 @@ const RequestCard = ({ request }) => {
         <div className='flex gap-3 pt-2'>
           <Button
             variant='default'
-            className='flex-1 bg-emerald-600 hover:bg-emerald-700'
+            className='flex-1 bg-app-primary/90 hover:bg-app-primary'
             disabled={request.status !== 'Pending'}
             onClick={() => handleApprove(request)}
           >
@@ -96,8 +75,8 @@ const RequestCard = ({ request }) => {
           </Button>
 
           <Button
-            variant='destructive'
-            className='flex-1'
+            variant='outline'
+            className='flex-1 hover:text-destructive hover:bg-destructive/10 focus:bg-destructive/10 dark:focus:bg-destructive/20 focus:text-destructive'
             disabled={request.status !== 'Pending'}
             onClick={() => handleDecline(request.id)}
           >

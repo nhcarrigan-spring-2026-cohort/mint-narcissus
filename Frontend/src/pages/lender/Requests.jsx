@@ -80,6 +80,15 @@ const Requests = () => {
           </CardContent>
         </Card>
 
+        {/* Empty State */}
+        {Object.entries(grouped).length === 0 && (
+          <Card>
+            <CardContent className='text-center py-10 text-muted-foreground'>
+              There are no requests for your outfits yet.
+            </CardContent>
+          </Card>
+        )}
+
         <div className='space-y-6'>
           {Object.entries(grouped).map(([outfitId, requests]) => {
             const outfit = outfits.find((o) => o.id === outfitId);
