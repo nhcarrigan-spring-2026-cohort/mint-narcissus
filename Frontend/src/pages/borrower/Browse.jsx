@@ -7,19 +7,33 @@ import { filterOutfits } from '@/utils/filterOutfit';
 import EmptyState from '../shared/EmptyState';
 import { TbHangerOff } from '@/utils/icons';
 
+const defaultFilters = {
+  category: 'All',
+  interviewType: 'All',
+  availability: 'All',
+  topSize: 'All',
+  bottomSize: 'All',
+  height: 'All',
+  fitType: 'All',
+  search: '',
+};
+
 export default function Browse() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const filters = {
-    search: searchParams.get('search') || '',
-    category: searchParams.get('category') || '',
-    interviewType: searchParams.get('interviewType') || '',
-    availability: searchParams.get('availability') || '',
-    topSize: searchParams.get('topSize') || '',
-    bottomSize: searchParams.get('bottomSize') || '',
-    height: searchParams.get('height') || '',
-    fitType: searchParams.get('fitType') || '',
-  };
+  const filters = useMemo(
+    () => ({
+      search: searchParams.get('search') || '',
+      category: searchParams.get('category') || '',
+      interviewType: searchParams.get('interviewType') || '',
+      availability: searchParams.get('availability') || '',
+      topSize: searchParams.get('topSize') || '',
+      bottomSize: searchParams.get('bottomSize') || '',
+      height: searchParams.get('height') || '',
+      fitType: searchParams.get('fitType') || '',
+    }),
+    [searchParams],
+  );
 
   const updateFilter = useCallback(
     (key, value) => {
@@ -51,7 +65,6 @@ export default function Browse() {
           title='No outfits available yet'
           description='We’re working on adding more interview-ready outfits. Please check back soon.'
           icon={<TbHangerOff size='40' className='text-muted-foreground/30' />}
-          
         />
       ) : (
         <div>
@@ -59,6 +72,7 @@ export default function Browse() {
             filters={filters}
             updateFilter={updateFilter}
             onClear={clearFilters}
+            defaultFilters={defaultFilters}
           />
           {filteredOutfits.length === 0 ? (
             <EmptyState

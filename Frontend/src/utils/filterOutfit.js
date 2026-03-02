@@ -10,6 +10,19 @@ export const filterOutfits = (outfits, filters) => {
     fitType,
   } = filters;
 
+  if (
+    !filters.search &&
+    !filters.category &&
+    !filters.interviewType &&
+    !filters.availability &&
+    !filters.topSize &&
+    !filters.bottomSize &&
+    !filters.height &&
+    !filters.fitType
+  ) {
+    return outfits;
+  }
+
   return outfits.filter((outfit) => {
     const matchesSearch =
       !search ||

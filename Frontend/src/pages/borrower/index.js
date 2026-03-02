@@ -1,4 +1,4 @@
 import Browse from './Browse';
 import Saved from './Saved';
-
-export { Browse, Saved };
+import MyRequests from './MyRequests';
+export { Browse, Saved, MyRequests };
