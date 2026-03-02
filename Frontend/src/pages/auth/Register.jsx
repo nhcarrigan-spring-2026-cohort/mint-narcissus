@@ -1,6 +1,8 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '@/store/authSlice';
+import { linkedinOAuthRedirect, registerApi } from '@/api/auth.api';
 import {
   Card,
   CardContent,
@@ -14,13 +16,12 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { LuLinkedin } from '@/utils/icons';
-import { MOCK_USERS } from '@/utils/mockData';
-import { useState } from 'react';
 import { toast } from 'sonner';
 import { Loader2 } from "lucide-react";
-import { linkedinOAuthRedirect, registerApi } from '@/api/auth.api';
+import { MOCK_USERS } from '@/utils/mockData';
 
 const Register = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
@@ -55,13 +56,17 @@ const Register = () => {
 
   // TODO: Remove after demo
   const handleDemoEmailRegister = () => {
+    navigate('/');
     dispatch(login(MOCK_USERS?.registerEmailUser));
   };
 
   // TODO: Remove after demo
   const handleDemoLinkedInRegister = () => {
+    navigate('/');
     dispatch(login(MOCK_USERS.registerLinkedInUser));
   };
+
+
 
   return (
     <section className='min-h-screen w-full flex items-center justify-center bg-app-bg p-4'>

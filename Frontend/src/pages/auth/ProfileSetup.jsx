@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { completeProfile } from '../../store/authSlice';
+import { completeProfile } from '@/store/authSlice';
+import { updateMeApi } from '@/api/auth.api';
+import SizeGuideModal from '@/components/shared/SizeGuideModal';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { toast } from 'sonner';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Field,
@@ -14,7 +17,6 @@ import {
   FieldSet,
   FieldTitle,
 } from '@/components/ui/field';
-import SizeGuideModal from '@/components/shared/SizeGuideModal';
 import {
   Select,
   SelectItem,
@@ -22,8 +24,6 @@ import {
   SelectValue,
   SelectContent,
 } from '@/components/ui/select';
-import { updateMeApi } from '@/api/auth.api';
-import { toast } from 'sonner';
 
 const ProfileSetup = () => {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const ProfileSetup = () => {
   const [height, setHeight] = useState('');
   const [topSize, setTopSize] = useState('');
   const [bottomSize, setBottomSize] = useState('');
-  const [fitPreference, setFitPreference] = useState('');
+  const [fitType, setFitType] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleStep = () => {
@@ -48,8 +48,8 @@ const ProfileSetup = () => {
         height,
         topSize,
         bottomSize,
-        fitPreference,
-      }
+        fitType,
+      },
     };
     setIsLoading(true);
     try {
@@ -57,7 +57,7 @@ const ProfileSetup = () => {
       dispatch(completeProfile(data.user));
       navigate('/');
     } catch (err) {
-      toast.error(err.response?.data?.message)
+      toast.error(err.response?.data?.message);
     } finally {
       setIsLoading(false);
     }
@@ -128,8 +128,8 @@ const ProfileSetup = () => {
                 </Select>
               </Field>
               <Field>
-                <FieldLabel htmlFor='topSize'>Fit Preference</FieldLabel>
-                <Select value={fitPreference} onValueChange={setFitPreference}>
+                <FieldLabel htmlFor='fitType'>Fit Preference</FieldLabel>
+                <Select value={fitType} onValueChange={setFitType}>
                   <SelectTrigger>
                     <SelectValue placeholder='Fit Preference' />
                   </SelectTrigger>
@@ -180,11 +180,12 @@ const ProfileSetup = () => {
             <Button onClick={handleStep}>Previous</Button>
             <Button
               disabled={
+                isLoading ||
                 !selectedRole ||
                 !height ||
                 !topSize ||
                 !bottomSize ||
-                !fitPreference
+                !fitType
               }
               onClick={handleComplete}
             >

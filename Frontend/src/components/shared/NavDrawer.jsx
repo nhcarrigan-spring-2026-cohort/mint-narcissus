@@ -15,6 +15,7 @@ import {
   LuBriefcase,
   LuLogOut,
   LuMenu,
+  LuPlus,
   LuSettings,
   LuUser,
   LuX,
@@ -70,6 +71,14 @@ const NavDrawer = ({ navItems, user, onLogout, onSwitch }) => {
                 {icon} {label}
               </NavLink>
             ))}
+            {activeRole === 'lender' && (
+              <NavLink
+                to='/list'
+                className='flex gap-2 py-1 px-2 items-center text-sm hover:bg-app-hover focus:bg-app-primary focus:text-white rounded-sm'
+              >
+                <LuPlus className='size-4' /> List Outfit
+              </NavLink>
+            )}
           </div>
           <hr className='my-2' />
           <div className='flex flex-col gap-2 '>
@@ -82,7 +91,7 @@ const NavDrawer = ({ navItems, user, onLogout, onSwitch }) => {
             </NavLink>
             <NavLink
               to='/'
-              className='flex gap-2 py-1 px-2 items-center text-sm hover:bg-destructive/70 focus:bg-destructive/80 focus:text-white rounded-sm'
+              className='flex gap-2 py-1 px-2 items-center text-sm text-destructive hover:bg-destructive/10 focus:bg-destructive/10 dark:focus:bg-destructive/20 focus:text-destructive rounded-sm'
               onClick={() => onLogout()}
             >
               <LuLogOut />

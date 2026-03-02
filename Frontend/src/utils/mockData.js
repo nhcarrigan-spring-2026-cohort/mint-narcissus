@@ -11,19 +11,21 @@ export const MOCK_OUTFITS = [
     fabric: 'Wool Blend',
     size: {
       topSize: 'M',
+      fitType: 'Slim',
       bottomSize: '32',
       height: 'Regular',
-      fitType: 'Slim',
     },
     confidenceNote:
       'Wore this for my first investment banking interview at Goldman Sachs. Walk in with confidence.',
     status: 'Available',
     isSaved: 'false',
     lenderDetails: {
+      lenderId: '4',
       lenderName: 'Sarah Johnson',
       lenderImageUrl:
         'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
     },
+    createdAt: '03/01/2026',
   },
   {
     id: '2',
@@ -37,19 +39,21 @@ export const MOCK_OUTFITS = [
     fabric: 'Cotton',
     size: {
       topSize: 'L',
+      fitType: 'Regular',
       bottomSize: '34',
       height: 'Tall',
-      fitType: 'Regular',
     },
     confidenceNote:
       'Wore this to my first software engineer interview. Be yourself, be confident.',
     status: 'Available',
     isSaved: 'false',
     lenderDetails: {
+      lenderId: '3',
       lenderName: 'Michael Chen',
       lenderImageUrl:
         'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop',
     },
+    createdAt: '03/01/2026',
   },
   {
     id: '3',
@@ -64,18 +68,20 @@ export const MOCK_OUTFITS = [
     size: {
       topSize: 'S',
       bottomSize: '30',
-      height: 'Short',
       fitType: 'Slim',
+      height: 'Short',
     },
     confidenceNote:
       "This suit has helped three people land their dream jobs. You're next!",
     status: 'Borrowed',
     isSaved: 'false',
     lenderDetails: {
+      lenderId: '4',
       lenderName: 'Sarah Johnson',
       lenderImageUrl:
         'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
     },
+    createdAt: '03/01/2026',
   },
 ];
 
@@ -85,13 +91,13 @@ export const MOCK_USERS = {
     name: 'John Doe',
     email: 'demo@email.com',
     activeRole: null,
-    profileCompleted: false,
+    isProfileComplete: false,
     isVerified: false,
-    sizeProfile: {
+    size: {
       height: null,
+      fitType: null,
       topSize: null,
       bottomSize: null,
-      fitPreference: null,
     },
   },
   registerLinkedInUser: {
@@ -99,42 +105,93 @@ export const MOCK_USERS = {
     name: 'LinkedIn User',
     email: 'linkedin@mail.com',
     activeRole: null,
-    profileCompleted: false,
+    isProfileComplete: false,
     isVerified: true,
     linkedinUrl: 'https://linkedin.com/in/demo',
-    sizeProfile: {
+    size: {
       height: null,
+      fitType: null,
       topSize: null,
       bottomSize: null,
-      fitPreference: null,
     },
   },
   loginEmailUser: {
     id: '3',
-    name: 'Sarah Johnson',
+    name: 'Michael Chen',
     email: 'demo@email.com',
     activeRole: 'borrower',
-    profileCompleted: true,
+    isProfileComplete: true,
     isVerified: false,
-    sizeProfile: {
-      heightCategory: 'Tall',
+    size: {
+      height: 'Tall',
+      fitType: 'Slim',
       topSize: 'S',
       bottomSize: '34',
-      fitPreference: 'Slim',
     },
   },
   loginLinkedInUser: {
     id: '4',
-    name: 'LinkedIn User',
+    name: 'Sarah Johnson',
     email: 'linkedin@mail.com',
     activeRole: 'lender',
-    profileCompleted: true,
+    isProfileComplete: true,
     isVerified: true,
-    sizeProfile: {
-      heightCategory: 'Regular',
+    size: {
+      height: 'Regular',
+      fitType: 'Slim',
       topSize: 'M',
       bottomSize: '32',
-      fitPreference: 'Slim',
     },
   },
 };
+
+export const MOCK_REQUESTS = [
+  {
+    id: 'r1',
+    outfitId: '1',
+    borrowerId: '3',
+    borrowerName: 'Michael Chen',
+    borrowerImageUrl:
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop',
+    message:
+      'Hi! I have a final round interview at J.P. Morgan next week. This suit looks perfect for the occasion. I promise to take great care of it!',
+    status: 'Pending',
+    createdAt: '2026-02-01',
+  },
+  {
+    id: 'r2',
+    outfitId: '1',
+    borrowerId: '5',
+    borrowerName: 'Alex Chen',
+    borrowerImageUrl:
+      'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=150&h=150&fit=crop',
+    message:
+      "Hello! I'm interviewing for a corporate finance role and would love to borrow this outfit. I've never done this before but I'm committed to returning it in perfect condition.",
+    status: 'Pending',
+    createdAt: '2026-02-02',
+  },
+  {
+    id: 'r3',
+    outfitId: '3',
+    borrowerId: '6',
+    borrowerName: 'Maya Rodriguez',
+    borrowerImageUrl:
+      'https://images.unsplash.com/photo-1544725176-7c40e5a2c9f9?w=150&h=150&fit=crop',
+    message:
+      'I have a technical interview at a startup on Thursday. This charcoal suit is exactly what I need!',
+    status: 'Approved',
+    createdAt: '2026-02-02',
+  },
+  {
+    id: 'r4',
+    outfitId: '3',
+    borrowerId: '7',
+    borrowerName: 'Priya Sharma',
+    borrowerImageUrl:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
+    message:
+      'Would love to borrow this for my consulting interview. I will coordinate pickup flexibly!',
+    status: 'Declined',
+    createdAt: '2026-02-03',
+  },
+];

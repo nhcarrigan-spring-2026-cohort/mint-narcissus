@@ -6,6 +6,4 @@ export const AUTH_ENDPOINTS = {
   AUTH_HEALTH: '/health',
 };
 
-export const MESSAGE_ENDPOINTS = {
-  
-}
+export const MESSAGE_ENDPOINTS = {};

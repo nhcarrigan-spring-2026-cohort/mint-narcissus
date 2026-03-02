@@ -1,5 +1,5 @@
 import { Input } from '../ui/input';
-import { Shield, Award, User, Mail, Phone, Ruler, Biefcase } from 'lucide-react';
+import { Shield, Award, User, Mail, Phone, Ruler, Briefcase } from 'lucide-react';
 import StarRating from './StarRatings';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';

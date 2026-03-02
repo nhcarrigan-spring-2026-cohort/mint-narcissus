@@ -1,49 +1,46 @@
 import { useSelector } from 'react-redux';
-import { Card } from '@/components/ui/card';
-import EmptyState from '@/pages/shared/EmptyState';
+import { Card, CardContent } from '@/components/ui/card';
+import { MOCK_REQUESTS } from '@/utils/mockData';
+import RequestCard from '@/components/borrower/RequestCard';
 
-export default function MyRequests() {
-  const user = useSelector((state) => state.auth.user);
-  const requests = useSelector((state) => state.requests.items);
+const MyRequests = () => {
+  const { user } = useSelector((state) => state.auth);
+  // const requests = useSelector((state) => state.requests.items);
+
+  // Use for checking while development
+  const requests = MOCK_REQUESTS;
 
   const myRequests = requests.filter((r) => r.borrowerId === user.id);
 
-  if (myRequests.length === 0) {
-    return (
-      <EmptyState
-        title='No borrow requests yet'
-        description="You haven't requested any outfits yet."
-      />
-    );
-  }
-
   return (
-    <section className='grow py-8 px-4'>
-      <h2 className='font-serif font-bold text-app-primary text-3xl leading-snug'>
-        My Requests
-      </h2>
-      <h3 className='text-muted-foreground text-sm'>
-        Your collection of interview-ready outfits
-      </h3>
+    <section className='grow container mx-auto px-4 py-8'>
+      <div className='space-y-6'>
+        {/* Header */}
+        <div>
+          <h2 className='font-serif text-app-primary text-3xl font-bold'>
+            My Borrow Requests
+          </h2>
+          <p className='text-muted-foreground'>
+            Track the status of your outfit requests
+          </p>
+        </div>
 
-      <div className='w-full my-6'>
-        {myRequests.map((request) => (
-          <Card key={request.id} className='p-4 space-y-2'>
-            <div className='flex justify-between'>
-              <span className='font-medium'>{request.outfitTitle}</span>
-              <span className='text-sm capitalize'>{request.status}</span>
-            </div>
-
-            <p className='text-sm text-muted-foreground'>
-              Lender: {request.lenderName}
-            </p>
-
-            {request.message && (
-              <p className='text-sm italic'>"{request.message}"</p>
-            )}
+        {/* Empty State */}
+        {myRequests.length === 0 && (
+          <Card>
+            <CardContent className='text-center py-10 text-muted-foreground'>
+              You haven’t requested any outfits yet.
+            </CardContent>
           </Card>
+        )}
+
+        {/* Requests */}
+        {myRequests.map((request) => (
+          <RequestCard key={request.id} request={request} />
         ))}
       </div>
     </section>
   );
-}
+};
+
+export default MyRequests;
