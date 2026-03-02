@@ -3,9 +3,11 @@ services:
     image: mongo:7
     ports:
       - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
     volumes:
       - mongo-data:/data/db
-      
   gateway:
     build:
       context: .
@@ -33,7 +35,7 @@ services:
       - "3001:3001"
     environment:
       - PORT=3001
-      - MONGODB_URI=mongodb://mongo:27017/mint-narcissus
+      - MONGODB_URI=mongodb://admin:admin@mongo:27017/mint-narcissus?authSource=admin
     env_file:
       - .env
     depends_on:
@@ -47,6 +49,11 @@ services:
       - "3002:3002"
     environment:
       - PORT=3002
+      - MONGODB_URI=mongodb://admin:admin@mongo:27017/mint-narcissus?authSource=admin
+    env_file:
+      - .env
+    depends_on:
+      - mongo
 
   requests-service:
     build:
@@ -65,7 +72,10 @@ services:
       - "3004:3004"
     environment:
       - PORT=3004
-      - MONGODB_URI=mongodb://mongo:27017/mint-narcissus
+      - MONGODB_URI=mongodb://admin:admin@mongo:27017/mint-narcissus?authSource=admin
+      - ITEMS_SERVICE_URL=http://items-service:3002
+    env_file:
+      - .env
     depends_on:
       - mongo
 
