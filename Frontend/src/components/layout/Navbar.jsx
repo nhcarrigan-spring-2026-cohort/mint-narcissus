@@ -80,7 +80,7 @@ export default function Navbar() {
     } catch (err) {
       toast.error(err.response?.data?.message);
     }
-  }
+  };
 
   return (
     <nav className='bg-app-fg flex items-center justify-between border-b w-full max-h-20 px-3 py-2 md:px-10 md:py-4 shadow'>
@@ -117,7 +117,6 @@ export default function Navbar() {
             className={`flex justify-center items-center text-sm font-medium lg:gap-2 gap-1 bg-app-primary text-white lg:px-4 md:py-2 px-2 py-1 rounded-sm`}
           >
             <LuPlus className='size-4' />
-            <LuPlus className='size-4' />
             <span>List Outfit</span>
           </NavLink>
         )}
@@ -129,4 +128,4 @@ export default function Navbar() {
       </div>
     </nav>
   );
-};
+}

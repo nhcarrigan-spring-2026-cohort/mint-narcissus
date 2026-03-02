@@ -34,7 +34,7 @@ const ProfileSetup = () => {
   const [height, setHeight] = useState('');
   const [topSize, setTopSize] = useState('');
   const [bottomSize, setBottomSize] = useState('');
-  const [fitPreference, setFitPreference] = useState('');
+  const [fitType, setFitType] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleStep = () => {
@@ -48,7 +48,7 @@ const ProfileSetup = () => {
         height,
         topSize,
         bottomSize,
-        fitType: fitPreference,
+        fitType,
       },
     };
     setIsLoading(true);
@@ -128,8 +128,8 @@ const ProfileSetup = () => {
                 </Select>
               </Field>
               <Field>
-                <FieldLabel htmlFor='fitPreference'>Fit Preference</FieldLabel>
-                <Select value={fitPreference} onValueChange={setFitPreference}>
+                <FieldLabel htmlFor='fitType'>Fit Preference</FieldLabel>
+                <Select value={fitType} onValueChange={setFitType}>
                   <SelectTrigger>
                     <SelectValue placeholder='Fit Preference' />
                   </SelectTrigger>
@@ -185,7 +185,7 @@ const ProfileSetup = () => {
                 !height ||
                 !topSize ||
                 !bottomSize ||
-                !fitPreference
+                !fitType
               }
               onClick={handleComplete}
             >

@@ -49,7 +49,7 @@ const ListOutfit = () => {
   const [interviewTypes, setInterviewTypes] = useState([]);
   const [fabric, setFabric] = useState('');
   const [height, setHeight] = useState(user.size.height);
-  const [fitPreference, setFitPreference] = useState(user.size.fitType);
+  const [fitType, setFitType] = useState(user.size.fitType);
   const [topSize, setTopSize] = useState(user.size.topSize);
   const [bottomSize, setBottomSize] = useState(user.size.bottomSize);
   const [confidenceNote, setConfidenceNote] = useState('');
@@ -65,7 +65,7 @@ const ListOutfit = () => {
         category,
         interviewTypes,
         fabric,
-        size: { height, fitType: fitPreference, topSize, bottomSize },
+        size: { height, fitType, topSize, bottomSize },
         confidenceNote,
         lenderDetails: {
           lenderId: user.id,
@@ -87,7 +87,7 @@ const ListOutfit = () => {
     height &&
     topSize &&
     bottomSize &&
-    fitPreference;
+    fitType;
 
   return (
     <section className='grow container mx-auto px-4 py-8'>
@@ -220,11 +220,8 @@ const ListOutfit = () => {
                   </Field>
                   {/* FIT PREFERENCE */}
                   <Field>
-                    <Label htmlFor='fitPreference'>Fit Preference</Label>
-                    <Select
-                      value={fitPreference}
-                      onValueChange={setFitPreference}
-                    >
+                    <Label htmlFor='fitType'>Fit Preference</Label>
+                    <Select value={fitType} onValueChange={setFitType}>
                       <SelectTrigger>
                         <SelectValue placeholder='Fit Preference' />
                       </SelectTrigger>
