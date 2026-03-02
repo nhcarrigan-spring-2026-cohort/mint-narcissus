@@ -44,7 +44,7 @@ const ProfileSetup = () => {
   const handleComplete = async () => {
     const profileData = {
       activeRole: selectedRole,
-      sizeProfile: {
+      size: {
         height,
         topSize,
         bottomSize,
