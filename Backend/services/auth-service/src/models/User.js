@@ -3,13 +3,10 @@ const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema(
   {
-    username: {
+    name: {
       type: String,
-      required: [true, "Username is required"],
-      unique: true,
+      required: [true, "Name is required"],
       trim: true,
-      minlength: [3, "Username must be at least 3 characters long"],
-      maxlength: [30, "Username cannot exceed 30 characters"],
     },
     email: {
       type: String,
@@ -21,7 +18,6 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
       minlength: [8, "Password must be at least 8 characters long"],
       select: false,
     },
@@ -29,6 +25,65 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["user", "admin"],
       default: "user",
+    },
+    linkedinId: {
+      type: String,
+    },
+    linkedinProfileUrl: {
+      type: String,
+    },
+    profilePhoto: {
+      type: String,
+    },
+    bio: {
+      type: String,
+    },
+    gender: {
+      type: String,
+    },
+    size: {
+      height: { type: String, default: "" },
+      fitType: { type: String, default: "" },
+      topSize: { type: String, default: "" },
+      bottomSize: { type: String, default: "" },
+    },
+    activeRole: {
+      type: String,
+      enum: ["borrower", "lender"],
+      default: "borrower",
+    },
+    isProfileComplete: {
+      type: Boolean,
+      default: false,
+    },
+    isRestricted: {
+      type: Boolean,
+      default: false,
+    },
+    badges: {
+      type: [String],
+      default: [],
+    },
+    favorites: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Outfit",
+      },
+    ],
+    averageRating: {
+      type: Number,
+      default: 0,
+    },
+    totalRatings: {
+      type: Number,
+      default: 0,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    deletedAt: {
+      type: Date,
     },
   },
   {
@@ -38,8 +93,7 @@ const userSchema = new mongoose.Schema(
 
 // Hash password before saving
 userSchema.pre("save", async function () {
-  // Only hash the password if it has been modified (or is new)
-  if (!this.isModified("password")) {
+  if (!this.isModified("password") || !this.password) {
     return;
   }
 
@@ -48,6 +102,9 @@ userSchema.pre("save", async function () {
 });
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
+  if (!this.password) {
+    throw new Error("This account uses LinkedIn login. No password set.");
+  }
   try {
     return await bcrypt.compare(candidatePassword, this.password);
   } catch (error) {
@@ -55,7 +112,6 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
   }
 };
 
-// Method to return user data without password
 userSchema.methods.toJSON = function () {
   const userObject = this.toObject();
   delete userObject.password;

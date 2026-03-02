@@ -1,37 +1,86 @@
 services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - mongo-data:/data/db
   gateway:
     build:
-      context: ./services/gateway
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/gateway/Dockerfile
     ports:
       - "8080:8080"
     environment:
       - PORT=8080
+      - JWT_SECRET=${JWT_SECRET}
+      - AUTH_SERVICE_URL=http://auth-service:3001
+      - ITEMS_SERVICE_URL=http://items-service:3002
+      - REQUESTS_SERVICE_URL=http://requests-service:3003
+      - MESSAGING_SERVICE_URL=http://messaging-service:3004
+    depends_on:
+      - auth-service
+      - items-service
+      - requests-service
+      - messaging-service
 
   auth-service:
     build:
-      context: ./services/auth-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/auth-service/Dockerfile
     ports:
       - "3001:3001"
     environment:
       - PORT=3001
+      - MONGODB_URI=mongodb://admin:admin@mongo:27017/mint-narcissus?authSource=admin
+    env_file:
+      - .env
+    depends_on:
+      - mongo
 
   items-service:
     build:
-      context: ./services/items-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/items-service/Dockerfile
     ports:
       - "3002:3002"
     environment:
       - PORT=3002
+      - MONGODB_URI=mongodb://admin:admin@mongo:27017/mint-narcissus?authSource=admin
+      - INTERNAL_SECRET=${INTERNAL_SECRET:-secret_of_secret}
+    env_file:
+      - .env
+    depends_on:
+      - mongo
 
   requests-service:
     build:
-      context: ./services/requests-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/requests-service/Dockerfile
     ports:
       - "3003:3003"
     environment:
       - PORT=3003
+
+  messaging-service:
+    build:
+      context: .
+      dockerfile: services/messaging-service/Dockerfile
+    ports:
+      - "3004:3004"
+    environment:
+      - PORT=3004
+      - MONGODB_URI=mongodb://admin:admin@mongo:27017/mint-narcissus?authSource=admin
+      - INTERNAL_SECRET=${INTERNAL_SECRET:-secret_of_secret}
+      - ITEMS_SERVICE_URL=http://items-service:3002
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
 

@@ -1,42 +1,56 @@
 import './App.css';
-import Container from './layouts/AppLayout';
+import { Route, Routes } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-/* Page Components */
-import Browse from './pages/Browse';
-import Saved from './pages/Saved';
-import Messages from './pages/Messages';
-import AppLayout from './layouts/AppLayout';
+import BorrowerLayout from './layouts/BorrowerLayout';
+import LenderLayout from './layouts/LenderLayout';
 
-/* Array passed to Container.jsx to initiate Links */
-import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
-import { IoHeartOutline } from 'react-icons/io5';
-import { FiMessageCircle } from 'react-icons/fi';
-import { HomeIcon } from 'lucide-react';
-import ComponentPreview from './pages/ComponentPreview';
-
-const navItems = [
-  {
-    label: 'Browse',
-    path: '/browse',
-    element: <Browse />,
-    icon: <HiOutlineMagnifyingGlass />,
-  },
-  {
-    label: 'Saved',
-    path: '/saved',
-    element: <Saved />,
-    icon: <IoHeartOutline />,
-  },
-  {
-    label: 'Messages',
-    path: '/messages',
-    element: <Messages />,
-    icon: <FiMessageCircle />,
-  },
-];
+import { Login, ProfileSetup, Register } from './pages/auth';
+import { Browse, MyRequests, Saved } from './pages/borrower';
+import { ListOutfit, MyOutfits, Requests } from './pages/lender';
+import { Messages, NotFound, Settings } from './pages/shared';
+import { Toaster } from './components/ui/sonner';
 
 function App() {
-  return <AppLayout navItems={navItems}></AppLayout>;
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const activeRole = user?.activeRole;
+  return (
+    <>
+      {(!isAuthenticated && (
+        <Routes>
+          <Route path='*' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+        </Routes>
+      )) ||
+        (!user?.isProfileComplete && <ProfileSetup />) || (
+          <Routes>
+            {/* BORROWER */}
+            {activeRole === 'borrower' && (
+              <Route element={<BorrowerLayout />}>
+                <Route path='/' element={<Browse />} />
+                <Route path='/saved' element={<Saved />} />
+                <Route path='/my-requests' element={<MyRequests />} />
+                <Route path='/messages' element={<Messages />} />
+                <Route path='/settings' element={<Settings />} />
+                <Route path='*' element={<NotFound />} />
+              </Route>
+            )}
+            {/* LENDER */}
+            {activeRole === 'lender' && (
+              <Route element={<LenderLayout />}>
+                <Route path='/' element={<MyOutfits />} />
+                <Route path='/requests' element={<Requests />} />
+                <Route path='/messages' element={<Messages />} />
+                <Route path='/list' element={<ListOutfit />} />
+                <Route path='/settings' element={<Settings />} />
+                <Route path='*' element={<NotFound />} />
+              </Route>
+            )}
+          </Routes>
+        )}
+      <Toaster position='bottom-right' />
+    </>
+  );
 }
 
 export default App;
