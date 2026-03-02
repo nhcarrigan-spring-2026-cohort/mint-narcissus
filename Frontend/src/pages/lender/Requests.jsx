@@ -1,21 +1,54 @@
-import { Card, CardContent } from '@/components/ui/card';
-import React from 'react';
+import { useSelector } from 'react-redux';
+import { MOCK_OUTFITS, MOCK_REQUESTS } from '@/utils/mockData';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import RequestCard from '@/components/lender/RequestCard';
 
 const Requests = () => {
+  const { user } = useSelector((state) => state.auth);
+  // const outfits = useSelector((state) => state.outfits.items);
+  // const requests = useSelector((state) => state.requests.items);
+
+  // Use for checking while development
+  const outfits = MOCK_OUTFITS;
+  const requests = MOCK_REQUESTS;
+
+  const myOutfitIds = outfits
+    .filter((o) => o.lenderDetails.lenderId === user.id)
+    .map((o) => o.id);
+
+  const myRequests = requests.filter((r) => myOutfitIds.includes(r.outfitId));
+
+  const pending = myRequests.filter((r) => r.status === 'Pending').length;
+  const approved = myRequests.filter((r) => r.status === 'Approved').length;
+  const declined = myRequests.filter((r) => r.status === 'Declined').length;
+
+  const grouped = myRequests.reduce((acc, request) => {
+    if (!acc[request.outfitId]) acc[request.outfitId] = [];
+    acc[request.outfitId].push(request);
+    return acc;
+  }, {});
+
   const statsMap = [
     {
       title: 'Pending Requests',
-      value: 3,
+      value: pending,
       textColor: 'text-black',
     },
     {
       title: 'Approved',
-      value: 1,
+      value: approved,
       textColor: 'text-app-secondary',
     },
     {
       title: 'Declined',
-      value: 0,
+      value: declined,
       textColor: 'text-gray-500',
     },
   ];
@@ -45,6 +78,44 @@ const Requests = () => {
             </div>
           </CardContent>
         </Card>
+
+        <div className='space-y-6'>
+          {Object.entries(grouped).map(([outfitId, requests]) => {
+            const outfit = outfits.find((o) => o.id === outfitId);
+            return (
+              <Card key={outfitId}>
+                <CardHeader>
+                  <div className='flex items-center gap-4'>
+                    <img
+                      src={outfit.outfitImageUrl}
+                      alt={outfit.title}
+                      className='w-20 h-20 object-cover rounded-lg'
+                    />
+                    <div className='flex-1'>
+                      <CardTitle className='font-serif text-app-primary text-lg'>
+                        {outfit.title}
+                      </CardTitle>
+                      <CardDescription>{outfit.category}</CardDescription>
+                    </div>
+                    <Badge className='rounded-sm bg-app-secondary text-white'>
+                      {requests.length} Request
+                      {requests.length > 1 ? 's' : ''}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className='space-y-6'>
+                  {requests.map((request) => (
+                    <RequestCard key={request.id} request={request} />
+                  ))}
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+
+        {/* Object.entries(groupedRequests).map(([outfitId, requests]) => {
+  const outfit = outfits.find(o => o.id === outfitId);
+}); */}
       </div>
     </section>
   );

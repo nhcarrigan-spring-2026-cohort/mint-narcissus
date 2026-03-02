@@ -1,10 +1,13 @@
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
-import LentOutfitCard from './LentOutfitCard';
+import LentOutfitCard from '../../components/lender/LentOutfitCard';
 import { LuInfo } from '@/utils/icons';
 import { MOCK_OUTFITS } from '@/utils/mockData';
+import { Button } from '@/components/ui/button';
 
 const MyOutfits = () => {
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   // Use for checking while development
   const outfits = MOCK_OUTFITS;
@@ -88,6 +91,21 @@ const MyOutfits = () => {
           </div>
         </div>
         {/* Listed Outfits */}
+        {myOutfits.length === 0 && (
+          <Card>
+            <CardContent className='flex flex-col gap-3 items-center justify-center py-6'>
+              <p className='text-muted-foreground'>
+                You haven't listed any outfits yet.
+              </p>
+              <Button
+                className='bg-app-primary/95 hover:bg-app-primary'
+                onClick={() => navigate('/list')}
+              >
+                List Your First Outfit
+              </Button>
+            </CardContent>
+          </Card>
+        )}
         {myOutfits.map((o) => (
           <LentOutfitCard key={o.id} outfit={o} />
         ))}

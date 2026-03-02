@@ -40,6 +40,19 @@ const requestSlice = createSlice({
       if (!request) return;
 
       request.status = status;
+
+      if (status === 'Approved') {
+        state.items.forEach((r) => {
+          if (
+            r.outfitId === request.outfitId &&
+            r.id !== requestId &&
+            r.status === 'Pending'
+          ) {
+            r.status = 'Declined';
+          }
+        });
+      }
+
       localStorage.setItem('requests', JSON.stringify(state.items));
     },
   },
